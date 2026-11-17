@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #87ceeb; /* light sky blue */
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.center {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  color: white;
+  font-size: 4rem;
+  font-weight: 900;
+  text-shadow: 2px 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+.center p {
+  color: white;
+  font-size: 1.3rem;
+  margin-top: 12px;
+}
+
+.btn {
+  margin-top: 35px;
+  padding: 14px 44px;
+  background: white;
+  color: #1e90c8;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 40px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Arduino Nano outlines */
+.nano {
+  position: absolute;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+.n1 { width: 220px; height: 88px; top: 6%;  left: 5%;  transform: rotate(-15deg); }
+.n2 { width: 160px; height: 64px; top: 12%; right: 8%; transform: rotate(20deg); }
+.n3 { width: 260px; height: 104px; bottom: 10%; left: 8%; transform: rotate(10deg); }
+.n4 { width: 190px; height: 76px; bottom: 8%; right: 6%; transform: rotate(-25deg); }
+.n5 { width: 130px; height: 52px; top: 45%; left: 2%; transform: rotate(80deg); }
+.n6 { width: 140px; height: 56px; top: 42%; right: 2%; transform: rotate(-70deg); }
+
+/* Smaller screens and phones */
+@media (max-width: 700px) {
+  h1 { font-size: 2.4rem; }
+  .n1, .n3 { width: 130px; height: 52px; }
+  .n2, .n4 { width: 100px; height: 40px; }
+  .n5, .n6 { display: none; }
+}
