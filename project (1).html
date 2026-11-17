@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project | Aara Electro</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#eff7ff;color:#102b5d}
+header{background:#075de8;color:#fff;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px}
+header a{color:white;text-decoration:none;font-weight:bold}.wrap{max-width:950px;margin:35px auto;padding:0 18px}
+.card{background:#fff;border:1px solid #c7ddff;border-radius:18px;padding:26px;box-shadow:0 8px 25px #064a9b18}
+h1{color:#075de8;margin-top:0}.note{background:#e8f3ff;border-left:4px solid #075de8;padding:13px;border-radius:8px;line-height:1.5}
+section{margin-top:24px}h2{color:#073c9a}code,pre{font-family:Consolas,monospace}pre{background:#071b3f;color:#e5f5ff;padding:18px;border-radius:12px;overflow:auto;line-height:1.5}
+button{background:#075de8;color:#fff;border:0;padding:11px 16px;border-radius:9px;font-weight:bold;cursor:pointer}button:hover{background:#0343ae}
+</style>
+</head>
+<body>
+<header><strong>⚡ Aara Electro</strong><a href="index.html">← Back to projects</a></header>
+<div class="wrap"><article class="card">
+<h1 id="name">Project Guide</h1><p id="description"></p>
+<div class="note">This is the project guide page. We will add the verified components, circuit diagram, Arduino code and step-by-step build photos for each project here.</div>
+<section><h2>1. Components</h2><p>Components list will be added for this project.</p></section>
+<section><h2>2. Circuit diagram</h2><p>Circuit diagram will be added here.</p></section>
+<section><h2>3. Code</h2><p>Project code will be added after checking the exact components and board.</p><pre><code>// Aara Electro project code will appear here.</code></pre><button onclick="navigator.clipboard.writeText('// Aara Electro project code will appear here.')">Copy code</button></section>
+<section><h2>4. Step-by-step instructions</h2><p>Build instructions and photos will be added here.</p></section>
+</article></div>
+<script>
+const projects={
+"line-following":["Arduino Line Following Robot","Build a smart robot that follows a line using Arduino."],
+"obstacle-avoiding":["Arduino Obstacle Avoiding Robot","Create a robot that detects obstacles and moves around them."],
+"led-blinking":["Arduino LED Blinking Project","Learn the basics by making an LED blink with Arduino."],
+"home-automation":["Arduino Home Automation","Explore a simple home automation project with Arduino."],
+"esp32-wifi-car":["ESP32 Wi-Fi Controlled Car","Control a small car wirelessly using an ESP32 and Wi-Fi."]
+};
+const id=new URLSearchParams(location.search).get("id");
+const project=projects[id];
+document.getElementById("name").textContent=project?project[0]:"Project not found";
+document.getElementById("description").textContent=project?project[1]:"Please return to the project list and choose a project.";
+</script>
+</body></html>
