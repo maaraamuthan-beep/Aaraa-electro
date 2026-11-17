@@ -1,37 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
 <style>
   body {
-    background-color: #cce7ff;
+    background-color: #e0f2fe;
     margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    font-family: sans-serif;
+    font-family: Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
   }
-  .shape {
+  .controller-shape {
     position: absolute;
-    border: 3px solid white;
-    width: 100px;
-    height: 80px;
-    border-radius: 10px;
+    border: 4px solid #ffffff;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
   }
   h1 {
-    color: #d92662;
-    font-size: 3rem;
-    font-weight: bold;
-    z-index: 1;
+    color: #4f46e5;
+    font-size: 4rem;
+    font-weight: 900;
     text-align: center;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    z-index: 10;
+    margin: 0;
   }
 </style>
 </head>
 <body>
-  <div class="shape" style="top: 15%; left: 10%;"></div>
-  <div class="shape" style="top: 70%; left: 15%; width: 120px; height: 90px;"></div>
-  <div class="shape" style="top: 20%; left: 80%; width: 90px; height: 110px;"></div>
-  <div class="shape" style="top: 65%; left: 75%; width: 110px; height: 100px;"></div>
+  <div class="controller-shape" style="top: 10%; left: 15%; width: 150px; height: 120px;"></div>
+  <div class="controller-shape" style="top: 75%; left: 10%; width: 180px; height: 140px;"></div>
+  <div class="controller-shape" style="top: 15%; left: 75%; width: 130px; height: 160px;"></div>
+  <div class="controller-shape" style="top: 70%; left: 80%; width: 160px; height: 130px;"></div>
+  
   <h1>Welcome to Aaraa Electro</h1>
 </body>
 </html>
