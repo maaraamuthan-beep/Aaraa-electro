@@ -1,39 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project | Aara Electro</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Details | Aara Electro</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#eff7ff;color:#102b5d}
-header{background:#075de8;color:#fff;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px}
-header a{color:white;text-decoration:none;font-weight:bold}.wrap{max-width:950px;margin:35px auto;padding:0 18px}
-.card{background:#fff;border:1px solid #c7ddff;border-radius:18px;padding:26px;box-shadow:0 8px 25px #064a9b18}
-h1{color:#075de8;margin-top:0}.note{background:#e8f3ff;border-left:4px solid #075de8;padding:13px;border-radius:8px;line-height:1.5}
-section{margin-top:24px}h2{color:#073c9a}code,pre{font-family:Consolas,monospace}pre{background:#071b3f;color:#e5f5ff;padding:18px;border-radius:12px;overflow:auto;line-height:1.5}
-button{background:#075de8;color:#fff;border:0;padding:11px 16px;border-radius:9px;font-weight:bold;cursor:pointer}button:hover{background:#0343ae}
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#89cff0;
+    color:#09245b;
+    padding:20px;
+  }
+  header{
+    background:#075de8;
+    color:#fff;
+    padding:18px 5%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  }
+  header a{
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+    background:#043ca6;
+    padding:8px 15px;
+    border-radius:20px;
+    transition:0.3s;
+  }
+  header a:hover{background:#022566;}
+  .wrap{max-width:950px;margin:30px auto;padding:0 10px}
+  .card{
+    background:#fff;
+    border:2px solid #5ceaff;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  }
+  h1{color:#075de8;margin-top:0;font-size:32px;}
+  h2{color:#062a82;border-bottom:2px solid #c8dcff;padding-bottom:8px;margin-top:30px;}
+  p, li{font-size:16px;line-height:1.6;color:#17336b;}
+  
+  .upload-container{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin:20px 0;
+  }
+  .upload-box{
+    flex:1;
+    min-width:250px;
+    height:180px;
+    border:3px dashed #075de8;
+    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background:#f0f8ff;
+    cursor:pointer;
+    position:relative;
+    transition:0.3s;
+  }
+  .upload-box:hover{background:#e1f2ff;}
+  .upload-box input{
+    position:absolute;
+    width:100%;
+    height:100%;
+    opacity:0;
+    cursor:pointer;
+  }
+  .upload-box span{font-weight:bold;color:#075de8;text-align:center;padding:10px;}
+
+  .component-item{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    background:#f4f9ff;
+    padding:10px 15px;
+    border-radius:10px;
+    margin-bottom:10px;
+    border:1px solid #d0e4ff;
+  }
+  .component-thumb{
+    width:50px;
+    height:50px;
+    background:#c8dcff;
+    border-radius:8px;
+    display:grid;
+    place-items:center;
+    font-size:12px;
+    color:#075de8;
+    font-weight:bold;
+    text-align:center;
+  }
+
+  pre{
+    background:#071b3f;
+    color:#e5f5ff;
+    padding:18px;
+    border-radius:12px;
+    overflow:auto;
+    font-family:Consolas,monospace;
+  }
+  button.copy-btn{
+    background:#075de8;
+    color:#fff;
+    border:0;
+    padding:10px 20px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+    transition:0.3s;
+  }
+  button.copy-btn:hover{background:#0343ae;}
+
+  .video-section{
+    background:#e8f3ff;
+    border-left:5px solid #ff0000;
+    padding:15px;
+    border-radius:8px;
+    margin-top:20px;
+  }
+  .video-link{
+    display:inline-block;
+    background:#ff0000;
+    color:white;
+    padding:10px 20px;
+    border-radius:25px;
+    text-decoration:none;
+    font-weight:bold;
+    margin-top:10px;
+    transition:0.3s;
+  }
+  .video-link:hover{background:#cc0000;}
 </style>
 </head>
 <body>
-<header><strong>⚡ Aara Electro</strong><a href="index.html">← Back to projects</a></header>
-<div class="wrap"><article class="card">
-<h1 id="name">Project Guide</h1><p id="description"></p>
-<div class="note">This is the project guide page. We will add the verified components, circuit diagram, Arduino code and step-by-step build photos for each project here.</div>
-<section><h2>1. Components</h2><p>Components list will be added for this project.</p></section>
-<section><h2>2. Circuit diagram</h2><p>Circuit diagram will be added here.</p></section>
-<section><h2>3. Code</h2><p>Project code will be added after checking the exact components and board.</p><pre><code>// Aara Electro project code will appear here.</code></pre><button onclick="navigator.clipboard.writeText('// Aara Electro project code will appear here.')">Copy code</button></section>
-<section><h2>4. Step-by-step instructions</h2><p>Build instructions and photos will be added here.</p></section>
-</article></div>
+
+<header>
+  <strong>⚡ Aara Electro</strong>
+  <a href="index1.html">← Back to Search</a>
+</header>
+
+<div class="wrap">
+  <article class="card">
+    <h1 id="projectName">Project Title</h1>
+    <p id="projectDesc">Project description will appear here.</p>
+
+    <h2>1. Project Photos</h2>
+    <p>உங்கள் சாதனத்தின் போட்டோக்களை இங்கே அப்லோட் செய்து கொள்ளலாம்:</p>
+    <div class="upload-container">
+      <div class="upload-box">
+        <input type="file" accept="image/*">
+        <span>📷 Photo 1 Upload இங்கே கிளிக் செய்யவும்</span>
+      </div>
+      <div class="upload-box">
+        <input type="file" accept="image/*">
+        <span>📷 Photo 2 Upload இங்கே கிளிக் செய்யவும்</span>
+      </div>
+    </div>
+
+    <h2>2. Component List</h2>
+    <div id="componentList">
+      <div class="component-item">
+        <div class="component-thumb">Photo</div>
+        <div><strong>Arduino / ESP32</strong> - Microcontroller board</div>
+      </div>
+      <div class="component-item">
+        <div class="component-thumb">Photo</div>
+        <div><strong>Connecting Wires</strong> - Jumper wires</div>
+      </div>
+    </div>
+
+    <h2>3. Circuit Diagram & Arduino IDE Setup</h2>
+    <p><strong>Arduino IDE இன்ஸ்டால் செய்தல்:</strong> சாஃப்ட்வேரை இன்ஸ்டால் செய்து போர்ட்டைத் தேர்வு செய்யவும்.</p>
+    <div style="background:#f0f8ff; padding:15px; border-radius:8px; border:1px dashed #075de8; text-align:center; margin:15px 0;">
+      <p style="margin:0; font-weight:bold; color:#075de8;">[சர்க்யூட் டயக்ராம் படம் இங்கே கொடுக்கப்படும்]</p>
+    </div>
+
+    <h2>4. Project Code</h2>
+    <pre><code id="projectCode">
+// Aara Electro Arduino Code
+void setup() {
+  Serial.begin(9600);
+}
+void loop() {
+  // Main code here
+}
+    </code></pre>
+    <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+
+    <h2>5. Watch Live Working Video</h2>
+    <div class="video-section">
+      <p>இந்த ப்ராஜெக்ட்டின் லைவ் ஒர்க்கிங் வீடியோவை பார்க்க என் YouTube சேனல் லிங்கை கிளிக் செய்யவும்:</p>
+      <a href="https://youtube.com/@YourChannelName" target="_blank" class="video-link">▶ Watch on YouTube</a>
+    </div>
+
+  </article>
+</div>
+
 <script>
-const projects={
-"line-following":["Arduino Line Following Robot","Build a smart robot that follows a line using Arduino."],
-"obstacle-avoiding":["Arduino Obstacle Avoiding Robot","Create a robot that detects obstacles and moves around them."],
-"led-blinking":["Arduino LED Blinking Project","Learn the basics by making an LED blink with Arduino."],
-"home-automation":["Arduino Home Automation","Explore a simple home automation project with Arduino."],
-"esp32-wifi-car":["ESP32 Wi-Fi Controlled Car","Control a small car wirelessly using an ESP32 and Wi-Fi."]
-};
-const id=new URLSearchParams(location.search).get("id");
-const project=projects[id];
-document.getElementById("name").textContent=project?project[0]:"Project not found";
-document.getElementById("description").textContent=project?project[1]:"Please return to the project list and choose a project.";
+  const projectsData = {
+    "line-following": ["Arduino Line Following Robot", "Build a smart robot that follows a line using Arduino sensors and motors."],
+    "obstacle-avoiding": ["Arduino Obstacle Avoiding Robot", "Create a robot that detects obstacles using ultrasonic sensors and moves around them."],
+    "led-blinking": ["Arduino LED Blinking Project", "Learn the basics by making an LED blink with Arduino digital pins."],
+    "home-automation": ["Arduino Home Automation", "Explore a simple home automation project with Arduino and Bluetooth/Wi-Fi."],
+    "esp32-wifi-car": ["ESP32 Wi-Fi Controlled Car", "Control a small car wirelessly using an ESP32 microcontroller and Wi-Fi network."]
+  };
+
+  const urlParams = new URLSearchParams(location.search);
+  const projectId = urlParams.get("id");
+  const proj = projectsData[projectId];
+
+  if(proj){
+    document.getElementById("projectName").textContent = proj[0];
+    document.getElementById("projectDesc").textContent = proj[1];
+    document.title = proj[0] + " | Aara Electro";
+  }
+
+  function copyCode() {
+    const codeText = document.getElementById("projectCode").innerText;
+    navigator.clipboard.writeText(codeText);
+    alert("Code Copied successfully!");
+  }
 </script>
-</body></html>
+
+</body>
+</html>
