@@ -1,50 +1,62 @@
+</html >
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aaraa Electro</title>
-  <link rel="stylesheet" href="style.css">
-  <meta name="google-site-verification" content="rmhnEZPugeCuXclJliLvUdVsc-tMkzlhpzbl-J16Ops" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome | Aara Electro</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #89cff0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: #fff;
+    text-align: center;
+  }
+  h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    margin-bottom: 10px;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-weight: 900;
+  }
+  p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    font-weight: 500;
+  }
+  /* ரவுண்ட் ஷேப் பட்டன் மற்றும் அனிமேஷன் டிசைன் */
+  .next-btn {
+    background: #fff;
+    color: #075de8;
+    padding: 14px 45px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+  .next-btn:hover {
+    background: #f0f8ff;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+  }
+  .next-btn:active {
+    transform: translateY(1px) scale(0.98);
+  }
+</style>
 </head>
-<body style="background-color: #87ceeb;">
-
-  <!-- Reusable Arduino Nano outline -->
-  <svg width="0" height="0" style="position:absolute">
-    <defs>
-      <symbol id="nano" viewBox="0 0 200 80">
-        <rect x="4" y="4" width="192" height="72" rx="6" fill="none" stroke="white" stroke-width="3"/>
-        <rect x="4" y="28" width="22" height="24" fill="none" stroke="white" stroke-width="3"/>
-        <rect x="80" y="22" width="40" height="36" rx="3" fill="none" stroke="white" stroke-width="3"/>
-        <circle cx="150" cy="40" r="7" fill="none" stroke="white" stroke-width="3"/>
-        <g stroke="white" stroke-width="3">
-          <line x1="40" y1="10" x2="40" y2="16"/><line x1="56" y1="10" x2="56" y2="16"/>
-          <line x1="72" y1="10" x2="72" y2="16"/><line x1="88" y1="10" x2="88" y2="16"/>
-          <line x1="104" y1="10" x2="104" y2="16"/><line x1="120" y1="10" x2="120" y2="16"/>
-          <line x1="136" y1="10" x2="136" y2="16"/><line x1="152" y1="10" x2="152" y2="16"/>
-          <line x1="40" y1="64" x2="40" y2="70"/><line x1="56" y1="64" x2="56" y2="70"/>
-          <line x1="72" y1="64" x2="72" y2="70"/><line x1="88" y1="64" x2="88" y2="70"/>
-          <line x1="104" y1="64" x2="104" y2="70"/><line x1="120" y1="64" x2="120" y2="70"/>
-          <line x1="136" y1="64" x2="136" y2="70"/><line x1="152" y1="64" x2="152" y2="70"/>
-        </g>
-      </symbol>
-    </defs>
-  </svg>
-
-  <!-- Scattered Arduino Nano outlines -->
-  <svg class="nano n1"><use href="#nano"/></svg>
-  <svg class="nano n2"><use href="#nano"/></svg>
-  <svg class="nano n3"><use href="#nano"/></svg>
-  <svg class="nano n4"><use href="#nano"/></svg>
-  <svg class="nano n5"><use href="#nano"/></svg>
-  <svg class="nano n6"><use href="#nano"/></svg>
-
-  <!-- Centre content -->
-  <main class="center">
-    <h1>Welcome to Aaraa Electro</h1>
-    <p>All your Arduino project needs in one place</p>
-    <a href="index1.html" class="next-btn">Next</a>
-  </main>
-
+<body>
+  <h1>Welcome to Aara Electro</h1>
+  <p>All your Arduino project needs in one place</p>
+  
+  <!-- Next பட்டன் -->
+  <a href="index1.html" class="next-btn">Next</a>
 </body>
-</html >
+</html>
