@@ -1,43 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AARA Electro</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&display=swap" rel="stylesheet">
 <style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
-    background-color: #e0f2fe;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-    position: relative;
+    min-height: 100vh;
+    background: #87ceeb; /* light sky blue */
+    font-family: 'Poppins', sans-serif;
     overflow: hidden;
+    position: relative;
   }
-  .controller-shape {
+
+  /* Scattered microcontroller outlines */
+  .mc {
     position: absolute;
-    border: 4px solid #ffffff;
-    border-radius: 15px;
-    background-color: rgba(255, 255, 255, 0.1);
+    width: 150px;
+    height: 150px;
+    opacity: 0.9;
+  }
+  .mc.big { width: 220px; height: 220px; }
+  .mc.small { width: 100px; height: 100px; }
+
+  /* Center welcome text */
+  .center {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
   }
   h1 {
-    color: #4f46e5;
-    font-size: 4rem;
-    font-weight: 900;
-    text-align: center;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-    z-index: 10;
-    margin: 0;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: clamp(2.2rem, 7vw, 5.5rem);
+    line-height: 1.15;
+    text-shadow: 0 4px 14px rgba(0, 80, 140, 0.35);
   }
+  h1 span { display: block; letter-spacing: 2px; }
 </style>
 </head>
 <body>
-  <div class="controller-shape" style="top: 10%; left: 15%; width: 150px; height: 120px;"></div>
-  <div class="controller-shape" style="top: 75%; left: 10%; width: 180px; height: 140px;"></div>
-  <div class="controller-shape" style="top: 15%; left: 75%; width: 130px; height: 160px;"></div>
-  <div class="controller-shape" style="top: 70%; left: 80%; width: 160px; height: 130px;"></div>
-  
-  <h1>Welcome to Aaraa Electro</h1>
+
+<!-- Microcontroller outline (reusable) -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="micro" viewBox="0 0 100 100">
+      <g fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- chip body -->
+        <rect x="25" y="25" width="50" height="50" rx="4"/>
+        <!-- pin 1 dot -->
+        <circle cx="33" cy="33" r="2.5"/>
+        <!-- inner die -->
+        <rect x="38" y="38" width="24" height="24" rx="2"/>
+        <!-- pins top -->
+        <path d="M33 25V12 M42 25V12 M50 25V12 M58 25V12 M67 25V12"/>
+        <!-- pins bottom -->
+        <path d="M33 75V88 M42 75V88 M50 75V88 M58 75V88 M67 75V88"/>
+        <!-- pins left -->
+        <path d="M25 33H12 M25 42H12 M25 50H12 M25 58H12 M25 67H12"/>
+        <!-- pins right -->
+        <path d="M75 33H88 M75 42H88 M75 50H88 M75 58H88 M75 67H88"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<div id="field"></div>
+<script>
+  // Many small microcontroller outlines scattered all over the page
+  (function () {
+    var field = document.getElementById('field');
+    var cols = 9, rows = 7, seed = 7;
+    function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        // keep the middle area clear for the welcome text
+        if (c >= 2 && c <= 6 && r >= 2 && r <= 4) continue;
+        var size = 38 + Math.floor(rnd() * 42);          // 38px - 80px (small)
+        var left = (c + 0.1 + rnd() * 0.6) * (100 / cols);
+        var top  = (r + 0.1 + rnd() * 0.6) * (100 / rows);
+        var rot  = Math.floor(rnd() * 90) - 45;
+        var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        s.setAttribute('class', 'mc');
+        s.style.width = size + 'px';
+        s.style.height = size + 'px';
+        s.style.left = left + '%';
+        s.style.top = top + '%';
+        s.style.transform = 'rotate(' + rot + 'deg)';
+        s.innerHTML = '<use href="#micro"/>';
+        field.appendChild(s);
+      }
+    }
+  })();
+</script>
+
+<div class="center">
+  <h1>
+    <span>Welcome to</span>
+    <span>AARA Electro</span>
+  </h1>
+</div>
+
 </body>
 </html>
