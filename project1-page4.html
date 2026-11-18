@@ -16,7 +16,6 @@
   .banner h1 { font-size: 32px; text-shadow: 0 3px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; gap: 12px; }
   .banner p { margin-top: 8px; font-size: 15px; color: #dff8ff; }
 
-  /* Robot Face Icon in Title */
   .robot-icon { font-size: 36px; background: rgba(255,255,255,0.2); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
   .container { max-width: 800px; margin: 30px auto; padding: 0 20px 80px; width: 100%; flex: 1; }
@@ -46,13 +45,14 @@
   .chip { background: #eef6ff; border: 1px solid #b7d4ff; color: #0b3fbf; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; }
   .chip:hover { background: #0b3fbf; color: #fff; }
 
-  /* Back Arrow */
+  /* Back Arrow (Left) to Page 3 */
   .back-arrow { position: fixed; left: 18px; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transform: translateY(-50%); animation: shakeback 1s infinite; }
+
   @keyframes shakeback {
     0%, 100% { transform: translateY(-50%) translateX(0); }
-    25% { transform: translateY(-50%) translateX(8px); }
-    50% { transform: translateY(-50%) translateX(-6px); }
-    75% { transform: translateY(-50%) translateX(4px); }
+    25% { transform: translateY(-50%) translateX(-8px); }
+    50% { transform: translateY(-50%) translateX(6px); }
+    75% { transform: translateY(-50%) translateX(-4px); }
   }
   @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1.1); } }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -94,7 +94,6 @@
       </div>
     </div>
 
-    <!-- Result Display Box -->
     <div id="resultCard" class="result-card">
       <h3 id="resultTitle">🤖 Aaraa AI Solution</h3>
       <p id="resultText">Your solution will appear here...</p>
@@ -102,7 +101,8 @@
   </div>
 </div>
 
-<a class="back-arrow" href="project1-page3.html" title="Previous page">&#10094;</a>
+<!-- Back Arrow to Page 3 -->
+<a class="back-arrow" href="project1-page3.html" title="Back to Circuit">&#10094;</a>
 
 <script>
   function setQuery(text) {
@@ -123,7 +123,6 @@
 
     resultCard.style.display = "block";
 
-    // Strict Electronics Filter Check
     let electronicsKeywords = [
       'motor', 'sensor', 'ir', 'arduino', 'l298n', 'battery', 'wire', 'wiring', 
       'power', 'code', 'pin', 'ena', 'enb', 'in1', 'in2', 'in3', 'in4', 'robot', 
@@ -139,7 +138,6 @@
       return;
     }
 
-    // Smart Troubleshooting Responses
     resultTitle.innerHTML = "🤖 Aaraa AI Solution (Verified)";
 
     if (query.includes('backward') || query.includes('reverse') || query.includes('மாறி ஓடுது')) {
@@ -155,18 +153,17 @@
       resultText.innerHTML = "<b>பிரச்சனை:</b> ஆர்டினோ பவர் ஆன் ஆகவில்லை.<br><b>தீர்வு:</b> L298N-ன் 5V அவுட்புட் பின்னில் இருந்து ஆர்டினோ 5V பினுக்கு ரெட் வயர் சரியாக இணைக்கப்பட்டுள்ளதா என்பதை உறுதிப்படுத்தவும்.";
     } 
     else {
-      resultText.innerHTML = "<b>பொதுவான எலக்ட்ரானிக்ஸ் தீர்வு:</b> நீங்கள் குறிப்பிட்டுள்ள சிக்கலுக்கு: <br>1. அனைத்து ஜம்பர் வயர்களும் லூசுப் contato இல்லாமல் சரியாக இருக்கிறதா எனச் சரிபார்க்கவும்.<br>2. கோடில் உள்ள பின் நம்பர்கள் (ENA:5, IN1:6, IN2:7, IN3:8, IN4:9, ENB:10, Sensors:2,3) உங்கள் ஹார்டுவேர் வயரிங்குடன் 100% பொருந்துகிறதா என ஒப்பிட்டுப் பார்க்கவும்.";
+      resultText.innerHTML = "<b>பொதுவான எலக்ட்ரானிக்ஸ் தீர்வு:</b> நீங்கள் குறிப்பிட்டுள்ள சிக்கலுக்கு: <br>1. அனைத்து ஜம்பர் வயர்களும் லூசுப் contact இல்லாமல் சரியாக இருக்கிறதா எனச் சரிபார்க்கவும்.<br>2. கோடில் உள்ள பின் நம்பர்கள் (ENA:5, IN1:6, IN2:7, IN3:8, IN4:9, ENB:10, Sensors:2,3) உங்கள் ஹார்டுவேர் வயரிங்குடன் 100% பொருந்துகிறதா என ஒப்பிட்டுப் பார்க்கவும்.";
     }
   }
 
-  // Voice Recognition (Speech-to-Text)
   const micBtn = document.getElementById('micBtn');
   const userInput = document.getElementById('userInput');
 
   if ('webkitSpeechRecognition' in window || 'speechRecognition' in window) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US'; // Can understand English/Tamil voice inputs
+    recognition.lang = 'en-US';
 
     micBtn.addEventListener('click', () => {
       micBtn.classList.add('listening');
@@ -191,7 +188,7 @@
       micBtn.classList.remove('listening');
     };
   } else {
-    micBtn.style.display = 'none'; // Hide if browser doesn't support
+    micBtn.style.display = 'none';
   }
 </script>
 
