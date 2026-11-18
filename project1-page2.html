@@ -23,13 +23,23 @@
   .video-box:hover { background: #e3f1ff; transform: scale(1.02); }
   .plus { font-size: 80px; line-height: 1; color: #0b5be0; }
   .video-box span { font-size: 16px; margin-top: 8px; }
-  .next-arrow, .back-arrow { position: fixed; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); }
+  
+  /* Arrows Style */
+  .next-arrow, .back-arrow { position: fixed; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); z-index: 10; }
   .back-arrow { left: 18px; transform: translateY(-50%); animation: shakeback 1s infinite; }
+  .next-arrow { right: 18px; transform: translateY(-50%); animation: shake 1s infinite; }
+  
   @keyframes shakeback {
     0%, 100% { transform: translateY(-50%) translateX(0); }
     25% { transform: translateY(-50%) translateX(8px); }
     50% { transform: translateY(-50%) translateX(-6px); }
     75% { transform: translateY(-50%) translateX(4px); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(-8px); }
+    50% { transform: translateY(-50%) translateX(6px); }
+    75% { transform: translateY(-50%) translateX(-4px); }
   }
 </style>
 </head>
@@ -141,8 +151,11 @@ void stopRobot() {
 
 </div>
 
-<!-- இது முதல் பக்கத்திற்குத் திரும்பும் இடது பக்க அம்புக்குறி -->
+<!-- இடது பக்க அம்புக்குறி (Page 1-க்கு போகும்) -->
 <a class="back-arrow" href="project1.html" title="Previous page">&#10094;</a>
+
+<!-- வலது பக்க அம்புக்குறி (Page 3-க்கு போகும்) -->
+<a class="next-arrow" href="project1-page3.html" title="Next page">&#10095;</a>
 
 <script>
 function copyCode() {
