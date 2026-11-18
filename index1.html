@@ -16,19 +16,8 @@
     nav a{color:#09245b;text-decoration:none;border:1px solid #c8dcff;border-radius:22px;padding:11px 15px;font-weight:700;font-size:14px;transition:.25s}
     nav a:hover,nav a.active{background:#075de8;color:#fff;transform:translateY(-2px);box-shadow:0 5px 14px #075de844}
     .hero{min-height:420px;position:relative;overflow:hidden;padding:34px 3% 22px;background:linear-gradient(115deg,#0348b9,#007be8 58%,#00b9ef);color:#fff}
-    .hero:before{content:"";position:absolute;inset:0;opacity:.27;background-image:
-      radial-gradient(circle at 12px 12px,#6ceaff 2px,transparent 3px),
-      linear-gradient(90deg,transparent 48%,#7cecff 49%,transparent 50%),
-      linear-gradient(0deg,transparent 48%,#7cecff 49%,transparent 50%);
-      background-size:48px 48px,80px 80px,80px 80px;mask-image:linear-gradient(#000,transparent)}
-    .circuit{position:absolute;inset:0;pointer-events:none;opacity:.48;background:
-      radial-gradient(circle at 7% 30%,#00eaff 0 4px,transparent 5px),
-      radial-gradient(circle at 18% 15%,#00eaff 0 4px,transparent 5px),
-      radial-gradient(circle at 92% 24%,#00eaff 0 4px,transparent 5px),
-      linear-gradient(90deg,transparent 6%,#13dfff 6.2%,transparent 6.5%) 0 0/100% 85px,
-      linear-gradient(0deg,transparent 47%,#13dfff 48%,transparent 49%) 0 0/130px 100%}
     .hero-inner{max-width:1200px;margin:auto;position:relative;z-index:1}
-    .headline{text-align:center;margin:0 auto 14px;max-width:850px;animation:fadeUp .9s both}
+    .headline{text-align:center;margin:0 auto 14px;max-width:850px}
     h1{font-size:clamp(42px,7vw,76px);line-height:1;margin:0 0 12px;font-weight:900;letter-spacing:-2px;text-shadow:0 4px 12px #001e6b55}
     h1 span{color:#ffe500}
     .tagline{font-size:clamp(18px,2.4vw,25px);font-weight:700;margin:0 0 7px}
@@ -36,52 +25,40 @@
     .robot{position:absolute;width:180px;height:170px;right:5%;top:14px;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 12px 12px #001c6855)}
     .robot .head{position:absolute;width:128px;height:112px;left:26px;top:30px;border-radius:35px 35px 43px 43px;background:linear-gradient(145deg,#fff,#a9dfff);border:5px solid #d5f4ff;box-shadow:inset -8px -9px 0 #6c9bdc}
     .robot .screen{position:absolute;inset:18px 12px 24px;border-radius:23px;background:linear-gradient(140deg,#062d83,#00164d);display:flex;align-items:center;justify-content:space-evenly}
-    .eye{width:15px;height:23px;border-radius:50%;background:#16eaff;box-shadow:0 0 12px #16eaff;animation:blink 4s infinite}
+    .eye{width:15px;height:23px;border-radius:50%;background:#16eaff;box-shadow:0 0 12px #16eaff}
     .smile{position:absolute;width:30px;height:13px;border-bottom:4px solid #4df4ff;border-radius:50%;bottom:13px;left:44px}
     .ear{position:absolute;top:70px;width:23px;height:43px;border-radius:12px;background:#38bfff;border:4px solid #d5f4ff}
     .ear.left{left:9px}.ear.right{right:9px}
     .antenna{position:absolute;width:5px;height:27px;background:#d7f6ff;top:5px;left:87px;border-radius:5px}
     .antenna:after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:#ff397a;top:-8px;left:-4px;box-shadow:0 0 12px #ff397a}
-    .badge-chip{position:absolute;bottom:0;left:73px;background:#075de8;border:2px solid #c8f7ff;border-radius:8px;padding:5px;color:white;font-size:17px}
     .search-wrap{max-width:1050px;margin:20px auto 0;position:relative;z-index:2}
-    .searchbox{display:flex;background:#fff;border:3px solid #5ceaff;border-radius:40px;padding:6px;box-shadow:0 0 0 5px #ffffff28,0 8px 28px #001e6b55;transition:.25s}
-    .searchbox:focus-within{box-shadow:0 0 0 7px #73f3ff55,0 0 28px #50eaff}
+    .searchbox{display:flex;background:#fff;border:3px solid #5ceaff;border-radius:40px;padding:6px;box-shadow:0 0 0 5px #ffffff28,0 8px 28px #001e6b55}
     #searchInput{flex:1;min-width:0;border:0;outline:0;padding:13px 20px;font-size:18px;border-radius:30px;color:#17336b}
-    #searchButton{border:0;border-radius:30px;background:#075de8;color:white;font-size:17px;font-weight:800;padding:0 25px;cursor:pointer;transition:.2s}
-    #searchButton:hover{background:#003eaa;transform:scale(1.04)}
+    #searchButton{border:0;border-radius:30px;background:#075de8;color:white;font-size:17px;font-weight:800;padding:0 25px;cursor:pointer}
     .hint{text-align:center;color:#e4faff;font-size:13px;margin:12px 0 0}
     main{max-width:1250px;margin:-2px auto 28px;padding:0 22px;position:relative;z-index:1}
-    .results-panel{background:#fff;border:2px solid #b7d7ff;border-radius:18px;overflow:hidden;box-shadow:0 9px 28px #0a4fa51b;display:none;animation:fadeUp .35s ease both}
+    .results-panel{background:#fff;border:2px solid #b7d7ff;border-radius:18px;overflow:hidden;box-shadow:0 9px 28px #0a4fa51b;display:none}
     .results-panel.visible{display:block}
-    .panel-title{background:linear-gradient(90deg,#075de8,#087bdc);color:#fff;font-size:19px;font-weight:800;padding:12px 18px;display:flex;align-items:center;gap:10px}
+    .panel-title{background:linear-gradient(90deg,#075de8,#087bdc);color:#fff;font-size:19px;font-weight:800;padding:12px 18px}
     .results-content{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px;padding:12px 14px}
-    .project{display:flex;gap:18px;padding:8px 0 12px;border-bottom:1px solid #c7dcff;text-decoration:none;color:inherit;align-items:center;transition:.2s}
-    .project:last-child{border-bottom:0}
-    .project:hover{transform:translateX(5px);background:#f4f9ff;border-radius:12px}
+    .project{display:flex;gap:18px;padding:8px 0 12px;border-bottom:1px solid #c7dcff;text-decoration:none;color:inherit;align-items:center;cursor:pointer}
+    .project:hover{background:#f4f9ff;border-radius:12px}
     .project-thumb{width:126px;height:78px;flex:none;border-radius:12px;background:linear-gradient(135deg,#dcefff,#a8d8ff);display:grid;place-items:center;font-size:43px}
     .project h3{margin:0 0 7px;color:#0059df;font-size:18px}
     .project p{margin:0;color:#34476e;font-size:14px;line-height:1.4}
     .popular{background:#e6f2ff;border-radius:16px;padding:15px;height:max-content}
     .popular h3{margin:0 0 12px;font-size:17px}
     .chips{display:flex;gap:7px;flex-wrap:wrap}
-    .chips span{background:#cce4ff;color:#0646ad;padding:7px 10px;border-radius:20px;font-size:12px;font-weight:700}
+    .chips span{background:#cce4ff;color:#0646ad;padding:7px 10px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer}
     #empty{padding:22px;color:#5a6d91;display:none}
     footer{text-align:center;color:#6c82a5;font-size:12px;padding:15px}
-    @keyframes float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-13px) rotate(1deg)}}
-    @keyframes blink{0%,46%,50%,100%{transform:scaleY(1)}48%{transform:scaleY(.12)}}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    @media(max-width:760px){.topbar{height:auto;align-items:flex-start;flex-direction:column;padding:12px 4%}nav{justify-content:flex-start}nav a{padding:9px 11px;font-size:12px}.hero{padding-top:30px}.robot{position:relative;display:block;margin:0 auto 5px;right:auto;top:auto;width:150px;height:140px}.robot .head{transform:scale(.85);transform-origin:top left}.headline h1{font-size:48px}.results-content{grid-template-columns:1fr}.popular{order:-1}.project-thumb{width:88px;height:68px;font-size:34px}}
-    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+    @media(max-width:760px){.topbar{height:auto;flex-direction:column;align-items:flex-start;padding:12px 4%}.robot{display:none}.results-content{grid-template-columns:1fr}.popular{order:-1}.project-thumb{width:88px;height:68px;font-size:34px}}
   </style>
 </head>
 <body>
 <header class="topbar">
   <div class="brand">
-    <svg class="chip" viewBox="0 0 64 56" aria-label="Aara Electro chip logo">
-      <g stroke="#075de8" stroke-width="4" stroke-linecap="round"><path d="M13 9V2M25 9V2M37 9V2M49 9V2M13 47v7M25 47v7M37 47v7M49 47v7M8 14H2M8 26H2M8 38H2M56 14h6M56 26h6M56 38h6"/></g>
-      <rect x="9" y="8" width="46" height="40" rx="7" fill="#075de8"/><rect x="15" y="14" width="34" height="28" rx="4" fill="#fff"/>
-      <path d="M34 16 23 30h8l-2 10 12-16h-8z" fill="#075de8"/>
-    </svg>
     <div>Aara Electro<small>Learn • Build • Innovate</small></div>
   </div>
   <nav>
@@ -94,11 +71,9 @@
 </header>
 
 <section class="hero">
-  <div class="circuit"></div>
-  <div class="robot" aria-label="Animated friendly robot">
+  <div class="robot">
     <div class="antenna"></div><div class="ear left"></div><div class="ear right"></div>
     <div class="head"><div class="screen"><i class="eye"></i><i class="eye"></i><div class="smile"></div></div></div>
-    <div class="badge-chip">ϟ</div>
   </div>
   <div class="hero-inner">
     <div class="headline">
@@ -108,8 +83,8 @@
     </div>
     <div class="search-wrap">
       <div class="searchbox">
-        <input id="searchInput" type="search" placeholder="⌕  Search for Arduino Robots, Projects, or Ideas..." autocomplete="off">
-        <button id="searchButton" type="button">⌕ &nbsp;Search</button>
+        <input id="searchInput" type="search" placeholder="Search for Arduino Robots, Projects, or Ideas..." autocomplete="off">
+        <button id="searchButton" type="button">Search</button>
       </div>
       <p class="hint">Start typing a project name. Matching Aara Electro projects will appear below.</p>
     </div>
@@ -118,7 +93,7 @@
 
 <main id="results">
   <section class="results-panel" id="resultsPanel">
-    <div class="panel-title">⌕ &nbsp;Search Results</div>
+    <div class="panel-title">Search Results</div>
     <div class="results-content">
       <div>
         <div id="projectList"></div>
@@ -134,34 +109,38 @@
 <footer>© 2026 Aara Electro</footer>
 
 <script>
+// To add a new project: copy one line, change the name, description, icon, keywords, and set link to your new page file name.
 const projects = [
-  {id:"line-following", name:"Arduino Line Following Robot", desc:"Build a smart robot that follows a line using Arduino.", icon:"🤖", keywords:"line follower line following robot arduino"},
-  {id:"obstacle-avoiding", name:"Arduino Obstacle Avoiding Robot", desc:"Create a robot that detects obstacles and moves around them.", icon:"🚗", keywords:"obstacle avoiding robot arduino"},
-  {id:"led-blinking", name:"Arduino LED Blinking Project", desc:"Learn the basics by making an LED blink with Arduino.", icon:"💡", keywords:"led blinking blink arduino"},
-  {id:"home-automation", name:"Arduino Home Automation", desc:"Explore a simple home automation project with Arduino.", icon:"🏠", keywords:"home automation arduino smart home"},
-  {id:"esp32-wifi-car", name:"ESP32 Wi-Fi Controlled Car", desc:"Control a small car wirelessly using an ESP32 and Wi-Fi.", icon:"📶", keywords:"esp32 wifi controlled car"}
+  {name:"Arduino Line Following Robot", desc:"Build a smart robot that follows a line using Arduino.", icon:"🤖", keywords:"line follower line following robot arduino", link:"project1.html"},
+  {name:"Arduino Obstacle Avoiding Robot", desc:"Create a robot that detects obstacles and moves around them.", icon:"🚗", keywords:"obstacle avoiding robot arduino", link:"project2.html"},
+  {name:"Arduino LED Blinking Project", desc:"Learn the basics by making an LED blink with Arduino.", icon:"💡", keywords:"led blinking blink arduino", link:"project3.html"},
+  {name:"Arduino Home Automation", desc:"Explore a simple home automation project with Arduino.", icon:"🏠", keywords:"home automation arduino smart home", link:"project4.html"},
+  {name:"ESP32 Wi-Fi Controlled Car", desc:"Control a small car wirelessly using an ESP32 and Wi-Fi.", icon:"📶", keywords:"esp32 wifi controlled car", link:"project5.html"}
 ];
-const input=document.getElementById("searchInput");
-const panel=document.getElementById("resultsPanel");
-const list=document.getElementById("projectList");
-const empty=document.getElementById("empty");
+
+const input = document.getElementById("searchInput");
+const panel = document.getElementById("resultsPanel");
+const list = document.getElementById("projectList");
+const empty = document.getElementById("empty");
+
 function searchProjects(){
-  const q=input.value.trim().toLowerCase();
-  if(!q){panel.classList.remove("visible");return;}
-  const matches=projects.filter(p=>(p.name+" "+p.desc+" "+p.keywords).toLowerCase().includes(q));
-  list.innerHTML=matches.map(p=>`
-    <a class="project" href="project.html?id=${encodeURIComponent(p.id)}">
+  const q = input.value.trim().toLowerCase();
+  if(!q){ panel.classList.remove("visible"); return; }
+  const matches = projects.filter(p => (p.name + " " + p.desc + " " + p.keywords).toLowerCase().includes(q));
+  list.innerHTML = matches.map(p => `
+    <a class="project" href="${p.link}">
       <div class="project-thumb">${p.icon}</div>
       <div><h3>${p.name}</h3><p>${p.desc}</p></div>
     </a>`).join("");
-  empty.style.display=matches.length?"none":"block";
+  empty.style.display = matches.length ? "none" : "block";
   panel.classList.add("visible");
 }
-input.addEventListener("input",searchProjects);
-document.getElementById("searchButton").addEventListener("click",searchProjects);
-input.addEventListener("keydown",e=>{if(e.key==="Enter")searchProjects()});
-document.querySelectorAll(".chips span").forEach(chip=>chip.addEventListener("click",()=>{
-  input.value=chip.textContent;searchProjects();input.focus();
+
+input.addEventListener("input", searchProjects);
+document.getElementById("searchButton").addEventListener("click", searchProjects);
+input.addEventListener("keydown", e => { if(e.key === "Enter") searchProjects(); });
+document.querySelectorAll(".chips span").forEach(chip => chip.addEventListener("click", () => {
+  input.value = chip.textContent; searchProjects(); input.focus();
 }));
 </script>
 </body>
