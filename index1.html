@@ -3,73 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arduino Line Following Robot - Aaraa Electro</title>
+<title>Search Projects - Aaraa Electro</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, sans-serif; background: #eaf4ff; color: #0b2a5b; min-height: 100vh; }
   .topbar { background: linear-gradient(90deg, #0b3fbf, #00b4f0); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
   .topbar a { color: #fff; text-decoration: none; font-weight: bold; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; }
   .topbar h2 { font-size: 22px; }
-  .banner { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; text-align: center; padding: 50px 20px; }
-  .banner h1 { font-size: 40px; text-shadow: 0 3px 8px rgba(0,0,0,0.3); }
-  .banner p { margin-top: 10px; font-size: 18px; }
-  .container { max-width: 1000px; margin: 30px auto; padding: 0 20px 100px; }
-  .card { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 28px; box-shadow: 0 6px 18px rgba(11,63,191,0.12); }
-  .card h2 { color: #0b3fbf; margin-bottom: 12px; }
-  .card p { line-height: 1.7; font-size: 17px; margin-bottom: 10px; }
-  .photos { display: flex; gap: 20px; flex-wrap: wrap; }
-  .photo-box { flex: 1; min-width: 260px; height: 260px; border: 3px dashed #4aa8ff; border-radius: 14px; background: #f3f9ff; display: flex; align-items: center; justify-content: center; text-align: center; color: #4a78b8; overflow: hidden; }
-  .photo-box img { width: 100%; height: 100%; object-fit: cover; }
-  .next-arrow { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); animation: shake 1s infinite; }
-  @keyframes shake {
-    0%, 100% { transform: translateY(-50%) translateX(0); }
-    25% { transform: translateY(-50%) translateX(-8px); }
-    50% { transform: translateY(-50%) translateX(6px); }
-    75% { transform: translateY(-50%) translateX(-4px); }
-  }
+  
+  .search-container { max-width: 800px; margin: 40px auto; padding: 0 20px; text-align: center; }
+  .search-container h1 { margin-bottom: 20px; color: #0b3fbf; font-size: 32px; }
+  
+  .search-box { display: flex; gap: 10px; margin-bottom: 30px; }
+  .search-box input { flex: 1; padding: 14px 20px; font-size: 16px; border: 2px solid #bce0ff; border-radius: 30px; outline: none; transition: 0.2s; background: #fff; }
+  .search-box input:focus { border-color: #0b5be0; box-shadow: 0 0 10px rgba(11,91,224,0.2); }
+  
+  .results-section { text-align: left; }
+  .results-section h3 { margin-bottom: 15px; color: #4a78b8; font-size: 18px; }
+  
+  .project-card { background: #fff; border-radius: 16px; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 6px 18px rgba(11,63,191,0.12); text-decoration: none; color: inherit; transition: 0.2s; border: 2px solid transparent; }
+  .project-card:hover { transform: translateY(-3px); border-color: #0b5be0; box-shadow: 0 10px 24px rgba(11,63,191,0.2); }
+  
+  .project-info h2 { color: #0b3fbf; font-size: 20px; margin-bottom: 6px; }
+  .project-info p { color: #555; font-size: 15px; }
+  .arrow-icon { font-size: 24px; color: #0b5be0; font-weight: bold; }
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <h2>Aaraa Electro</h2>
-  <a href="index1.html">&larr; Back to Search</a>
+  <a href="index.html">&larr; Home</a>
 </div>
 
-<div class="banner">
-  <h1>Arduino Line Following Robot</h1>
-  <p>Build a smart robot that follows a line using Arduino.</p>
-</div>
-
-<div class="container">
-
-  <div class="card">
-    <h2>What is this project?</h2>
-    <p>A line following robot is a small car that drives by itself along a black line on the floor. It does not need a remote control. It uses sensors to find the line and an Arduino to decide where to turn.</p>
+<div class="search-container">
+  <h1>Search Electronics Projects</h1>
+  
+  <!-- Search Bar -->
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search for projects (e.g., Line Following Robot)..." onkeyup="filterProjects()">
   </div>
 
-  <div class="card">
-    <h2>How does it work scientifically?</h2>
-    <p>The robot has infrared (IR) sensors under it. Each sensor sends out infrared light and checks how much light comes back. A white floor reflects most of the light back. A black line absorbs the light, so very little comes back.</p>
-    <p>The Arduino reads the sensors. If the left sensor sees black, the robot turns left. If the right sensor sees black, it turns right. If the line is in the middle, it goes straight. The Arduino controls the wheel motors through a motor driver, so the robot keeps correcting itself and stays on the line.</p>
-  </div>
-
-  <div class="card">
-    <h2>Real Project Photos</h2>
-    <div class="photos">
-      <div class="photo-box">
-        Photo 1 - upload here
-      </div>
-      <div class="photo-box">
-        Photo 2 - upload here
-      </div>
+  <div class="results-section">
+    <h3>Project Results</h3>
+    
+    <!-- Line Following Robot Result Card (Links to project1.html) -->
+    <div id="projectList">
+      <a href="project1.html" class="project-card">
+        <div class="project-info">
+          <h2>Arduino Line Following Robot</h2>
+          <p>Build a smart robot that follows a black line using IR sensors, Arduino, and L298N driver.</p>
+        </div>
+        <div class="arrow-icon">&#10095;</div>
+      </a>
     </div>
-  </div>
 
+  </div>
 </div>
 
-<!-- இதுதான் இரண்டாவது பக்கத்திற்குச் செல்லும் லிங்க் -->
-<a class="next-arrow" href="project1-page2.html" title="Next page">&#10095;</a>
+<script>
+// Simple live search filter function
+function filterProjects() {
+  let input = document.getElementById('searchInput').value.toLowerCase();
+  let card = document.querySelector('.project-card');
+  let title = card.querySelector('h2').textContent.toLowerCase();
+  let desc = card.querySelector('p').textContent.toLowerCase();
+  
+  if (title.includes(input) || desc.includes(input)) {
+    card.style.display = "flex";
+  } else {
+    card.style.display = "none";
+  }
+}
+</script>
 
 </body>
 </html>
