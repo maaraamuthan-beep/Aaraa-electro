@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Code and Video - Aara Electro</title>
+<title>Code and Video - Aaraa Electro</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, sans-serif; background: #eaf4ff; color: #0b2a5b; min-height: 100vh; }
@@ -36,7 +36,7 @@
 <body>
 
 <div class="topbar">
-  <h2>Aara Electro</h2>
+  <h2>Aaraa Electro</h2>
   <a href="index1.html">&larr; Back to Search</a>
 </div>
 
@@ -82,12 +82,11 @@ void loop() {
   int left = digitalRead(leftSensor);
   int right = digitalRead(rightSensor);
 
-  // HIGH means the sensor sees the black line on most modules
-  if (left == LOW &amp;&amp; right == LOW) {
+  if (left == LOW && right == LOW) {
     moveForward();
-  } else if (left == HIGH &amp;&amp; right == LOW) {
+  } else if (left == HIGH && right == LOW) {
     turnLeft();
-  } else if (left == LOW &amp;&amp; right == HIGH) {
+  } else if (left == LOW && right == HIGH) {
     turnRight();
   } else {
     stopRobot();
@@ -134,7 +133,6 @@ void stopRobot() {
 
   <div class="card">
     <h2>Build Video</h2>
-    <!-- When your video is ready, replace PASTE-YOUR-YOUTUBE-LINK-HERE below with your YouTube video address. -->
     <a class="video-box" href="PASTE-YOUR-YOUTUBE-LINK-HERE" target="_blank" rel="noopener">
       <div class="plus">+</div>
       <span>Video coming soon. Click to watch on YouTube.</span>
@@ -143,7 +141,8 @@ void stopRobot() {
 
 </div>
 
-<a class="back-arrow" href="project1-page2.html" title="Previous page">&#10094;</a>
+<!-- இது முதல் பக்கத்திற்குத் திரும்பும் இடது பக்க அம்புக்குறி -->
+<a class="back-arrow" href="project1.html" title="Previous page">&#10094;</a>
 
 <script>
 function copyCode() {
