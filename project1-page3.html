@@ -20,11 +20,9 @@
   .card { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 28px; box-shadow: 0 6px 18px rgba(11,63,191,0.12); }
   .card h2 { color: #0b3fbf; margin-bottom: 16px; }
   
-  /* Circuit Diagram Upload Box */
-  .circuit-box { width: 100%; height: 340px; border: 3px dashed #4aa8ff; border-radius: 14px; background: #f3f9ff; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #4a78b8; overflow: hidden; padding: 15px; }
-  .circuit-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-  .circuit-box span { font-size: 18px; font-weight: bold; }
-  .circuit-box small { font-size: 14px; margin-top: 6px; color: #6c8eb8; }
+  /* Circuit Diagram Box */
+  .circuit-box { width: 100%; min-height: 360px; border: 3px solid #4aa8ff; border-radius: 14px; background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; padding: 15px; }
+  .circuit-box svg { width: 100%; max-width: 820px; height: auto; }
 
   /* Components List Grid */
   .comp-list { display: flex; flex-direction: column; gap: 14px; }
@@ -62,113 +60,71 @@
 
 <div class="container">
 
-  <!-- Section 1: Circuit Diagram -->
+  <!-- Section 1: Circuit Diagram (Matches Arduino Code Pins 2,3 and 5,6,7,8,9,10) -->
   <div class="card">
     <h2>Circuit Diagram</h2>
     <div class="circuit-box">
-      <!-- சர்க்யூட் டயக்ராம் போட்டோ சேர்க்க கீழே உள்ள வரியைப் பயன்படுத்தவும்: -->
-      <!-- <img src="circuit-diagram.png" alt="Line Following Robot Circuit Diagram"> -->
-      <span>Circuit Diagram Image</span>
-      <small>Upload your wiring diagram image here</small>
-    </div>
-  </div>
+      <svg viewBox="0 0 860 520" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+        <!-- Background -->
+        <rect width="860" height="520" fill="#ffffff" rx="10"/>
 
-  <!-- Section 2: Components List with Mini Photo Slots -->
-  <div class="card">
-    <h2>Required Components</h2>
-    <div class="comp-list">
+        <!-- Title Label -->
+        <text x="430" y="26" font-size="16" font-weight="bold" fill="#0b3fbf" text-anchor="middle">Line Following Robot - Wiring Diagram (Aaraa Electro)</text>
 
-      <!-- Component 1 -->
-      <div class="comp-item">
-        <div class="comp-details">
-          <h3>1. Arduino Uno (with USB Cable)</h3>
-          <p>The main microcontroller brain that processes sensor signals and controls motors.</p>
-        </div>
-        <div class="mini-photo">
-          <!-- <img src="arduino.jpg" alt="Arduino Uno"> -->
-          Add Photo
-        </div>
-      </div>
+        <!-- ================= LEFT & RIGHT MOTORS ================= -->
+        <!-- Left Top Motor -->
+        <rect x="170" y="55" width="75" height="42" rx="4" fill="#6c757d" stroke="#333" stroke-width="1.5"/>
+        <rect x="245" y="59" width="12" height="34" fill="#ffc107" stroke="#333" stroke-width="1"/>
+        <rect x="155" y="72" width="15" height="8" fill="#adb5bd"/>
+        <text x="207" y="80" font-size="10" fill="#fff" font-weight="bold" text-anchor="middle">Left Motor 1</text>
 
-      <!-- Component 2 -->
-      <div class="comp-item">
-        <div class="comp-details">
-          <h3>2. L298N Motor Driver Module</h3>
-          <p>Controls the speed and direction of the DC gear motors.</p>
-        </div>
-        <div class="mini-photo">
-          <!-- <img src="l298n.jpg" alt="L298N Driver"> -->
-          Add Photo
-        </div>
-      </div>
+        <!-- Left Bottom Motor -->
+        <rect x="170" y="120" width="75" height="42" rx="4" fill="#6c757d" stroke="#333" stroke-width="1.5"/>
+        <rect x="245" y="124" width="12" height="34" fill="#ffc107" stroke="#333" stroke-width="1"/>
+        <rect x="155" y="137" width="15" height="8" fill="#adb5bd"/>
+        <text x="207" y="145" font-size="10" fill="#fff" font-weight="bold" text-anchor="middle">Left Motor 2</text>
 
-      <!-- Component 3 -->
-      <div class="comp-item">
-        <div class="comp-details">
-          <h3>3. IR Infrared Sensor Modules (2 Nos)</h3>
-          <p>Detects the black line on the white surface using infrared light.</p>
-        </div>
-        <div class="mini-photo">
-          <!-- <img src="ir-sensor.jpg" alt="IR Sensor"> -->
-          Add Photo
-        </div>
-      </div>
+        <!-- Right Top Motor -->
+        <rect x="615" y="55" width="75" height="42" rx="4" fill="#6c757d" stroke="#333" stroke-width="1.5"/>
+        <rect x="603" y="59" width="12" height="34" fill="#ffc107" stroke="#333" stroke-width="1"/>
+        <rect x="690" y="72" width="15" height="8" fill="#adb5bd"/>
+        <text x="652" y="80" font-size="10" fill="#fff" font-weight="bold" text-anchor="middle">Right Motor 1</text>
 
-      <!-- Component 4 -->
-      <div class="comp-item">
-        <div class="comp-details">
-          <h3>4. BO Gear Motors & Wheels (2 or 4 Sets)</h3>
-          <p>Provides movement to the robot chassis.</p>
-        </div>
-        <div class="mini-photo">
-          <!-- <img src="motor.jpg" alt="BO Motor"> -->
-          Add Photo
-        </div>
-      </div>
+        <!-- Right Bottom Motor -->
+        <rect x="615" y="120" width="75" height="42" rx="4" fill="#6c757d" stroke="#333" stroke-width="1.5"/>
+        <rect x="603" y="124" width="12" height="34" fill="#ffc107" stroke="#333" stroke-width="1"/>
+        <rect x="690" y="137" width="15" height="8" fill="#adb5bd"/>
+        <text x="652" y="145" font-size="10" fill="#fff" font-weight="bold" text-anchor="middle">Right Motor 2</text>
 
-      <!-- Component 5 -->
-      <div class="comp-item">
-        <div class="comp-details">
-          <h3>5. Robot Chassis & Caster Wheel</h3>
-          <p>The base frame to mount all components securely.</p>
-        </div>
-        <div class="mini-photo">
-          <!-- <img src="chassis.jpg" alt="Robot Chassis"> -->
-          Add Photo
-        </div>
-      </div>
+        <!-- Motor Wires to L298N -->
+        <!-- Left Motors to OUT1 & OUT2 -->
+        <polyline points="257,68 310,68 310,115 355,115" fill="none" stroke="#f1c40f" stroke-width="3"/>
+        <polyline points="257,133 310,133 310,115" fill="none" stroke="#f1c40f" stroke-width="3"/>
+        <polyline points="257,84 295,84 295,142 355,142" fill="none" stroke="#2ecc71" stroke-width="3"/>
+        <polyline points="257,149 295,149 295,142" fill="none" stroke="#2ecc71" stroke-width="3"/>
 
-      <!-- Component 6 -->
-      <div class="comp-item">
-        <div class="comp-details">
-          <h3>6. Li-ion Batteries (2x 3.7V) & Battery Holder</h3>
-          <p>Powers the Arduino and motor driver module.</p>
-        </div>
-        <div class="mini-photo">
-          <!-- <img src="battery.jpg" alt="Battery"> -->
-          Add Photo
-        </div>
-      </div>
+        <!-- Right Motors to OUT3 & OUT4 -->
+        <polyline points="603,68 550,68 550,115 505,115" fill="none" stroke="#2ecc71" stroke-width="3"/>
+        <polyline points="603,133 550,133 550,115" fill="none" stroke="#2ecc71" stroke-width="3"/>
+        <polyline points="603,84 565,84 565,142 505,142" fill="none" stroke="#f1c40f" stroke-width="3"/>
+        <polyline points="603,149 565,149 565,142" fill="none" stroke="#f1c40f" stroke-width="3"/>
 
-      <!-- Component 7 -->
-      <div class="comp-item">
-        <div class="comp-details">
-          <h3>7. Jumper Wires & On/Off Switch</h3>
-          <p>Male-to-Female and Male-to-Male wires for making connections.</p>
-        </div>
-        <div class="mini-photo">
-          <!-- <img src="jumper.jpg" alt="Jumper Wires"> -->
-          Add Photo
-        </div>
-      </div>
+        <!-- ================= L298N MOTOR DRIVER ================= -->
+        <text x="430" y="48" font-size="14" font-weight="bold" fill="#111" text-anchor="middle">L298N Motor Driver</text>
+        <rect x="365" y="58" width="130" height="125" rx="6" fill="#d32f2f" stroke="#7f0000" stroke-width="2"/>
+        <!-- Heatsink -->
+        <rect x="395" y="64" width="70" height="36" fill="#212529"/>
+        <line x1="405" y1="64" x2="405" y2="100" stroke="#495057" stroke-width="2"/>
+        <line x1="418" y1="64" x2="418" y2="100" stroke="#495057" stroke-width="2"/>
+        <line x1="430" y1="64" x2="430" y2="100" stroke="#495057" stroke-width="2"/>
+        <line x1="442" y1="64" x2="442" y2="100" stroke="#495057" stroke-width="2"/>
+        <line x1="455" y1="64" x2="455" y2="100" stroke="#495057" stroke-width="2"/>
+        <text x="430" y="114" font-size="10" fill="#fff" font-weight="bold" text-anchor="middle">L298N</text>
 
-    </div>
-  </div>
+        <!-- Blue Screw Terminals -->
+        <rect x="355" y="105" width="16" height="45" fill="#1976d2" stroke="#0d47a1"/>
+        <text x="348" y="102" font-size="9" font-weight="bold" fill="#333" text-anchor="end">OUT1</text>
+        <text x="348" y="158" font-size="9" font-weight="bold" fill="#333" text-anchor="end">OUT2</text>
 
-</div>
-
-<!-- இரண்டாவது பக்கத்திற்குத் திரும்பும் அம்புக்குறி -->
-<a class="back-arrow" href="project1-page2.html" title="Previous page">&#10094;</a>
-
-</body>
-</html>
+        <rect x="489" y="105" width="16" height="45" fill="#1976d2" stroke="#0d47a1"/>
+        <text x="512" y="102" font-size="9
