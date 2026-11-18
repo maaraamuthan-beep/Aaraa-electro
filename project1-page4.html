@@ -37,8 +37,8 @@
   .ask-btn { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(11,63,191,0.2); }
   .ask-btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
-  .speak-audio-btn { background: #eef6ff; border: 1px solid #0b3fbf; color: #0b3fbf; padding: 6px 14px; border-radius: 15px; font-size: 13px; cursor: pointer; font-weight: bold; margin-top: 10px; display: inline-flex; align-items: center; gap: 6px; }
-  .speak-audio-btn:hover { background: #0b3fbf; color: #fff; }
+  .speak-audio-btn { background: #0b3fbf; color: #fff; border: none; padding: 8px 18px; border-radius: 20px; font-size: 14px; cursor: pointer; font-weight: bold; margin-top: 12px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 3px 8px rgba(11,63,191,0.2); }
+  .speak-audio-btn:hover { background: #092e91; }
 
   .result-card { background: #f3f9ff; border-left: 5px solid #0b3fbf; border-radius: 8px; padding: 20px; margin-top: 10px; display: none; animation: fadeIn 0.3s ease; }
   .result-card h3 { color: #0b3fbf; margin-bottom: 8px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
@@ -48,7 +48,6 @@
   .chip { background: #eef6ff; border: 1px solid #b7d4ff; color: #0b3fbf; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; }
   .chip:hover { background: #0b3fbf; color: #fff; }
 
-  /* Back Arrow to Page 3 */
   .back-arrow { position: fixed; left: 18px; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transform: translateY(-50%); animation: shakeback 1s infinite; }
 
   @keyframes shakeback {
@@ -70,29 +69,29 @@
 
 <div class="banner">
   <h1><div class="robot-icon">🤖</div> Aaraa AI Assistant</h1>
-  <p>Ask any electronics, circuit, or troubleshooting questions!</p>
+  <p>Ask any electronics, components, or circuit questions!</p>
 </div>
 
 <div class="container">
   <div class="ai-box">
-    <h3>🔍 Electronics & Circuit AI Hub</h3>
-    <p style="color: #4a6b9c; font-size: 14px;">Type or speak any electronics question (LED, motors, Arduino alternatives, sensors, wiring, etc.)</p>
+    <h3>🔍 Electronics & Components AI Hub</h3>
+    <p style="color: #4a6b9c; font-size: 14px;">Type or speak about capacitors, resistors, LED, motors, sensors, etc.</p>
 
     <div class="search-container">
       <div class="search-bar-wrapper">
         <span class="robot-mini">🤖</span>
-        <input type="text" id="userInput" class="search-input" placeholder="e.g., How does LED blink, why motor spins, Arduino alternatives...">
+        <input type="text" id="userInput" class="search-input" placeholder="e.g., Capacitor use, LED blink, motor working...">
         <button id="micBtn" class="mic-btn" title="Speak your question">🎤</button>
       </div>
       <button class="ask-btn" onclick="askAaraAI()">Ask AI</button>
     </div>
 
     <div>
-      <p style="font-size: 13px; color: #6c8eb8; margin-bottom: 6px;">Quick Electronics Topics:</p>
+      <p style="font-size: 13px; color: #6c8eb8; margin-bottom: 6px;">Quick Component Topics:</p>
       <div class="suggestions">
+        <div class="chip" onclick="setQuery('Capacitor use')">What is a Capacitor?</div>
         <div class="chip" onclick="setQuery('How does an LED blink')">How does an LED blink?</div>
         <div class="chip" onclick="setQuery('Why does a DC motor spin')">Why does a DC motor spin?</div>
-        <div class="chip" onclick="setQuery('Arduino alternatives like ESP32')">Arduino alternatives</div>
         <div class="chip" onclick="setQuery('Robot moving backward issue')">Robot moving backward</div>
       </div>
     </div>
@@ -100,16 +99,15 @@
     <div id="resultCard" class="result-card">
       <h3 id="resultTitle">🤖 Aaraa AI Solution</h3>
       <p id="resultText">Your solution will appear here...</p>
-      <button id="speakBtn" class="speak-audio-btn" onclick="speakResponse()">🔊 Listen to Voice</button>
+      <button id="speakBtn" class="speak-audio-btn" onclick="speakResponse()">🔊 முழுமையாகக் கேளுங்கள் (Listen Voice)</button>
     </div>
   </div>
 </div>
 
-<!-- Back Arrow to Page 3 -->
 <a class="back-arrow" href="project1-page3.html" title="Back to Circuit">&#10094;</a>
 
 <script>
-  let lastSpokenText = "";
+  let fullExplanationText = "";
 
   function setQuery(text) {
     document.getElementById('userInput').value = text;
@@ -117,11 +115,11 @@
   }
 
   function speakResponse() {
-    if ('speechSynthesis' in window && lastSpokenText) {
-      window.speechSynthesis.cancel(); // Stop any ongoing speech
-      let utterance = new SpeechSynthesisUtterance(lastSpokenText);
-      utterance.rate = 1.0; // Speed
-      utterance.pitch = 1.0; // Tone
+    if ('speechSynthesis' in window && fullExplanationText) {
+      window.speechSynthesis.cancel(); // Stop any previous voice
+      let utterance = new SpeechSynthesisUtterance(fullExplanationText);
+      utterance.rate = 0.95; // Normal clear reading speed
+      utterance.pitch = 1.0;
       window.speechSynthesis.speak(utterance);
     } else {
       alert("Speech synthesis is not supported on your browser.");
@@ -141,22 +139,20 @@
 
     resultCard.style.display = "block";
 
-    // Broad Electronics Keywords List
     let electronicsKeywords = [
       'motor', 'sensor', 'ir', 'arduino', 'l298n', 'battery', 'wire', 'wiring', 
       'power', 'code', 'pin', 'ena', 'enb', 'in1', 'in2', 'in3', 'in4', 'robot', 
       'chassis', 'switch', 'wheel', 'speed', 'backward', 'forward', 'turning', 'light', 'volt', 'gnd', '5v', '12v',
       'led', 'blink', 'esp32', 'nodemcu', 'resistor', 'capacitor', 'transistor', 'relay', 'ic', 'microcontroller', 'circuit', 'current', 'voltage',
-      'மோட்டார்', 'சென்சார்', 'ஒயர்', 'பேட்டரி', 'ரோபோ', 'ஆர்டினோ', 'எலக்ட்ரானிக்ஸ்'
+      'கெப்பாசிட்டர்', 'capacitor', 'மோட்டார்', 'சென்சார்', 'ஒயர்', 'பேட்டரி', 'ரோபோ', 'ஆர்டினோ', 'எலக்ட்ரானிக்ஸ்'
     ];
 
     let isElectronics = electronicsKeywords.some(keyword => query.includes(keyword));
 
     if (!isElectronics) {
       resultTitle.innerHTML = "🤖 Aaraa AI - Notice";
-      let msg = "மன்னிக்கவும்! என்னால் எலக்ட்ரானிக்ஸ், சர்க்யூட் மற்றும் மைக்ரோகண்ட்ரோலர் சம்பந்தப்பட்ட சந்தேகங்களுக்கு மட்டுமே பதிலளிக்க முடியும்.";
-      resultText.innerHTML = msg;
-      lastSpokenText = msg;
+      fullExplanationText = "மன்னிக்கவும்! என்னால் எலக்ட்ரானிக்ஸ், சர்க்யூட் மற்றும் மைக்ரோகண்ட்ரோலர் சம்பந்தப்பட்ட சந்தேகங்களுக்கு மட்டுமே பதிலளிக்க முடியும்.";
+      resultText.innerHTML = fullExplanationText;
       speakResponse();
       return;
     }
@@ -164,69 +160,13 @@
     resultTitle.innerHTML = "🤖 Aaraa AI Solution (Verified)";
     let responseHtml = "";
 
-    if (query.includes('led') || query.includes('blink')) {
-      responseHtml = "<b>LED பிளிங்க் ஆகுவது எப்படி?</b><br>ஆர்டினோ அல்லது மைக்ரோகண்ட்ரோலரில் உள்ள டிஜிட்டல் பின் மூலம் குறிப்பிட்ட இடைவெளியில் (Delay) <code>HIGH</code> (5V கரண்ட் கொடுத்து ஆன் செய்வது) மற்றும் <code>LOW</code> (0V கொடுத்து ஆஃப் செய்வது) கட்டளைகளை மாற்றி மாற்றி வழங்குவதன் மூலம் LED ஒளிர்கிறது.";
+    if (query.includes('capacitor') || query.includes('கெப்பாசிட்டர்')) {
+      responseHtml = "<b>கெப்பாசிட்டர் என்பது என்ன மற்றும் அதன் பயன்பாடு:</b><br>" +
+                     "1. <b>வரையறை:</b> கெப்பாசிட்டர் என்பது மின்சாரத்தை (Electrical Energy) தற்காலிகமாக சேமித்து வைத்து, தேவைப்படும்போது உடனடியாக வெளிப்படுத்தும் ஒரு சிறிய எலக்ட்ரானிக்ஸ் காம்போனென்ட் ஆகும்.<br>" +
+                     "2. <b>முக்கிய பயன்பாடுகள்:</b> சர்க்யூட்டில் வரும் திடீர் வோல்டேஜ் மாற்றங்களை (Voltage Spikes) தடுத்து சீரான மின்சாரத்தை வழங்கும் (Filtering). மேலும் மோட்டார்கள் மற்றும் சுவிட்சுகளில் ஏற்படும் மின்னிறக்க சத்தத்தைக் கட்டுப்படுத்தும்.";
+    } 
+    else if (query.includes('led') || query.includes('blink')) {
+      responseHtml = "<b>LED பிளிங்க் ஆகுவது எப்படி?</b><br>" +
+                     "ஆர்டினோ அல்லது மைக்ரோகண்ட்ரோலரில் உள்ள டிஜிட்டல் பின் மூலம் குறிப்பிட்ட இடைவெளியில் ஐந்து வோல்ட் மின்சாரத்தை மாற்றி மாற்றி வழங்கி ஆன் மற்றும் ஆஃப் செய்வதன் மூலம் எல்.ஈ.டி ஒளிர்கிறது.";
     } 
     else if (query.includes('motor') || query.includes('spin') || query.includes('rotate') || query.includes('சுத்துறது')) {
-      responseHtml = "<b>மோட்டார் சுற்றுவதற்கான காரணம்:</b> மின்காந்தவியல் (Electromagnetism) கோட்பாட்டின்படி, ஒரு காயிலுக்குள் (Coil) மின்சாரம் பாயும் போது காந்தப்புலம் உருவாகிறது. இது மோட்டாரில் உள்ள நிரந்தர காந்தத்துடன் வினைபுரிந்து ரோட்டரைச் சுழல வைக்கிறது.";
-    } 
-    else if (query.includes('alternative') || query.includes('board') || query.includes('esp32') || query.includes('nodemcu') || query.includes('ஆர்டினோக்கு பதிலா')) {
-      responseHtml = "<b>ஆர்டினோவிற்குப் பதிலாக என்ன போர்டுகள் பயன்படுத்தலாம்?</b><br>1. <b>ESP32 / NodeMCU:</b> வைஃபை (Wi-Fi) மற்றும் புளூடூத் வசதி தேவைப்படும் ஐஓடி (IoT) ப்ராஜெக்ட்களுக்கு மிகச் சிறந்தது.<br>2. <b>Arduino Nano:</b> ஆர்டினோவின் சிறிய வடிவம் (Compact size).<br>3. <b>Raspberry Pi Pico:</b> அதிக வேகம் மற்றும் சக்தி வாய்ந்த மைக்ரோகண்ட்ரோலர்.";
-    }
-    else if (query.includes('backward') || query.includes('reverse') || query.includes('மாறி ஓடுது')) {
-      responseHtml = "<b>பிரச்சனை:</b> ரோபோ முன்னோக்கிப் போக வேண்டியது பின்னோக்கிப் போகிறது.<br><b>தீர்வு:</b> L298N டிரைவரில் உள்ள மோட்டார் வயர்களை (OUT1, OUT2 அல்லது OUT3, OUT4) மாற்றி மாற்றிக் கொடுத்துப் பார்க்கவும்.";
-    } 
-    else if (query.includes('ir') || query.includes('sensor') || query.includes('line') || query.includes('light')) {
-      responseHtml = "<b>பிரச்சனை:</b> IR சென்சார் கோட்டைக் கண்டறியவில்லை.<br><b>தீர்வு:</b> சென்சாரில் உள்ள பொட்டன்ஷியோமீட்டர் (Blue Knob) நப்பைத் திருடி சென்சிவிட்டியைக் கூட்டவும் அல்லது குறைக்கவும.";
-    } 
-    else if (query.includes('power') || query.includes('arduino') || query.includes('on')) {
-      responseHtml = "<b>பவர் சப்ளை தீர்வு:</b> L298N-ன் 5V அவுட்புட் பின்னில் இருந்து ஆர்டினோ 5V பினுக்கு ரெட் வயர் சரியாக இணைக்கப்பட்டுள்ளதா என்பதை உறுதிப்படுத்தவும்.";
-    } 
-    else {
-      responseHtml = "<b>எலக்ட்ரானிக்ஸ் பொதுவான வழிகாட்டுதல்:</b> நீங்கள் கேட்ட கேள்விக்கு: அனைத்து சர்க்யூட் இணைப்புகளும், பவர் வோல்டேஜும் (5V / 12V) சரியாக இருக்கிறதா என மல்டிமீட்டர் கொண்டு சோதிக்கவும்.";
-    }
-
-    resultText.innerHTML = responseHtml;
-    // Strip HTML tags for smooth text-to-speech reading
-    lastSpokenText = responseHtml.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
-    speakResponse(); // Automatically speak out the response!
-  }
-
-  // Voice Recognition (Speech-to-Text)
-  const micBtn = document.getElementById('micBtn');
-  const userInput = document.getElementById('userInput');
-
-  if ('webkitSpeechRecognition' in window || 'speechRecognition' in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-
-    micBtn.addEventListener('click', () => {
-      micBtn.classList.add('listening');
-      userInput.placeholder = "Listening... Speak now!";
-      recognition.start();
-    });
-
-    recognition.onresult = (event) => {
-      const speechToText = event.results[0][0].transcript;
-      userInput.value = speechToText;
-      micBtn.classList.remove('listening');
-      userInput.placeholder = "e.g., How does LED blink, motor working...";
-      askAaraAI();
-    };
-
-    recognition.onerror = () => {
-      micBtn.classList.remove('listening');
-      userInput.placeholder = "Voice recognition error. Try typing.";
-    };
-
-    recognition.onend = () => {
-      micBtn.classList.remove('listening');
-    };
-  } else {
-    micBtn.style.display = 'none';
-  }
-</script>
-
-</body>
-</html>
