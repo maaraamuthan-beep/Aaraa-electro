@@ -100,7 +100,7 @@
     <div id="resultCard" class="result-card">
       <h3 id="resultTitle">🤖 Aaraa AI Solution</h3>
       <p id="resultText">Your solution will appear here...</p>
-      <button id="speakBtn" class="speak-audio-btn" onclick="speakResponse()">🔊 தமிழில் ஒலிக்கச் செய் (Listen Tamil Voice)</button>
+      <button id="speakBtn" class="speak-audio-btn" onclick="speakResponse()">🔊 ஒலிக்கச் செய் (Listen Voice)</button>
     </div>
   </div>
 </div>
@@ -110,15 +110,15 @@
 <script>
   let fullExplanationText = "";
 
-  // Page Load - Automatic Welcome Speech introducing ஆரா அமுதன்
+  // Page Load - Automatic Welcome Speech in Tanglish for smooth voice output
   window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       if ('speechSynthesis' in window) {
-        let welcomeMessage = "வணக்கம்! நான் தான் ஆரா அமுதன் அவர்களால் உருவாக்கப்பட்ட ஆரா ஏஐ. உங்களுக்கு எலக்ட்ரானிக்ஸ் சம்பந்தப்பட்ட எந்தக் கேள்வியாக இருந்தாலும் என்னிடம் கேட்கலாம். நான் தமிழில் பதிலளிப்பேன்!";
+        let welcomeMessage = "Vanakkam! Naan thaan Aaraa Amuthan avargalaal uruvaakkappatta Aaraa A.I. Ungalukku electronics sambanthappatta entha kelviyaagavum ennidam கேட்கlaam. Naan thamizhil pathil alippen!";
         let utterance = new SpeechSynthesisUtterance(welcomeMessage);
         utterance.rate = 0.95;
         utterance.pitch = 1.0;
-        utterance.lang = 'ta-IN';
+        utterance.lang = 'en-US';
         window.speechSynthesis.speak(utterance);
       }
     }, 1000);
@@ -135,7 +135,7 @@
       let utterance = new SpeechSynthesisUtterance(fullExplanationText);
       utterance.rate = 0.95;
       utterance.pitch = 1.0;
-      utterance.lang = 'ta-IN';
+      utterance.lang = 'en-US';
       window.speechSynthesis.speak(utterance);
     } else {
       alert("Speech synthesis is not supported on your browser.");
@@ -167,8 +167,8 @@
 
     if (!isElectronics) {
       resultTitle.innerHTML = "🤖 Aaraa AI - Notice";
-      fullExplanationText = "மன்னிக்கவும்! என்னால் எலக்ட்ரானிக்ஸ், சர்க்யூட் மற்றும் மைக்ரோகண்ட்ரோலர் சம்பந்தப்பட்ட சந்தேகங்களுக்கு மட்டுமே பதிலளிக்க முடியும்.";
-      resultText.innerHTML = fullExplanationText;
+      resultText.innerHTML = "மன்னிக்கவும்! என்னால் எலக்ட்ரானிக்ஸ், சர்க்யூட் மற்றும் மைக்ரோகண்ட்ரோலர் சம்பந்தப்பட்ட சந்தேகங்களுக்கு மட்டுமே பதிலளிக்க முடியும்.";
+      fullExplanationText = "Mannikkavum! Ennaal electronics, circuit matrum microcontroller sambandappatta sandehangalukku mattume pathilalikka mudiyum.";
       speakResponse();
       return;
     }
@@ -180,34 +180,47 @@
       responseHtml = "<b>கெப்பாசிட்டர் என்பது என்ன மற்றும் அதன் பயன்பாடு:</b><br>" +
                      "1. <b>வரையறை:</b> கெப்பாசிட்டர் என்பது மின்சாரத்தை தற்காலிகமாக சேமித்து வைத்து, தேவைப்படும்போது உடனடியாக வெளிப்படுத்தும் ஒரு சிறிய எலக்ட்ரானிக்ஸ் காம்போனென்ட் ஆகும்.<br>" +
                      "2. <b>முக்கிய பயன்பாடுகள்:</b> சர்க்யூட்டில் வரும் திடீர் வோல்டேஜ் மாற்றங்களைத் தடுத்து சீரான மின்சாரத்தை வழங்கும். மேலும் மோட்டார்கள் மற்றும் சுவிட்சுகளில் ஏற்படும் சத்தத்தைக் கட்டுப்படுத்தும்.";
+      
+      fullExplanationText = "Capacitor enbathu minsaarathai thaarkaalikamaaga சேமித்து veithu, thevaippadumpothu udanadiyaaga velippaduthum oru siriya electronics component ஆகும். Circuit-il varum thideer voltage maatrangalai thaduthu seerana minsaarathai வழங்குகிறது.";
     } 
     else if (query.includes('led') || query.includes('blink')) {
       responseHtml = "<b>LED பிளிங்க் ஆகுவது எப்படி?</b><br>" +
                      "ஆர்டினோ அல்லது மைக்ரோகண்ட்ரோலரில் உள்ள டிஜிட்டல் பின் மூலம் குறிப்பிட்ட இடைவெளியில் ஐந்து வோல்ட் மின்சாரத்தை மாற்றி மாற்றி வழங்கி ஆன் மற்றும் ஆஃப் செய்வதன் மூலம் எல்.ஈ.டி ஒளிர்கிறது.";
+      
+      fullExplanationText = "L.E.D blink aavathu eppadi? Arduino digital pin moolam kurippitta idaiveliyil ainthu volt minsaarathai maatri maatri வழங்கி on matrum off sevvathal L.E.D olirkirathu.";
     } 
     else if (query.includes('motor') || query.includes('spin') || query.includes('rotate') || query.includes('சுத்துறது')) {
       responseHtml = "<b>மோட்டார் சுற்றுவதற்கான காரணம்:</b><br>" +
                      "மின்காந்தவியல் கோட்பாட்டின்படி, மோட்டாரில் உள்ள காயிலுக்குள் மின்சாரம் பாயும் போது காந்தப்புலம் உருவாகிறது. இது மோட்டாரில் உள்ள நிரந்தர காந்தத்துடன் வினைபுரிந்து ரோட்டரைச் சுழல வைக்கிறது.";
+      
+      fullExplanationText = "Motor suttuvatarkaana kaaranam: Electromagnetism kottpaattin padi, motor-il ulla coil-ukkul minsaram paayum pothu kaanthappulam uruvaagurathu. Ithu motor-ai suthala vaikkirathu.";
     } 
     else if (query.includes('alternative') || query.includes('board') || query.includes('esp32') || query.includes('nodemcu')) {
       responseHtml = "<b>ஆர்டினோவிற்குப் பதிலாக என்ன போர்டுகள் பயன்படுத்தலாம்?</b><br>" +
                      "வைஃபை மற்றும் புளூடூத் வசதிக்கு ஈ.எஸ்.பி முப்பத்து இரண்டு (ESP32) அல்லது நோட் எம்.சி.யு (NodeMCU) பயன்படுத்தலாம். சிறிய வேலைகளுக்கு ஆர்டினோ நானோ சிறந்தது.";
+      
+      fullExplanationText = "Arduino-varkku pathilaaga E.S.P. thirty two allathu Node.M.C.U. use seyyalaam. Siriya velaigalukku Arduino Nano siranthathu.";
     }
     else if (query.includes('backward') || query.includes('reverse') || query.includes('robot') || query.includes('மாறி ஓடுது')) {
       responseHtml = "<b>பிரச்சனை மற்றும் தீர்வு:</b><br>" +
                      "ரோபோ முன்னோக்கிப் போக வேண்டியது பின்னோக்கிப் போகிறது என்றால், எல்.298.என் மோட்டார் டிரைவரில் உள்ள மோட்டார் வயர்களை மாற்றி மாற்றிக் கொடுக்க வேண்டும்.";
+      
+      fullExplanationText = "Robot munnokki poga vendiyathu pinnokki pogirathu entraal, L.298.N motor driver-il ulla motor wire-kalai maatri maatri kodukka vendum.";
     } 
     else if (query.includes('ir') || query.includes('sensor') || query.includes('line')) {
       responseHtml = "<b>ஐ.ஆர் சென்சார் தீர்வு:</b><br>" +
                      "சென்சார் கோட்டைக் கண்டறியவில்லை என்றால், அதில் உள்ள நீல நிற நப்பை திருப்பி சென்சிவிடியை சரிசெய்ய வேண்டும்.";
+      
+      fullExplanationText = "I.R. sensor kottai kandariyavillai entraal, athil ulla neela niram knob-ai thirupi sensitivity-ai sari seyyavendum.";
     } 
     else {
       responseHtml = "<b>பொதுவான எலக்ட்ரானிக்ஸ் விளக்கம்:</b><br>" +
                      "நீங்கள் கேட்டுள்ள இந்த காம்போனென்ட் அல்லது சர்க்யூட் பகுதியில், அனைத்து வயர் இணைப்புகளும் மற்றும் ஐந்து வோல்ட் அல்லது பன்னிரண்டு வோல்ட் பவர் சப்ளையும் சரியாக இணைக்கப்பட்டுள்ளதா எனச் சரிபார்க்கவும்.";
+      
+      fullExplanationText = "Neengal kettullaantha component allathu circuit பகுதியில், anaithu wire inaippukalum sariyaaga inaikkappattullatha ena sari paarungal.";
     }
 
     resultText.innerHTML = responseHtml;
-    fullExplanationText = responseHtml.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/\//g, ' ');
     speakResponse();
   }
 
