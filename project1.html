@@ -3,233 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project Details | Aara Electro</title>
+<title>Arduino Line Following Robot - Aaraa Electro</title>
 <style>
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#89cff0;
-    color:#09245b;
-    padding:20px;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #eaf4ff; color: #0b2a5b; min-height: 100vh; }
+  .topbar { background: linear-gradient(90deg, #0b3fbf, #00b4f0); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar a { color: #fff; text-decoration: none; font-weight: bold; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; }
+  .topbar h2 { font-size: 22px; }
+  .banner { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; text-align: center; padding: 50px 20px; }
+  .banner h1 { font-size: 40px; text-shadow: 0 3px 8px rgba(0,0,0,0.3); }
+  .banner p { margin-top: 10px; font-size: 18px; }
+  .container { max-width: 1000px; margin: 30px auto; padding: 0 20px 100px; }
+  .card { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 28px; box-shadow: 0 6px 18px rgba(11,63,191,0.12); }
+  .card h2 { color: #0b3fbf; margin-bottom: 12px; }
+  .card p { line-height: 1.7; font-size: 17px; margin-bottom: 10px; }
+  .photos { display: flex; gap: 20px; flex-wrap: wrap; }
+  .photo-box { flex: 1; min-width: 260px; height: 260px; border: 3px dashed #4aa8ff; border-radius: 14px; background: #f3f9ff; display: flex; align-items: center; justify-content: center; text-align: center; color: #4a78b8; overflow: hidden; }
+  .photo-box img { width: 100%; height: 100%; object-fit: cover; }
+  .next-arrow { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); animation: shake 1s infinite; }
+  @keyframes shake {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(-8px); }
+    50% { transform: translateY(-50%) translateX(6px); }
+    75% { transform: translateY(-50%) translateX(-4px); }
   }
-  header{
-    background:#075de8;
-    color:#fff;
-    padding:18px 5%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-  }
-  header a{
-    color:white;
-    text-decoration:none;
-    font-weight:bold;
-    background:#043ca6;
-    padding:8px 15px;
-    border-radius:20px;
-    transition:0.3s;
-  }
-  header a:hover{background:#022566;}
-  .wrap{max-width:950px;margin:30px auto;padding:0 10px}
-  .card{
-    background:#fff;
-    border:2px solid #5ceaff;
-    border-radius:18px;
-    padding:30px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.15);
-  }
-  h1{color:#075de8;margin-top:0;font-size:32px;}
-  h2{color:#062a82;border-bottom:2px solid #c8dcff;padding-bottom:8px;margin-top:30px;}
-  p, li{font-size:16px;line-height:1.6;color:#17336b;}
-  
-  .upload-container{
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
-    margin:20px 0;
-  }
-  .upload-box{
-    flex:1;
-    min-width:250px;
-    height:180px;
-    border:3px dashed #075de8;
-    border-radius:12px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    background:#f0f8ff;
-    cursor:pointer;
-    position:relative;
-    transition:0.3s;
-  }
-  .upload-box:hover{background:#e1f2ff;}
-  .upload-box input{
-    position:absolute;
-    width:100%;
-    height:100%;
-    opacity:0;
-    cursor:pointer;
-  }
-  .upload-box span{font-weight:bold;color:#075de8;text-align:center;padding:10px;}
-
-  .component-item{
-    display:flex;
-    align-items:center;
-    gap:15px;
-    background:#f4f9ff;
-    padding:10px 15px;
-    border-radius:10px;
-    margin-bottom:10px;
-    border:1px solid #d0e4ff;
-  }
-  .component-thumb{
-    width:50px;
-    height:50px;
-    background:#c8dcff;
-    border-radius:8px;
-    display:grid;
-    place-items:center;
-    font-size:12px;
-    color:#075de8;
-    font-weight:bold;
-    text-align:center;
-  }
-
-  pre{
-    background:#071b3f;
-    color:#e5f5ff;
-    padding:18px;
-    border-radius:12px;
-    overflow:auto;
-    font-family:Consolas,monospace;
-  }
-  button.copy-btn{
-    background:#075de8;
-    color:#fff;
-    border:0;
-    padding:10px 20px;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
-    margin-top:10px;
-    transition:0.3s;
-  }
-  button.copy-btn:hover{background:#0343ae;}
-
-  .video-section{
-    background:#e8f3ff;
-    border-left:5px solid #ff0000;
-    padding:15px;
-    border-radius:8px;
-    margin-top:20px;
-  }
-  .video-link{
-    display:inline-block;
-    background:#ff0000;
-    color:white;
-    padding:10px 20px;
-    border-radius:25px;
-    text-decoration:none;
-    font-weight:bold;
-    margin-top:10px;
-    transition:0.3s;
-  }
-  .video-link:hover{background:#cc0000;}
 </style>
 </head>
 <body>
 
-<header>
-  <strong>⚡ Aara Electro</strong>
-  <a href="index1.html">← Back to Search</a>
-</header>
-
-<div class="wrap">
-  <article class="card">
-    <h1 id="projectName">Project Title</h1>
-    <p id="projectDesc">Project description will appear here.</p>
-
-    <h2>1. Project Photos</h2>
-    <p>உங்கள் சாதனத்தின் போட்டோக்களை இங்கே அப்லோட் செய்து கொள்ளலாம்:</p>
-    <div class="upload-container">
-      <div class="upload-box">
-        <input type="file" accept="image/*">
-        <span>📷 Photo 1 Upload இங்கே கிளிக் செய்யவும்</span>
-      </div>
-      <div class="upload-box">
-        <input type="file" accept="image/*">
-        <span>📷 Photo 2 Upload இங்கே கிளிக் செய்யவும்</span>
-      </div>
-    </div>
-
-    <h2>2. Component List</h2>
-    <div id="componentList">
-      <div class="component-item">
-        <div class="component-thumb">Photo</div>
-        <div><strong>Arduino / ESP32</strong> - Microcontroller board</div>
-      </div>
-      <div class="component-item">
-        <div class="component-thumb">Photo</div>
-        <div><strong>Connecting Wires</strong> - Jumper wires</div>
-      </div>
-    </div>
-
-    <h2>3. Circuit Diagram & Arduino IDE Setup</h2>
-    <p><strong>Arduino IDE இன்ஸ்டால் செய்தல்:</strong> சாஃப்ட்வேரை இன்ஸ்டால் செய்து போர்ட்டைத் தேர்வு செய்யவும்.</p>
-    <div style="background:#f0f8ff; padding:15px; border-radius:8px; border:1px dashed #075de8; text-align:center; margin:15px 0;">
-      <p style="margin:0; font-weight:bold; color:#075de8;">[சர்க்யூட் டயக்ராம் படம் இங்கே கொடுக்கப்படும்]</p>
-    </div>
-
-    <h2>4. Project Code</h2>
-    <pre><code id="projectCode">
-// Aara Electro Arduino Code
-void setup() {
-  Serial.begin(9600);
-}
-void loop() {
-  // Main code here
-}
-    </code></pre>
-    <button class="copy-btn" onclick="copyCode()">Copy Code</button>
-
-    <h2>5. Watch Live Working Video</h2>
-    <div class="video-section">
-      <p>இந்த ப்ராஜெக்ட்டின் லைவ் ஒர்க்கிங் வீடியோவை பார்க்க என் YouTube சேனல் லிங்கை கிளிக் செய்யவும்:</p>
-      <a href="https://youtube.com/@YourChannelName" target="_blank" class="video-link">▶ Watch on YouTube</a>
-    </div>
-
-  </article>
+<div class="topbar">
+  <h2>Aara Electro</h2>
+  <a href="search.html">&larr; Back to Search</a>
 </div>
 
-<script>
-  const projectsData = {
-    "line-following": ["Arduino Line Following Robot", "Build a smart robot that follows a line using Arduino sensors and motors."],
-    "obstacle-avoiding": ["Arduino Obstacle Avoiding Robot", "Create a robot that detects obstacles using ultrasonic sensors and moves around them."],
-    "led-blinking": ["Arduino LED Blinking Project", "Learn the basics by making an LED blink with Arduino digital pins."],
-    "home-automation": ["Arduino Home Automation", "Explore a simple home automation project with Arduino and Bluetooth/Wi-Fi."],
-    "esp32-wifi-car": ["ESP32 Wi-Fi Controlled Car", "Control a small car wirelessly using an ESP32 microcontroller and Wi-Fi network."]
-  };
+<div class="banner">
+  <h1>Arduino Line Following Robot</h1>
+  <p>Build a smart robot that follows a line using Arduino.</p>
+</div>
 
-  const urlParams = new URLSearchParams(location.search);
-  const projectId = urlParams.get("id");
-  const proj = projectsData[projectId];
+<div class="container">
 
-  if(proj){
-    document.getElementById("projectName").textContent = proj[0];
-    document.getElementById("projectDesc").textContent = proj[1];
-    document.title = proj[0] + " | Aara Electro";
-  }
+  <div class="card">
+    <h2>What is this project?</h2>
+    <p>A line following robot is a small car that drives by itself along a black line on the floor. It does not need a remote control. It uses sensors to find the line and an Arduino to decide where to turn.</p>
+  </div>
 
-  function copyCode() {
-    const codeText = document.getElementById("projectCode").innerText;
-    navigator.clipboard.writeText(codeText);
-    alert("Code Copied successfully!");
-  }
-</script>
+  <div class="card">
+    <h2>How does it work scientifically?</h2>
+    <p>The robot has infrared (IR) sensors under it. Each sensor sends out infrared light and checks how much light comes back. A white floor reflects most of the light back. A black line absorbs the light, so very little comes back.</p>
+    <p>The Arduino reads the sensors. If the left sensor sees black, the robot turns left. If the right sensor sees black, it turns right. If the line is in the middle, it goes straight. The Arduino controls the wheel motors through a motor driver, so the robot keeps correcting itself and stays on the line.</p>
+  </div>
+
+  <div class="card">
+    <h2>Real Project Photos</h2>
+    <div class="photos">
+      <div class="photo-box">
+        <!-- To add your photo, replace this text with: <img src="photo1.jpg" alt="Robot photo 1"> -->
+        Photo 1 - upload here
+      </div>
+      <div class="photo-box">
+        <!-- To add your photo, replace this text with: <img src="photo2.jpg" alt="Robot photo 2"> -->
+        Photo 2 - upload here
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<a class="next-arrow" href="project1-page2.html" title="Next page">&#10095;</a>
 
 </body>
 </html>
