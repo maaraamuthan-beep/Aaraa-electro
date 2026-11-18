@@ -16,7 +16,7 @@
   .banner h1 { font-size: 32px; text-shadow: 0 3px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; gap: 12px; }
   .banner p { margin-top: 8px; font-size: 15px; color: #dff8ff; }
 
-  .robot-icon { font-size: 36px; background: rgba(255,255,255,0.2); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+  .robot-icon { font-size: 36px; background: rgba(255,255,255,0.2); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: bounce 2s infinite; }
 
   .container { max-width: 800px; margin: 30px auto; padding: 0 20px 80px; width: 100%; flex: 1; }
   
@@ -56,6 +56,7 @@
     50% { transform: translateY(-50%) translateX(6px); }
     75% { transform: translateY(-50%) translateX(-4px); }
   }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
   @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1.1); } }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 </style>
@@ -69,37 +70,37 @@
 
 <div class="banner">
   <h1><div class="robot-icon">🤖</div> Aaraa AI Assistant</h1>
-  <p>Ask any electronics, components, or circuit questions!</p>
+  <p>Created by ஆரா அமுதன் | Ask any electronics questions, get answers in Tamil!</p>
 </div>
 
 <div class="container">
   <div class="ai-box">
     <h3>🔍 Electronics & Components AI Hub</h3>
-    <p style="color: #4a6b9c; font-size: 14px;">Type or speak about capacitors, resistors, LED, motors, sensors, etc.</p>
+    <p style="color: #4a6b9c; font-size: 14px;">Type or speak any electronics question (English/Tamil) - AI will explain everything in Tamil!</p>
 
     <div class="search-container">
       <div class="search-bar-wrapper">
         <span class="robot-mini">🤖</span>
-        <input type="text" id="userInput" class="search-input" placeholder="e.g., Capacitor use, LED blink, motor working...">
+        <input type="text" id="userInput" class="search-input" placeholder="Type or speak (e.g., capacitor use, LED blink)...">
         <button id="micBtn" class="mic-btn" title="Speak your question">🎤</button>
       </div>
       <button class="ask-btn" onclick="askAaraAI()">Ask AI</button>
     </div>
 
     <div>
-      <p style="font-size: 13px; color: #6c8eb8; margin-bottom: 6px;">Quick Component Topics:</p>
+      <p style="font-size: 13px; color: #6c8eb8; margin-bottom: 6px;">Quick Topics (Click to ask):</p>
       <div class="suggestions">
-        <div class="chip" onclick="setQuery('Capacitor use')">What is a Capacitor?</div>
-        <div class="chip" onclick="setQuery('How does an LED blink')">How does an LED blink?</div>
-        <div class="chip" onclick="setQuery('Why does a DC motor spin')">Why does a DC motor spin?</div>
-        <div class="chip" onclick="setQuery('Robot moving backward issue')">Robot moving backward</div>
+        <div class="chip" onclick="setQuery('capacitor use')">Capacitor use</div>
+        <div class="chip" onclick="setQuery('LED blink')">LED blink</div>
+        <div class="chip" onclick="setQuery('DC motor spin')">DC motor spin</div>
+        <div class="chip" onclick="setQuery('Robot moving backward')">Robot moving backward</div>
       </div>
     </div>
 
     <div id="resultCard" class="result-card">
       <h3 id="resultTitle">🤖 Aaraa AI Solution</h3>
       <p id="resultText">Your solution will appear here...</p>
-      <button id="speakBtn" class="speak-audio-btn" onclick="speakResponse()">🔊 முழுமையாகக் கேளுங்கள் (Listen Voice)</button>
+      <button id="speakBtn" class="speak-audio-btn" onclick="speakResponse()">🔊 தமிழில் ஒலிக்கச் செய் (Listen Tamil Voice)</button>
     </div>
   </div>
 </div>
@@ -109,6 +110,20 @@
 <script>
   let fullExplanationText = "";
 
+  // Page Load - Automatic Welcome Speech introducing ஆரா அமுதன்
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      if ('speechSynthesis' in window) {
+        let welcomeMessage = "வணக்கம்! நான் தான் ஆரா அமுதன் அவர்களால் உருவாக்கப்பட்ட ஆரா ஏஐ. உங்களுக்கு எலக்ட்ரானிக்ஸ் சம்பந்தப்பட்ட எந்தக் கேள்வியாக இருந்தாலும் என்னிடம் கேட்கலாம். நான் தமிழில் பதிலளிப்பேன்!";
+        let utterance = new SpeechSynthesisUtterance(welcomeMessage);
+        utterance.rate = 0.95;
+        utterance.pitch = 1.0;
+        utterance.lang = 'ta-IN';
+        window.speechSynthesis.speak(utterance);
+      }
+    }, 1000);
+  });
+
   function setQuery(text) {
     document.getElementById('userInput').value = text;
     askAaraAI();
@@ -116,10 +131,11 @@
 
   function speakResponse() {
     if ('speechSynthesis' in window && fullExplanationText) {
-      window.speechSynthesis.cancel(); // Stop any previous voice
+      window.speechSynthesis.cancel();
       let utterance = new SpeechSynthesisUtterance(fullExplanationText);
-      utterance.rate = 0.95; // Normal clear reading speed
+      utterance.rate = 0.95;
       utterance.pitch = 1.0;
+      utterance.lang = 'ta-IN';
       window.speechSynthesis.speak(utterance);
     } else {
       alert("Speech synthesis is not supported on your browser.");
@@ -144,7 +160,7 @@
       'power', 'code', 'pin', 'ena', 'enb', 'in1', 'in2', 'in3', 'in4', 'robot', 
       'chassis', 'switch', 'wheel', 'speed', 'backward', 'forward', 'turning', 'light', 'volt', 'gnd', '5v', '12v',
       'led', 'blink', 'esp32', 'nodemcu', 'resistor', 'capacitor', 'transistor', 'relay', 'ic', 'microcontroller', 'circuit', 'current', 'voltage',
-      'கெப்பாசிட்டர்', 'capacitor', 'மோட்டார்', 'சென்சார்', 'ஒயர்', 'பேட்டரி', 'ரோபோ', 'ஆர்டினோ', 'எலக்ட்ரானிக்ஸ்'
+      'கெப்பாசிட்டர்', 'capacitor', 'மோட்டார்', 'சென்சார்', 'ஒயர்', 'பேட்டரி', 'ரோபோ', 'ஆர்டினோ', 'எலக்ட்ரானிக்ஸ்', 'use', 'how', 'why', 'what', 'working'
     ];
 
     let isElectronics = electronicsKeywords.some(keyword => query.includes(keyword));
@@ -157,16 +173,78 @@
       return;
     }
 
-    resultTitle.innerHTML = "🤖 Aaraa AI Solution (Verified)";
+    resultTitle.innerHTML = "🤖 Aaraa AI Solution (Verified by ஆரா அமுதன்)";
     let responseHtml = "";
 
-    if (query.includes('capacitor') || query.includes('கெப்பாசிட்டர்')) {
+    if (query.includes('capacitor') || query.includes('cap') || query.includes('கெப்பாசிட்டர்')) {
       responseHtml = "<b>கெப்பாசிட்டர் என்பது என்ன மற்றும் அதன் பயன்பாடு:</b><br>" +
-                     "1. <b>வரையறை:</b> கெப்பாசிட்டர் என்பது மின்சாரத்தை (Electrical Energy) தற்காலிகமாக சேமித்து வைத்து, தேவைப்படும்போது உடனடியாக வெளிப்படுத்தும் ஒரு சிறிய எலக்ட்ரானிக்ஸ் காம்போனென்ட் ஆகும்.<br>" +
-                     "2. <b>முக்கிய பயன்பாடுகள்:</b> சர்க்யூட்டில் வரும் திடீர் வோல்டேஜ் மாற்றங்களை (Voltage Spikes) தடுத்து சீரான மின்சாரத்தை வழங்கும் (Filtering). மேலும் மோட்டார்கள் மற்றும் சுவிட்சுகளில் ஏற்படும் மின்னிறக்க சத்தத்தைக் கட்டுப்படுத்தும்.";
+                     "1. <b>வரையறை:</b> கெப்பாசிட்டர் என்பது மின்சாரத்தை தற்காலிகமாக சேமித்து வைத்து, தேவைப்படும்போது உடனடியாக வெளிப்படுத்தும் ஒரு சிறிய எலக்ட்ரானிக்ஸ் காம்போனென்ட் ஆகும்.<br>" +
+                     "2. <b>முக்கிய பயன்பாடுகள்:</b> சர்க்யூட்டில் வரும் திடீர் வோல்டேஜ் மாற்றங்களைத் தடுத்து சீரான மின்சாரத்தை வழங்கும். மேலும் மோட்டார்கள் மற்றும் சுவிட்சுகளில் ஏற்படும் சத்தத்தைக் கட்டுப்படுத்தும்.";
     } 
     else if (query.includes('led') || query.includes('blink')) {
       responseHtml = "<b>LED பிளிங்க் ஆகுவது எப்படி?</b><br>" +
                      "ஆர்டினோ அல்லது மைக்ரோகண்ட்ரோலரில் உள்ள டிஜிட்டல் பின் மூலம் குறிப்பிட்ட இடைவெளியில் ஐந்து வோல்ட் மின்சாரத்தை மாற்றி மாற்றி வழங்கி ஆன் மற்றும் ஆஃப் செய்வதன் மூலம் எல்.ஈ.டி ஒளிர்கிறது.";
     } 
     else if (query.includes('motor') || query.includes('spin') || query.includes('rotate') || query.includes('சுத்துறது')) {
+      responseHtml = "<b>மோட்டார் சுற்றுவதற்கான காரணம்:</b><br>" +
+                     "மின்காந்தவியல் கோட்பாட்டின்படி, மோட்டாரில் உள்ள காயிலுக்குள் மின்சாரம் பாயும் போது காந்தப்புலம் உருவாகிறது. இது மோட்டாரில் உள்ள நிரந்தர காந்தத்துடன் வினைபுரிந்து ரோட்டரைச் சுழல வைக்கிறது.";
+    } 
+    else if (query.includes('alternative') || query.includes('board') || query.includes('esp32') || query.includes('nodemcu')) {
+      responseHtml = "<b>ஆர்டினோவிற்குப் பதிலாக என்ன போர்டுகள் பயன்படுத்தலாம்?</b><br>" +
+                     "வைஃபை மற்றும் புளூடூத் வசதிக்கு ஈ.எஸ்.பி முப்பத்து இரண்டு (ESP32) அல்லது நோட் எம்.சி.யு (NodeMCU) பயன்படுத்தலாம். சிறிய வேலைகளுக்கு ஆர்டினோ நானோ சிறந்தது.";
+    }
+    else if (query.includes('backward') || query.includes('reverse') || query.includes('robot') || query.includes('மாறி ஓடுது')) {
+      responseHtml = "<b>பிரச்சனை மற்றும் தீர்வு:</b><br>" +
+                     "ரோபோ முன்னோக்கிப் போக வேண்டியது பின்னோக்கிப் போகிறது என்றால், எல்.298.என் மோட்டார் டிரைவரில் உள்ள மோட்டார் வயர்களை மாற்றி மாற்றிக் கொடுக்க வேண்டும்.";
+    } 
+    else if (query.includes('ir') || query.includes('sensor') || query.includes('line')) {
+      responseHtml = "<b>ஐ.ஆர் சென்சார் தீர்வு:</b><br>" +
+                     "சென்சார் கோட்டைக் கண்டறியவில்லை என்றால், அதில் உள்ள நீல நிற நப்பை திருப்பி சென்சிவிடியை சரிசெய்ய வேண்டும்.";
+    } 
+    else {
+      responseHtml = "<b>பொதுவான எலக்ட்ரானிக்ஸ் விளக்கம்:</b><br>" +
+                     "நீங்கள் கேட்டுள்ள இந்த காம்போனென்ட் அல்லது சர்க்யூட் பகுதியில், அனைத்து வயர் இணைப்புகளும் மற்றும் ஐந்து வோல்ட் அல்லது பன்னிரண்டு வோல்ட் பவர் சப்ளையும் சரியாக இணைக்கப்பட்டுள்ளதா எனச் சரிபார்க்கவும்.";
+    }
+
+    resultText.innerHTML = responseHtml;
+    fullExplanationText = responseHtml.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/\//g, ' ');
+    speakResponse();
+  }
+
+  const micBtn = document.getElementById('micBtn');
+  const userInput = document.getElementById('userInput');
+
+  if ('webkitSpeechRecognition' in window || 'speechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+
+    micBtn.addEventListener('click', () => {
+      micBtn.classList.add('listening');
+      userInput.placeholder = "Listening... Speak now!";
+      recognition.start();
+    });
+
+    recognition.onresult = (event) => {
+      const speechToText = event.results[0][0].transcript;
+      userInput.value = speechToText;
+      micBtn.classList.remove('listening');
+      userInput.placeholder = "Type or speak (e.g., capacitor use)...";
+      askAaraAI();
+    };
+
+    recognition.onerror = () => {
+      micBtn.classList.remove('listening');
+      userInput.placeholder = "Voice recognition error. Try typing.";
+    };
+
+    recognition.onend = () => {
+      micBtn.classList.remove('listening');
+    };
+  } else {
+    micBtn.style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
