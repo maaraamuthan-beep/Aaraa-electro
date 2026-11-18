@@ -30,7 +30,11 @@
   
   .search-input { flex: 1; border: none; background: transparent; padding: 12px 5px; font-size: 16px; color: #0b2a5b; outline: none; }
   
-  .ask-btn { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(11,63,191,0.2); }
+  .mic-btn { background: #eef6ff; border: 1px solid #4aa8ff; color: #0b3fbf; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s; flex-shrink: 0; }
+  .mic-btn:hover { background: #0b3fbf; color: #fff; }
+  .mic-btn.listening { background: #d32f2f; color: #fff; border-color: #d32f2f; animation: pulse 1s infinite; }
+
+  .ask-btn { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(11,63,191,0.2); flex-shrink: 0; }
   .ask-btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
   .result-card { background: #f3f9ff; border-left: 5px solid #0b3fbf; border-radius: 8px; padding: 20px; margin-top: 10px; display: none; animation: fadeIn 0.3s ease; }
@@ -50,6 +54,7 @@
     75% { transform: translateY(-50%) translateX(-4px); }
   }
   @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1.1); } }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
@@ -68,12 +73,13 @@
 <div class="container">
   <div class="ai-box">
     <h3>🔍 Electronics & Components AI Hub</h3>
-    <p style="color: #4a6b9c; font-size: 14px;">Type any electronics question - AI will explain clearly in Tamil!</p>
+    <p style="color: #4a6b9c; font-size: 14px;">Type or use microphone to ask electronics questions - AI will explain clearly in Tamil!</p>
 
     <div class="search-container">
       <div class="search-bar-wrapper">
         <span class="robot-mini">🤖</span>
-        <input type="text" id="userInput" class="search-input" placeholder="Type here (e.g., what is capacitor, LED, motor)...">
+        <input type="text" id="userInput" class="search-input" placeholder="Type or click mic to speak (e.g., capacitor, LED)...">
+        <button id="micBtn" class="mic-btn" title="Speak your question">🎤</button>
       </div>
       <button class="ask-btn" onclick="askAaraAI()">Ask AI</button>
     </div>
@@ -88,7 +94,7 @@
       </div>
     </div>
 
-    <!-- Result Display Box (Text Only) -->
+    <!-- Result Display Box -->
     <div id="resultCard" class="result-card">
       <h3 id="resultTitle">🤖 Aaraa AI Solution</h3>
       <p id="resultText">Your solution will appear here...</p>
@@ -111,12 +117,13 @@
     let resultText = document.getElementById('resultText');
 
     if (!query) {
-      alert("தயவுசெய்து உங்கள் கேள்வியைத் டைப் செய்யவும்!");
+      alert("தயவுசெய்து உங்கள் கேள்வியைத் டைப் செய்யவும் அல்லது பேசவும்!");
       return;
     }
 
     resultCard.style.display = "block";
 
+    // Strict Electronics Keywords Checking
     let electronicsKeywords = [
       'motor', 'sensor', 'ir', 'arduino', 'l298n', 'battery', 'wire', 'wiring', 
       'power', 'code', 'pin', 'ena', 'enb', 'in1', 'in2', 'in3', 'in4', 'robot', 
@@ -125,9 +132,13 @@
       'கெப்பாசிட்டர்', 'capacitor', 'resistor', 'led', 'motor', 'மோட்டார்', 'சென்சார்', 'ஒயர்', 'பேட்டரி', 'ரோபோ', 'ஆர்டினோ', 'எலக்ட்ரானிக்ஸ்', 'what', 'how', 'why', 'use', 'working'
     ];
 
+    // Explicitly block non-electronics queries like biscuit, chocolate, food, etc.
+    let nonElectronicsTerms = ['biscuit', 'chocolate', 'food', 'movie', 'song', 'cricket', 'politics', 'biscuits', 'chocolates', 'recipe', 'cooking'];
+    let isNonElectronics = nonElectronicsTerms.some(term => query.includes(term));
+
     let isElectronics = electronicsKeywords.some(keyword => query.includes(keyword));
 
-    if (!isElectronics) {
+    if (isNonElectronics || !isElectronics) {
       resultTitle.innerHTML = "🤖 Aaraa AI - Notice";
       resultText.innerHTML = "மன்னிக்கவும்! என்னால் எலக்ட்ரானிக்ஸ் மற்றும் சர்க்யூட் சம்பந்தப்பட்ட சந்தேகங்களுக்கு மட்டுமே பதிலளிக்க முடியும்.";
       return;
@@ -152,7 +163,7 @@
     else if (query.includes('led') || query.includes('light')) {
       responseHtml = "<b>எல்.ஈ.டி (LED - Light Emitting Diode) என்றால் என்ன?</b><br><br>" +
                      "1. <b>வரையறை:</b> இது ஒரு செமிகண்டக்டர் காம்போனென்ட் ஆகும். இதன் வழியே மின்சாரம் பாயும் போது ஒளி வெளிப்படுகிறது.<br><br>" +
-                     "2. <b>முக்கிய பயன்பாடுகள்:</b> இண்டிகேட்டர்களாகவும், டிஸ்ப்ளே மற்றும் லைட்டிங் தேவைகளுக்கும் இது பயன்பടுகிறது.";
+                     "2. <b>முக்கிய பயன்பாடுகள்:</b> இண்டிகேட்டர்களாகவும், டிஸ்ப்ளே மற்றும் லைட்டிங் தேவைகளுக்கும் இது பயன்படுகிறது.";
     } 
     else if (query.includes('motor') || query.includes('dc motor')) {
       responseHtml = "<b>டி.சி மோட்டார் (DC Motor) என்றால் என்ன?</b><br><br>" +
@@ -165,6 +176,41 @@
     }
 
     resultText.innerHTML = responseHtml;
+  }
+
+  // Voice Recognition (Speech-to-Text) Setup
+  const micBtn = document.getElementById('micBtn');
+  const userInput = document.getElementById('userInput');
+
+  if ('webkitSpeechRecognition' in window || 'speechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US'; // Understands spoken English queries
+
+    micBtn.addEventListener('click', () => {
+      micBtn.classList.add('listening');
+      userInput.placeholder = "Listening... Speak now!";
+      recognition.start();
+    });
+
+    recognition.onresult = (event) => {
+      const speechToText = event.results[0][0].transcript;
+      userInput.value = speechToText;
+      micBtn.classList.remove('listening');
+      userInput.placeholder = "Type or click mic to speak...";
+      askAaraAI();
+    };
+
+    recognition.onerror = () => {
+      micBtn.classList.remove('listening');
+      userInput.placeholder = "Voice error. Try typing.";
+    };
+
+    recognition.onend = () => {
+      micBtn.classList.remove('listening');
+    };
+  } else {
+    micBtn.style.display = 'none';
   }
 </script>
 
