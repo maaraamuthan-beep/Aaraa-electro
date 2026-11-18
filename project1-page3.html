@@ -32,13 +32,22 @@
   .comp-details h3 { color: #0b2a5b; font-size: 18px; margin-bottom: 4px; }
   .comp-details p { color: #4a6b9c; font-size: 14px; }
   
-  /* Small Realistic Photo Box next to Component */
   .mini-photo { width: 78px; height: 78px; flex: none; border: 2px solid #4aa8ff; border-radius: 10px; background: #fff; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; padding: 2px; }
   .mini-photo img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; background: #f8fbff; }
 
-  /* Back Arrow to Page 2 */
+  /* Back Arrow (Left) to Page 2 */
   .back-arrow { position: fixed; left: 18px; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transform: translateY(-50%); animation: shakeback 1s infinite; }
+  
+  /* Next Arrow (Right) to Page 4 */
+  .next-arrow { position: fixed; right: 18px; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b3fbf; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transform: translateY(-50%); animation: shakenext 1s infinite; }
+
   @keyframes shakeback {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(-8px); }
+    50% { transform: translateY(-50%) translateX(6px); }
+    75% { transform: translateY(-50%) translateX(-4px); }
+  }
+  @keyframes shakenext {
     0%, 100% { transform: translateY(-50%) translateX(0); }
     25% { transform: translateY(-50%) translateX(8px); }
     50% { transform: translateY(-50%) translateX(-6px); }
@@ -93,7 +102,7 @@
         <polyline points="603,68 550,68 550,115 505,115" fill="none" stroke="#2ecc71" stroke-width="3"/>
         <polyline points="603,133 550,133 550,115" fill="none" stroke="#2ecc71" stroke-width="3"/>
         <polyline points="603,84 565,84 565,142 505,142" fill="none" stroke="#f1c40f" stroke-width="3"/>
-        <polyline points="603,149 565,149 565,142" fill="none" stroke="#2ecc71" stroke-width="3"/>
+        <polyline points="603,149 565,149 565,142" fill="none" stroke="#f1c40f" stroke-width="3"/>
 
         <!-- L298N Driver -->
         <text x="430" y="48" font-size="14" font-weight="bold" fill="#111" text-anchor="middle">L298N Motor Driver</text>
@@ -157,95 +166,73 @@
     </div>
   </div>
 
-  <!-- Section 2: Components List with Reliable Direct Image URLs -->
+  <!-- Section 2: Components List -->
   <div class="card">
     <h2>Required Components</h2>
     <div class="comp-list">
-
-      <!-- Component 1 -->
       <div class="comp-item">
         <div class="comp-details">
           <h3>1. Arduino Uno (with USB Cable)</h3>
           <p>The main microcontroller brain that processes sensor signals and controls motors.</p>
         </div>
-        <div class="mini-photo">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Arduino_Uno_-_R3.jpg" alt="Arduino Uno">
-        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Arduino_Uno_-_R3.jpg" alt="Arduino Uno"></div>
       </div>
 
-      <!-- Component 2 -->
       <div class="comp-item">
         <div class="comp-details">
           <h3>2. L298N Motor Driver Module</h3>
           <p>Controls the speed and direction of the DC gear motors.</p>
         </div>
-        <div class="mini-photo">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/L298N_Motor_Driver_Module.jpg" alt="L298N Driver">
-        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/L298N_Motor_Driver_Module.jpg" alt="L298N Driver"></div>
       </div>
 
-      <!-- Component 3 -->
       <div class="comp-item">
         <div class="comp-details">
           <h3>3. IR Infrared Sensor Modules (2 Nos)</h3>
           <p>Detects the black line on the white surface using infrared light.</p>
         </div>
-        <div class="mini-photo">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/IR_sensor_module.jpg" alt="IR Sensor">
-        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/IR_sensor_module.jpg" alt="IR Sensor"></div>
       </div>
 
-      <!-- Component 4 -->
       <div class="comp-item">
         <div class="comp-details">
           <h3>4. BO Gear Motors & Wheels (2 or 4 Sets)</h3>
           <p>Provides movement to the robot chassis.</p>
         </div>
-        <div class="mini-photo">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/90/BO_motor_with_wheel.jpg" alt="BO Motor">
-        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/9/90/BO_motor_with_wheel.jpg" alt="BO Motor"></div>
       </div>
 
-      <!-- Component 5 -->
       <div class="comp-item">
         <div class="comp-details">
           <h3>5. Robot Chassis & Caster Wheel</h3>
           <p>The base frame to mount all components securely.</p>
         </div>
-        <div class="mini-photo">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/2WD_Robot_Smart_Car_Chassis.jpg" alt="Robot Chassis">
-        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/2WD_Robot_Smart_Car_Chassis.jpg" alt="Robot Chassis"></div>
       </div>
 
-      <!-- Component 6 -->
       <div class="comp-item">
         <div class="comp-details">
           <h3>6. Li-ion Batteries (2x 3.7V) & Battery Holder</h3>
           <p>Powers the Arduino and motor driver module.</p>
         </div>
-        <div class="mini-photo">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/18650_Li-ion_battery.jpg" alt="Battery">
-        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/18650_Li-ion_battery.jpg" alt="Battery"></div>
       </div>
 
-      <!-- Component 7 -->
       <div class="comp-item">
         <div class="comp-details">
           <h3>7. Jumper Wires & On/Off Switch</h3>
           <p>Male-to-Female and Male-to-Male wires for making connections.</p>
         </div>
-        <div class="mini-photo">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Jumper_wires_arduino.jpg" alt="Jumper Wires">
-        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Jumper_wires_arduino.jpg" alt="Jumper Wires"></div>
       </div>
-
     </div>
   </div>
 
 </div>
 
-<!-- Back Arrow -->
-<a class="back-arrow" href="project1-page2.html" title="Previous page">&#10094;</a>
+<!-- Navigation Arrows -->
+<a class="back-arrow" href="project1-page2.html" title="Previous Page">&#10094;</a>
+<a class="next-arrow" href="project1-page4.html" title="Next to Aaraa AI">&#10095;</a>
 
 </body>
 </html>
