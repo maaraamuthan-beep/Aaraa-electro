@@ -1,147 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aara Electro | Learn • Build • Innovate</title>
-  <style>
-    :root{--blue:#075de8;--deep:#062a82;--cyan:#20d8ff;--ink:#09245b}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#eef7ff}
-    .topbar{height:64px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:8px 3.2%;gap:18px;position:relative;z-index:2;box-shadow:0 2px 12px #062a8212}
-    .brand{display:flex;align-items:center;gap:12px;font-size:clamp(20px,3vw,34px);font-weight:800;color:#082d89;white-space:nowrap}
-    .brand small{display:block;font-size:13px;font-style:italic;letter-spacing:.3px;color:#1d2852;margin-top:1px}
-    .chip{width:56px;height:48px;filter:drop-shadow(0 3px 4px #007bff44);flex:none}
-    nav{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-    nav a{color:#09245b;text-decoration:none;border:1px solid #c8dcff;border-radius:22px;padding:11px 15px;font-weight:700;font-size:14px;transition:.25s}
-    nav a:hover,nav a.active{background:#075de8;color:#fff;transform:translateY(-2px);box-shadow:0 5px 14px #075de844}
-    .hero{min-height:420px;position:relative;overflow:hidden;padding:34px 3% 22px;background:linear-gradient(115deg,#0348b9,#007be8 58%,#00b9ef);color:#fff}
-    .hero-inner{max-width:1200px;margin:auto;position:relative;z-index:1}
-    .headline{text-align:center;margin:0 auto 14px;max-width:850px}
-    h1{font-size:clamp(42px,7vw,76px);line-height:1;margin:0 0 12px;font-weight:900;letter-spacing:-2px;text-shadow:0 4px 12px #001e6b55}
-    h1 span{color:#ffe500}
-    .tagline{font-size:clamp(18px,2.4vw,25px);font-weight:700;margin:0 0 7px}
-    .subline{font-size:17px;font-style:italic;margin:0;color:#dff8ff}
-    .robot{position:absolute;width:180px;height:170px;right:5%;top:14px;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 12px 12px #001c6855)}
-    .robot .head{position:absolute;width:128px;height:112px;left:26px;top:30px;border-radius:35px 35px 43px 43px;background:linear-gradient(145deg,#fff,#a9dfff);border:5px solid #d5f4ff;box-shadow:inset -8px -9px 0 #6c9bdc}
-    .robot .screen{position:absolute;inset:18px 12px 24px;border-radius:23px;background:linear-gradient(140deg,#062d83,#00164d);display:flex;align-items:center;justify-content:space-evenly}
-    .eye{width:15px;height:23px;border-radius:50%;background:#16eaff;box-shadow:0 0 12px #16eaff}
-    .smile{position:absolute;width:30px;height:13px;border-bottom:4px solid #4df4ff;border-radius:50%;bottom:13px;left:44px}
-    .ear{position:absolute;top:70px;width:23px;height:43px;border-radius:12px;background:#38bfff;border:4px solid #d5f4ff}
-    .ear.left{left:9px}.ear.right{right:9px}
-    .antenna{position:absolute;width:5px;height:27px;background:#d7f6ff;top:5px;left:87px;border-radius:5px}
-    .antenna:after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:#ff397a;top:-8px;left:-4px;box-shadow:0 0 12px #ff397a}
-    .search-wrap{max-width:1050px;margin:20px auto 0;position:relative;z-index:2}
-    .searchbox{display:flex;background:#fff;border:3px solid #5ceaff;border-radius:40px;padding:6px;box-shadow:0 0 0 5px #ffffff28,0 8px 28px #001e6b55}
-    #searchInput{flex:1;min-width:0;border:0;outline:0;padding:13px 20px;font-size:18px;border-radius:30px;color:#17336b}
-    #searchButton{border:0;border-radius:30px;background:#075de8;color:white;font-size:17px;font-weight:800;padding:0 25px;cursor:pointer}
-    .hint{text-align:center;color:#e4faff;font-size:13px;margin:12px 0 0}
-    main{max-width:1250px;margin:-2px auto 28px;padding:0 22px;position:relative;z-index:1}
-    .results-panel{background:#fff;border:2px solid #b7d7ff;border-radius:18px;overflow:hidden;box-shadow:0 9px 28px #0a4fa51b;display:none}
-    .results-panel.visible{display:block}
-    .panel-title{background:linear-gradient(90deg,#075de8,#087bdc);color:#fff;font-size:19px;font-weight:800;padding:12px 18px}
-    .results-content{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px;padding:12px 14px}
-    .project{display:flex;gap:18px;padding:8px 0 12px;border-bottom:1px solid #c7dcff;text-decoration:none;color:inherit;align-items:center;cursor:pointer}
-    .project:hover{background:#f4f9ff;border-radius:12px}
-    .project-thumb{width:126px;height:78px;flex:none;border-radius:12px;background:linear-gradient(135deg,#dcefff,#a8d8ff);display:grid;place-items:center;font-size:43px}
-    .project h3{margin:0 0 7px;color:#0059df;font-size:18px}
-    .project p{margin:0;color:#34476e;font-size:14px;line-height:1.4}
-    .popular{background:#e6f2ff;border-radius:16px;padding:15px;height:max-content}
-    .popular h3{margin:0 0 12px;font-size:17px}
-    .chips{display:flex;gap:7px;flex-wrap:wrap}
-    .chips span{background:#cce4ff;color:#0646ad;padding:7px 10px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer}
-    #empty{padding:22px;color:#5a6d91;display:none}
-    footer{text-align:center;color:#6c82a5;font-size:12px;padding:15px}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
-    @media(max-width:760px){.topbar{height:auto;flex-direction:column;align-items:flex-start;padding:12px 4%}.robot{display:none}.results-content{grid-template-columns:1fr}.popular{order:-1}.project-thumb{width:88px;height:68px;font-size:34px}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arduino Line Following Robot - Aaraa Electro</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #eaf4ff; color: #0b2a5b; min-height: 100vh; }
+  .topbar { background: linear-gradient(90deg, #0b3fbf, #00b4f0); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar a { color: #fff; text-decoration: none; font-weight: bold; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; }
+  .topbar h2 { font-size: 22px; }
+  .banner { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; text-align: center; padding: 50px 20px; }
+  .banner h1 { font-size: 40px; text-shadow: 0 3px 8px rgba(0,0,0,0.3); }
+  .banner p { margin-top: 10px; font-size: 18px; }
+  .container { max-width: 1000px; margin: 30px auto; padding: 0 20px 100px; }
+  .card { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 28px; box-shadow: 0 6px 18px rgba(11,63,191,0.12); }
+  .card h2 { color: #0b3fbf; margin-bottom: 12px; }
+  .card p { line-height: 1.7; font-size: 17px; margin-bottom: 10px; }
+  .photos { display: flex; gap: 20px; flex-wrap: wrap; }
+  .photo-box { flex: 1; min-width: 260px; height: 260px; border: 3px dashed #4aa8ff; border-radius: 14px; background: #f3f9ff; display: flex; align-items: center; justify-content: center; text-align: center; color: #4a78b8; overflow: hidden; }
+  .photo-box img { width: 100%; height: 100%; object-fit: cover; }
+  .next-arrow { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); animation: shake 1s infinite; }
+  @keyframes shake {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(-8px); }
+    50% { transform: translateY(-50%) translateX(6px); }
+    75% { transform: translateY(-50%) translateX(-4px); }
+  }
+</style>
 </head>
 <body>
-<header class="topbar">
-  <div class="brand">
-    <div>Aara Electro<small>Learn • Build • Innovate</small></div>
-  </div>
-  <nav>
-    <a class="active" href="index.html">⌂ Home</a>
-    <a href="#results">◎ Arduino Projects</a>
-    <a href="#results">▣ Tutorials</a>
-    <a href="#results">? Help</a>
-    <a href="mailto:hello@aaraelectro.example">✉ Contact</a>
-  </nav>
-</header>
 
-<section class="hero">
-  <div class="robot">
-    <div class="antenna"></div><div class="ear left"></div><div class="ear right"></div>
-    <div class="head"><div class="screen"><i class="eye"></i><i class="eye"></i><div class="smile"></div></div></div>
+<div class="topbar">
+  <h2>Aaraa Electro</h2>
+  <a href="index1.html">&larr; Back to Search</a>
+</div>
+
+<div class="banner">
+  <h1>Arduino Line Following Robot</h1>
+  <p>Build a smart robot that follows a line using Arduino.</p>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2>What is this project?</h2>
+    <p>A line following robot is a small car that drives by itself along a black line on the floor. It does not need a remote control. It uses sensors to find the line and an Arduino to decide where to turn.</p>
   </div>
-  <div class="hero-inner">
-    <div class="headline">
-      <h1>Aara <span>Electro</span></h1>
-      <p class="tagline">Your One-Stop Guide for Electronics Projects!</p>
-      <p class="subline">Search for Arduino projects, robots and more...</p>
-    </div>
-    <div class="search-wrap">
-      <div class="searchbox">
-        <input id="searchInput" type="search" placeholder="Search for Arduino Robots, Projects, or Ideas..." autocomplete="off">
-        <button id="searchButton" type="button">Search</button>
+
+  <div class="card">
+    <h2>How does it work scientifically?</h2>
+    <p>The robot has infrared (IR) sensors under it. Each sensor sends out infrared light and checks how much light comes back. A white floor reflects most of the light back. A black line absorbs the light, so very little comes back.</p>
+    <p>The Arduino reads the sensors. If the left sensor sees black, the robot turns left. If the right sensor sees black, it turns right. If the line is in the middle, it goes straight. The Arduino controls the wheel motors through a motor driver, so the robot keeps correcting itself and stays on the line.</p>
+  </div>
+
+  <div class="card">
+    <h2>Real Project Photos</h2>
+    <div class="photos">
+      <div class="photo-box">
+        Photo 1 - upload here
       </div>
-      <p class="hint">Start typing a project name. Matching Aara Electro projects will appear below.</p>
+      <div class="photo-box">
+        Photo 2 - upload here
+      </div>
     </div>
   </div>
-</section>
 
-<main id="results">
-  <section class="results-panel" id="resultsPanel">
-    <div class="panel-title">Search Results</div>
-    <div class="results-content">
-      <div>
-        <div id="projectList"></div>
-        <div id="empty">No matching Aara Electro projects found. Try another project name.</div>
-      </div>
-      <aside class="popular">
-        <h3>⭐ Popular Searches</h3>
-        <div class="chips"><span>Arduino Robot</span><span>Line Follower</span><span>Smart Car</span><span>Home Automation</span><span>IoT Projects</span></div>
-      </aside>
-    </div>
-  </section>
-</main>
-<footer>© 2026 Aara Electro</footer>
+</div>
 
-<script>
-// To add a new project: copy one line, change the name, description, icon, keywords, and set link to your new page file name.
-const projects = [
-  {name:"Arduino Line Following Robot", desc:"Build a smart robot that follows a line using Arduino.", icon:"🤖", keywords:"line follower line following robot arduino", link:"project1.html"},
-  {name:"Arduino Obstacle Avoiding Robot", desc:"Create a robot that detects obstacles and moves around them.", icon:"🚗", keywords:"obstacle avoiding robot arduino", link:"project2.html"},
-  {name:"Arduino LED Blinking Project", desc:"Learn the basics by making an LED blink with Arduino.", icon:"💡", keywords:"led blinking blink arduino", link:"project3.html"},
-  {name:"Arduino Home Automation", desc:"Explore a simple home automation project with Arduino.", icon:"🏠", keywords:"home automation arduino smart home", link:"project4.html"},
-  {name:"ESP32 Wi-Fi Controlled Car", desc:"Control a small car wirelessly using an ESP32 and Wi-Fi.", icon:"📶", keywords:"esp32 wifi controlled car", link:"project5.html"}
-];
+<!-- இதுதான் இரண்டாவது பக்கத்திற்குச் செல்லும் லிங்க் -->
+<a class="next-arrow" href="project1-page2.html" title="Next page">&#10095;</a>
 
-const input = document.getElementById("searchInput");
-const panel = document.getElementById("resultsPanel");
-const list = document.getElementById("projectList");
-const empty = document.getElementById("empty");
-
-function searchProjects(){
-  const q = input.value.trim().toLowerCase();
-  if(!q){ panel.classList.remove("visible"); return; }
-  const matches = projects.filter(p => (p.name + " " + p.desc + " " + p.keywords).toLowerCase().includes(q));
-  list.innerHTML = matches.map(p => `
-    <a class="project" href="${p.link}">
-      <div class="project-thumb">${p.icon}</div>
-      <div><h3>${p.name}</h3><p>${p.desc}</p></div>
-    </a>`).join("");
-  empty.style.display = matches.length ? "none" : "block";
-  panel.classList.add("visible");
-}
-
-input.addEventListener("input", searchProjects);
-document.getElementById("searchButton").addEventListener("click", searchProjects);
-input.addEventListener("keydown", e => { if(e.key === "Enter") searchProjects(); });
-document.querySelectorAll(".chips span").forEach(chip => chip.addEventListener("click", () => {
-  input.value = chip.textContent; searchProjects(); input.focus();
-}));
-</script>
 </body>
 </html>
