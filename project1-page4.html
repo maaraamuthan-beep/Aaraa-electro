@@ -30,15 +30,8 @@
   
   .search-input { flex: 1; border: none; background: transparent; padding: 12px 5px; font-size: 16px; color: #0b2a5b; outline: none; }
   
-  .mic-btn { background: #eef6ff; border: 1px solid #4aa8ff; color: #0b3fbf; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s; }
-  .mic-btn:hover { background: #0b3fbf; color: #fff; }
-  .mic-btn.listening { background: #d32f2f; color: #fff; border-color: #d32f2f; animation: pulse 1s infinite; }
-
   .ask-btn { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(11,63,191,0.2); }
   .ask-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-
-  .speak-audio-btn { background: #0b3fbf; color: #fff; border: none; padding: 8px 18px; border-radius: 20px; font-size: 14px; cursor: pointer; font-weight: bold; margin-top: 12px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 3px 8px rgba(11,63,191,0.2); }
-  .speak-audio-btn:hover { background: #092e91; }
 
   .result-card { background: #f3f9ff; border-left: 5px solid #0b3fbf; border-radius: 8px; padding: 20px; margin-top: 10px; display: none; animation: fadeIn 0.3s ease; }
   .result-card h3 { color: #0b3fbf; margin-bottom: 8px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
@@ -57,7 +50,6 @@
     75% { transform: translateY(-50%) translateX(-4px); }
   }
   @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1.1); } }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
@@ -76,13 +68,12 @@
 <div class="container">
   <div class="ai-box">
     <h3>🔍 Electronics & Components AI Hub</h3>
-    <p style="color: #4a6b9c; font-size: 14px;">Type or speak any electronics question - AI will explain everything in Tamil!</p>
+    <p style="color: #4a6b9c; font-size: 14px;">Type any electronics question - AI will explain clearly in Tamil!</p>
 
     <div class="search-container">
       <div class="search-bar-wrapper">
         <span class="robot-mini">🤖</span>
-        <input type="text" id="userInput" class="search-input" placeholder="Type or speak (e.g., LED, capacitor, motor)...">
-        <button id="micBtn" class="mic-btn" title="Speak your question">🎤</button>
+        <input type="text" id="userInput" class="search-input" placeholder="Type here (e.g., what is capacitor, LED, motor)...">
       </div>
       <button class="ask-btn" onclick="askAaraAI()">Ask AI</button>
     </div>
@@ -90,17 +81,17 @@
     <div>
       <p style="font-size: 13px; color: #6c8eb8; margin-bottom: 6px;">Quick Topics (Click to ask):</p>
       <div class="suggestions">
-        <div class="chip" onclick="setQuery('capacitor use')">Capacitor use</div>
-        <div class="chip" onclick="setQuery('LED blink')">LED blink</div>
-        <div class="chip" onclick="setQuery('DC motor spin')">DC motor spin</div>
-        <div class="chip" onclick="setQuery('Robot moving backward')">Robot moving backward</div>
+        <div class="chip" onclick="setQuery('what is capacitor')">What is a Capacitor?</div>
+        <div class="chip" onclick="setQuery('what is resistor')">What is a Resistor?</div>
+        <div class="chip" onclick="setQuery('how does LED work')">How does LED work?</div>
+        <div class="chip" onclick="setQuery('dc motor working')">DC motor working</div>
       </div>
     </div>
 
+    <!-- Result Display Box (Text Only) -->
     <div id="resultCard" class="result-card">
       <h3 id="resultTitle">🤖 Aaraa AI Solution</h3>
       <p id="resultText">Your solution will appear here...</p>
-      <button id="speakBtn" class="speak-audio-btn" onclick="speakResponse()">🔊 ஒலிக்கச் செய் (Listen Voice)</button>
     </div>
   </div>
 </div>
@@ -108,38 +99,9 @@
 <a class="back-arrow" href="project1-page3.html" title="Back to Circuit">&#10094;</a>
 
 <script>
-  let speechTextToRead = "";
-
-  // Page Load - Automatic Welcome Speech introducing ஆரா அமுதன்
-  window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      if ('speechSynthesis' in window) {
-        let welcomeMsg = "Vanakkam! Naan thaan Aaraa Amuthan avargalaal uruvaakkappatta Aaraa A.I. Ungalukku electronics sambanthappatta entha kelviyaagavum ennidam கேட்கlaam. Naan pathil alippen!";
-        let utterance = new SpeechSynthesisUtterance(welcomeMsg);
-        utterance.rate = 0.95;
-        utterance.pitch = 1.0;
-        utterance.lang = 'en-US';
-        window.speechSynthesis.speak(utterance);
-      }
-    }, 1000);
-  });
-
   function setQuery(text) {
     document.getElementById('userInput').value = text;
     askAaraAI();
-  }
-
-  function speakResponse() {
-    if ('speechSynthesis' in window && speechTextToRead) {
-      window.speechSynthesis.cancel();
-      let utterance = new SpeechSynthesisUtterance(speechTextToRead);
-      utterance.rate = 0.95;
-      utterance.pitch = 1.0;
-      utterance.lang = 'en-US';
-      window.speechSynthesis.speak(utterance);
-    } else {
-      alert("Speech synthesis is not supported on your browser.");
-    }
   }
 
   function askAaraAI() {
@@ -149,7 +111,7 @@
     let resultText = document.getElementById('resultText');
 
     if (!query) {
-      alert("தயவுசெய்து உங்கள் கேள்வியைத் டைப் செய்யவும் அல்லது பேசவும்!");
+      alert("தயவுசெய்து உங்கள் கேள்வியைத் டைப் செய்யவும்!");
       return;
     }
 
@@ -160,102 +122,49 @@
       'power', 'code', 'pin', 'ena', 'enb', 'in1', 'in2', 'in3', 'in4', 'robot', 
       'chassis', 'switch', 'wheel', 'speed', 'backward', 'forward', 'turning', 'light', 'volt', 'gnd', '5v', '12v',
       'led', 'blink', 'esp32', 'nodemcu', 'resistor', 'capacitor', 'transistor', 'relay', 'ic', 'microcontroller', 'circuit', 'current', 'voltage',
-      'கெப்பாசிட்டர்', 'capacitor', 'மோட்டார்', 'சென்சார்', 'ஒயர்', 'பேட்டரி', 'ரோபோ', 'ஆர்டினோ', 'எலக்ட்ரானிக்ஸ்', 'use', 'how', 'why', 'what', 'working'
+      'கெப்பாசிட்டர்', 'capacitor', 'resistor', 'led', 'motor', 'மோட்டார்', 'சென்சார்', 'ஒயர்', 'பேட்டரி', 'ரோபோ', 'ஆர்டினோ', 'எலக்ட்ரானிக்ஸ்', 'what', 'how', 'why', 'use', 'working'
     ];
 
     let isElectronics = electronicsKeywords.some(keyword => query.includes(keyword));
 
     if (!isElectronics) {
       resultTitle.innerHTML = "🤖 Aaraa AI - Notice";
-      resultText.innerHTML = "மன்னிக்கவும்! என்னால் எலக்ட்ரானிக்ஸ், சர்க்யூட் மற்றும் மைக்ரோகண்ட்ரோலர் சம்பந்தப்பட்ட சந்தேகங்களுக்கு மட்டுமே பதிலளிக்க முடியும்.";
-      speechTextToRead = "Mannikkavum! Ennaal electronics matrum circuit sambandappatta sandehangalukku mattume pathilalikka mudiyum.";
-      speakResponse();
+      resultText.innerHTML = "மன்னிக்கவும்! என்னால் எலக்ட்ரானிக்ஸ் மற்றும் சர்க்யூட் சம்பந்தப்பட்ட சந்தேகங்களுக்கு மட்டுமே பதிலளிக்க முடியும்.";
       return;
     }
 
     resultTitle.innerHTML = "🤖 Aaraa AI Solution (Verified by ஆரா அமுதன்)";
     let responseHtml = "";
 
-    if (query.includes('capacitor') || query.includes('cap') || query.includes('கெப்பாசிட்டர்')) {
-      responseHtml = "<b>கெப்பாசிட்டர் என்பது என்ன மற்றும் அதன் பயன்பாடு:</b><br>" +
-                     "1. <b>வரையறை:</b> கெப்பாசிட்டர் என்பது மின்சாரத்தை தற்காலிகமாக சேமித்து வைத்து, தேவைப்படும்போது உடனடியாக வெளிப்படுத்தும் ஒரு சிறிய எலக்ட்ரானிக்ஸ் காம்போனென்ட் ஆகும்.<br>" +
-                     "2. <b>முக்கிய பயன்பாடுகள்:</b> சர்க்யூட்டில் வரும் திடீர் வோல்டேஜ் மாற்றங்களைத் தடுத்து சீரான மின்சாரத்தை வழங்கும். மேலும் மோட்டார்கள் மற்றும் சுவிட்சுகளில் ஏற்படும் சத்தத்தைக் கட்டுப்படுத்தும்.";
-      
-      speechTextToRead = "Capacitor enbathu minsaarathai thaarkaalikamaaga சேமித்து veithu, thevaippadumpothu udanadiyaaga velippaduthum oru siriya electronics component ஆகும்.";
+    if (query.includes('capacitor') || query.includes('கெப்பாசிட்டர்')) {
+      responseHtml = "<b>கெப்பாசிட்டர் (Capacitor) என்றால் என்ன மற்றும் அதன் பயன்பாடு:</b><br><br>" +
+                     "1. <b>வரையறை:</b> கெப்பாசிட்டர் என்பது மின்சாரத்தை (Electrical Energy) தற்காலிகமாக சேமித்து வைத்து, தேவைப்படும்போது உடனடியாக வெளிப்படுத்தும் ஒரு எலக்ட்ரானிக்ஸ் காம்போனென்ட் ஆகும்.<br><br>" +
+                     "2. <b>முக்கிய பயன்பாடுகள்:</b><br>" +
+                     "- சர்க்யூட்டில் வரும் திடீர் வோல்டேஜ் மாற்றங்களை (Voltage Spikes) தடுத்து சீரான மின்சாரத்தை வழங்கும்.<br>" +
+                     "- பில்டரிங் (Filtering) மற்றும் டைமிங் சர்க்யூட்களில் பரவலாகப் பயன்படுகிறது.";
     } 
-    else if (query.includes('led') || query.includes('blink')) {
-      responseHtml = "<b>LED பிளிங்க் ஆகுவது எப்படி?</b><br>" +
-                     "ஆர்டினோ அல்லது மைக்ரோகண்ட்ரோலரில் உள்ள டிஜிட்டல் பின் மூலம் குறிப்பிட்ட இடைவெளியில் ஐந்து வோல்ட் மின்சாரத்தை மாற்றி மாற்றி வழங்கி ஆன் மற்றும் ஆஃப் செய்வதன் மூலம் எல்.ஈ.டி ஒளிர்கிறது.";
-      
-      speechTextToRead = "L.E.D blink aavathu eppadi? Arduino digital pin moolam kurippitta idaiveliyil ainthu volt minsaarathai maatri maatri வழங்கி on matrum off sevvathal L.E.D olirkirathu.";
+    else if (query.includes('resistor') || query.includes('ரெசிஸ்டர்')) {
+      responseHtml = "<b>ரெசிஸ்டர் (Resistor) என்றால் என்ன மற்றும் அதன் பயன்பாடு:</b><br><br>" +
+                     "1. <b>வரையறை:</b> ரெசிஸ்டர் என்பது சர்க்யூட்டில் பாயும் மின்சாரத்தின் (Current) அளவைக் கட்டுப்படுத்தும் அல்லது தடுத்து நிறுத்தும் ஒரு மின்தடைப் பொருள் ஆகும்.<br><br>" +
+                     "2. <b>முக்கிய பயன்பாடுகள்:</b><br>" +
+                     "- எல்.ஈ.டி (LED) போன்ற சிறிய சாதனங்களுக்கு அதிகப்படியான கரண்ட் சென்று பியூஸ் ஆகிவிடாமல் பாதுகாக்கிறது.";
     } 
-    else if (query.includes('motor') || query.includes('spin') || query.includes('rotate') || query.includes('சுத்துறது')) {
-      responseHtml = "<b>மோட்டார் சுற்றுவதற்கான காரணம்:</b><br>" +
-                     "மின்காந்தவியல் கோட்பாட்டின்படி, மோட்டாரில் உள்ள காயிலுக்குள் மின்சாரம் பாயும் போது காந்தப்புலம் உருவாகிறது. இது மோட்டாரில் உள்ள நிரந்தர காந்தத்துடன் வினைபுரிந்து ரோட்டரைச் சுழல வைக்கிறது.";
-      
-      speechTextToRead = "Motor suttuvatharkaana kaaranam: Electromagnetism kottpaattin padi, motor-il ulla coil-ukkul minsaram paayum pothu kaanthappulam uruvaagurathu.";
+    else if (query.includes('led') || query.includes('light')) {
+      responseHtml = "<b>எல்.ஈ.டி (LED - Light Emitting Diode) என்றால் என்ன?</b><br><br>" +
+                     "1. <b>வரையறை:</b> இது ஒரு செமிகண்டக்டர் காம்போனென்ட் ஆகும். இதன் வழியே மின்சாரம் பாயும் போது ஒளி வெளிப்படுகிறது.<br><br>" +
+                     "2. <b>முக்கிய பயன்பாடுகள்:</b> இண்டிகேட்டர்களாகவும், டிஸ்ப்ளே மற்றும் லைட்டிங் தேவைகளுக்கும் இது பயன்பടுகிறது.";
     } 
-    else if (query.includes('alternative') || query.includes('board') || query.includes('esp32') || query.includes('nodemcu')) {
-      responseHtml = "<b>ஆர்டினோவிற்குப் பதிலாக என்ன போர்டுகள் பயன்படுத்தலாம்?</b><br>" +
-                     "வைஃபை மற்றும் புளூடூத் வசதிக்கு ஈ.எஸ்.பி முப்பத்து இரண்டு (ESP32) அல்லது நோட் எம்.சி.யு (NodeMCU) பயன்படுத்தலாம். சிறிய வேலைகளுக்கு ஆர்டினோ நானோ சிறந்தது.";
-      
-      speechTextToRead = "Arduino-varkku pathilaaga E.S.P. thirty two allathu Node.M.C.U. use seyyalaam. Siriya velaigalukku Arduino Nano siranthathu.";
-    }
-    else if (query.includes('backward') || query.includes('reverse') || query.includes('robot') || query.includes('மாறி ஓடுது')) {
-      responseHtml = "<b>பிரச்சனை மற்றும் தீர்வு:</b><br>" +
-                     "ரோபோ முன்னோக்கிப் போக வேண்டியது பின்னோக்கிப் போகிறது என்றால், எல்.298.என் மோட்டார் டிரைவரில் உள்ள மோட்டார் வயர்களை மாற்றி மாற்றிக் கொடுக்க வேண்டும்.";
-      
-      speechTextToRead = "Robot munnokki poga vendiyathu pinnokki pogirathu entraal, L.298.N motor driver-il ulla motor wire-kalai maatri maatri kodukka vendum.";
-    } 
-    else if (query.includes('ir') || query.includes('sensor') || query.includes('line')) {
-      responseHtml = "<b>ஐ.ஆர் சென்சார் தீர்வு:</b><br>" +
-                     "சென்சார் கோட்டைக் கண்டறியவில்லை என்றால், அதில் உள்ள நீல நிற நப்பை திருப்பி சென்சிவிடியை சரிசெய்ய வேண்டும்.";
-      
-      speechTextToRead = "I.R. sensor kottai kandariyavillai entraal, athil ulla neela niram knob-ai thirupi sensitivity-ai sari seyyavendum.";
+    else if (query.includes('motor') || query.includes('dc motor')) {
+      responseHtml = "<b>டி.சி மோட்டார் (DC Motor) என்றால் என்ன?</b><br><br>" +
+                     "1. <b>வரையறை:</b> மின் ஆற்றலை (Electrical Energy) இயந்திர ஆற்றலாக (Mechanical Energy - சுழற்சி) மாற்றும் சாதனம் ஆகும்.<br><br>" +
+                     "2. <b>முக்கிய பயன்பாடுகள்:</b> ரோபோக்கள், கார்கள் மற்றும் பல்வேறு இயக்கப் பொருட்களில் சக்கரங்களை இயக்கப் பயன்படுகிறது.";
     } 
     else {
-      responseHtml = "<b>பொதுவான எலக்ட்ரானிக்ஸ் விளக்கம்:</b><br>" +
-                     "நீங்கள் கேட்டுள்ள இந்த காம்போனென்ட் அல்லது சர்க்யூட் பகுதியில், அனைத்து வயர் இணைப்புகளும் மற்றும் ஐந்து வோல்ட் அல்லது பன்னிரண்டு வோல்ட் பவர் சப்ளையும் சரியாக இணைக்கப்பட்டுள்ளதா எனச் சரிபார்க்கவும்.";
-      
-      speechTextToRead = "Neengal kettullaantha component allathu circuit பகுதியில், anaithu wire inaippukalum sariyaaga inaikkappattullatha ena sari paarungal.";
+      responseHtml = "<b>பொதுவான எலக்ட்ரானிக்ஸ் விளக்கம்:</b><br><br>" +
+                     "நீங்கள் கேட்டுள்ள இந்த எலக்ட்ரானிக்ஸ் காம்போனென்ட் அல்லது சர்க்யூட் பகுதியில், அனைத்து வயர் இணைப்புகளும் மற்றும் பவர் சப்ளையும் சரியாக இணைக்கப்பட்டுள்ளதா எனச் சரிபார்க்கவும்.";
     }
 
     resultText.innerHTML = responseHtml;
-    speakResponse();
-  }
-
-  const micBtn = document.getElementById('micBtn');
-  const userInput = document.getElementById('userInput');
-
-  if ('webkitSpeechRecognition' in window || 'speechRecognition' in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-
-    micBtn.addEventListener('click', () => {
-      micBtn.classList.add('listening');
-      userInput.placeholder = "Listening... Speak now!";
-      recognition.start();
-    });
-
-    recognition.onresult = (event) => {
-      const speechToText = event.results[0][0].transcript;
-      userInput.value = speechToText;
-      micBtn.classList.remove('listening');
-      userInput.placeholder = "Type or speak (e.g., LED, capacitor)...";
-      askAaraAI();
-    };
-
-    recognition.onerror = () => {
-      micBtn.classList.remove('listening');
-      userInput.placeholder = "Voice recognition error. Try typing.";
-    };
-
-    recognition.onend = () => {
-      micBtn.classList.remove('listening');
-    };
-  } else {
-    micBtn.style.display = 'none';
   }
 </script>
 
