@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aaraa AI Troubleshooting Assistant - Aaraa Electro</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #eaf4ff; color: #0b2a5b; min-height: 100vh; display: flex; flex-direction: column; }
+  
+  .topbar { background: linear-gradient(90deg, #0b3fbf, #00b4f0); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar a { color: #fff; text-decoration: none; font-weight: bold; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; }
+  .topbar h2 { font-size: 22px; }
+  
+  .banner { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; text-align: center; padding: 35px 20px; }
+  .banner h1 { font-size: 32px; text-shadow: 0 3px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; gap: 12px; }
+  .banner p { margin-top: 8px; font-size: 15px; color: #dff8ff; }
+
+  /* Robot Face Icon in Title */
+  .robot-icon { font-size: 36px; background: rgba(255,255,255,0.2); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+
+  .container { max-width: 800px; margin: 30px auto; padding: 0 20px 80px; width: 100%; flex: 1; }
+  
+  .ai-box { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 6px 18px rgba(11,63,191,0.12); display: flex; flex-direction: column; gap: 20px; }
+  
+  .search-container { display: flex; gap: 10px; position: relative; align-items: center; }
+  
+  .search-bar-wrapper { flex: 1; display: flex; align-items: center; border: 2px solid #4aa8ff; border-radius: 30px; background: #f8fbff; padding: 4px 15px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.03); }
+  
+  .search-bar-wrapper span.robot-mini { font-size: 24px; margin-right: 10px; }
+  
+  .search-input { flex: 1; border: none; background: transparent; padding: 12px 5px; font-size: 16px; color: #0b2a5b; outline: none; }
+  
+  .mic-btn { background: #eef6ff; border: 1px solid #4aa8ff; color: #0b3fbf; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s; }
+  .mic-btn:hover { background: #0b3fbf; color: #fff; }
+  .mic-btn.listening { background: #d32f2f; color: #fff; border-color: #d32f2f; animation: pulse 1s infinite; }
+
+  .ask-btn { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(11,63,191,0.2); }
+  .ask-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  .result-card { background: #f3f9ff; border-left: 5px solid #0b3fbf; border-radius: 8px; padding: 20px; margin-top: 10px; display: none; animation: fadeIn 0.3s ease; }
+  .result-card h3 { color: #0b3fbf; margin-bottom: 8px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+  .result-card p { color: #334e68; font-size: 15px; line-height: 1.6; }
+
+  .suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
+  .chip { background: #eef6ff; border: 1px solid #b7d4ff; color: #0b3fbf; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; }
+  .chip:hover { background: #0b3fbf; color: #fff; }
+
+  /* Back Arrow */
+  .back-arrow { position: fixed; left: 18px; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transform: translateY(-50%); animation: shakeback 1s infinite; }
+  @keyframes shakeback {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(8px); }
+    50% { transform: translateY(-50%) translateX(-6px); }
+    75% { transform: translateY(-50%) translateX(4px); }
+  }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1.1); } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h2>Aaraa Electro</h2>
+  <a href="project1-page3.html">&larr; Back to Circuit</a>
+</div>
+
+<div class="banner">
+  <h1><div class="robot-icon">🤖</div> Aaraa AI Assistant</h1>
+  <p>Ask any troubleshooting questions regarding your Line Following Robot wiring or electronics!</p>
+</div>
+
+<div class="container">
+  <div class="ai-box">
+    <h3>🔍 Circuit & Electronics Troubleshooting Hub</h3>
+    <p style="color: #4a6b9c; font-size: 14px;">Type your problem or use the microphone to ask questions. (Electronics & Robot parts only)</p>
+
+    <div class="search-container">
+      <div class="search-bar-wrapper">
+        <span class="robot-mini">🤖</span>
+        <input type="text" id="userInput" class="search-input" placeholder="e.g., Motor not moving, IR sensor red light always on...">
+        <button id="micBtn" class="mic-btn" title="Speak your question">🎤</button>
+      </div>
+      <button class="ask-btn" onclick="askAaraAI()">Ask AI</button>
+    </div>
+
+    <div>
+      <p style="font-size: 13px; color: #6c8eb8; margin-bottom: 6px;">Quick Common Issues:</p>
+      <div class="suggestions">
+        <div class="chip" onclick="setQuery('Robot moving backward')">Robot moving backward</div>
+        <div class="chip" onclick="setQuery('IR sensor not detecting line')">IR sensor not detecting line</div>
+        <div class="chip" onclick="setQuery('Motor not spinning / ENA pin issue')">Motor not spinning</div>
+        <div class="chip" onclick="setQuery('Arduino not powering up')">Arduino not powering up</div>
+      </div>
+    </div>
+
+    <!-- Result Display Box -->
+    <div id="resultCard" class="result-card">
+      <h3 id="resultTitle">🤖 Aaraa AI Solution</h3>
+      <p id="resultText">Your solution will appear here...</p>
+    </div>
+  </div>
+</div>
+
+<a class="back-arrow" href="project1-page3.html" title="Previous page">&#10094;</a>
+
+<script>
+  function setQuery(text) {
+    document.getElementById('userInput').value = text;
+    askAaraAI();
+  }
+
+  function askAaraAI() {
+    let query = document.getElementById('userInput').value.toLowerCase().trim();
+    let resultCard = document.getElementById('resultCard');
+    let resultTitle = document.getElementById('resultTitle');
+    let resultText = document.getElementById('resultText');
+
+    if (!query) {
+      alert("தயவுசெய்து உங்கள் சந்தேகத்தை டைப் செய்யவும் அல்லது பேசவும்!");
+      return;
+    }
+
+    resultCard.style.display = "block";
+
+    // Strict Electronics Filter Check
+    let electronicsKeywords = [
+      'motor', 'sensor', 'ir', 'arduino', 'l298n', 'battery', 'wire', 'wiring', 
+      'power', 'code', 'pin', 'ena', 'enb', 'in1', 'in2', 'in3', 'in4', 'robot', 
+      'chassis', 'switch', 'wheel', 'speed', 'backward', 'forward', 'turning', 'light', 'volt', 'gnd', '5v', '12v',
+      'மோட்டார்', 'சென்சார்', 'ஒயர்', 'பேட்டரி', 'ரோபோ', 'ஆர்டினோ'
+    ];
+
+    let isElectronics = electronicsKeywords.some(keyword => query.includes(keyword));
+
+    if (!isElectronics) {
+      resultTitle.innerHTML = "🤖 Aaraa AI - Notice";
+      resultText.innerHTML = "மன்னிக்கவும்! என்னால் எலக்ட்ரானிக்ஸ், சர்க்யூட் மற்றும் உங்கள் லைன் ஃபாலோயிங் ரோபோட் சந்தேகங்களுக்கு மட்டுமே பதிலளிக்க முடியும். வேறு கேள்விகளுக்கு அனுமதி இல்லை.";
+      return;
+    }
+
+    // Smart Troubleshooting Responses
+    resultTitle.innerHTML = "🤖 Aaraa AI Solution (Verified)";
+
+    if (query.includes('backward') || query.includes('reverse') || query.includes('மாறி ஓடுது')) {
+      resultText.innerHTML = "<b>பிரச்சனை:</b> ரோபோ முன்னோக்கிப் போக வேண்டியது பின்னோக்கிப் போகிறது.<br><b>தீர்வு:</b> L298N டிரைவரில் உள்ள மோட்டார் வயர்களை (OUT1, OUT2 அல்லது OUT3, OUT4) மாற்றி மாற்றிக் கொடுத்துப் பார்க்கவும் (Swap the motor terminal wires). அல்லது கோடில் <code>HIGH</code> மற்றும் <code>LOW</code> மதிப்புகளை மாற்றவும்.";
+    } 
+    else if (query.includes('ir') || query.includes('sensor') || query.includes('line') || query.includes('light') || query.includes('ஒர்க் ஆகல')) {
+      resultText.innerHTML = "<b>பிரச்சனை:</b> IR சென்சார் கோட்டைக் கண்டறியவில்லை.<br><b>தீர்வு:</b> 1. சென்சாரில் உள்ள பொட்டன்ஷியோமீட்டர் (Blue Knob) நப்பைத் திருடி சென்சிவிட்டியைக் கூட்டவும்/குறைக்கவும்.<br>2. சென்சார் மற்றும் ஒயிட்/பிளாக் சர்பேஸிற்கான இடைவெளி 5 மி.மீ இருக்கிறதா எனச் சரிபார்க்கவும்.";
+    } 
+    else if (query.includes('motor') || query.includes('spin') || query.includes('speed') || query.includes('ena') || query.includes('rotate')) {
+      resultText.innerHTML = "<b>பிரச்சனை:</b> மோட்டார் சுத்தமாக ஓடவில்லை.<br><b>தீர்வு:</b> 1. ஆர்டினோ பின் 5 மற்றும் 10-ல் இருந்து ENA, ENB பின்கள் சரியாக இணைக்கப்பட்டுள்ளதா எனச் பார்க்கவும்.<br>2. L298N டிரைவருக்கு 7V முதல் 12V வரை பவர் சப்ளை (Battery) சரியாக வருகிறதா என மல்டிமீட்டர் கொண்டு செக் செய்யவும்.";
+    } 
+    else if (query.includes('power') || query.includes('arduino') || query.includes('on') || query.includes('light')) {
+      resultText.innerHTML = "<b>பிரச்சனை:</b> ஆர்டினோ பவர் ஆன் ஆகவில்லை.<br><b>தீர்வு:</b> L298N-ன் 5V அவுட்புட் பின்னில் இருந்து ஆர்டினோ 5V பினுக்கு ரெட் வயர் சரியாக இணைக்கப்பட்டுள்ளதா என்பதை உறுதிப்படுத்தவும்.";
+    } 
+    else {
+      resultText.innerHTML = "<b>பொதுவான எலக்ட்ரானிக்ஸ் தீர்வு:</b> நீங்கள் குறிப்பிட்டுள்ள சிக்கலுக்கு: <br>1. அனைத்து ஜம்பர் வயர்களும் லூசுப் contato இல்லாமல் சரியாக இருக்கிறதா எனச் சரிபார்க்கவும்.<br>2. கோடில் உள்ள பின் நம்பர்கள் (ENA:5, IN1:6, IN2:7, IN3:8, IN4:9, ENB:10, Sensors:2,3) உங்கள் ஹார்டுவேர் வயரிங்குடன் 100% பொருந்துகிறதா என ஒப்பிட்டுப் பார்க்கவும்.";
+    }
+  }
+
+  // Voice Recognition (Speech-to-Text)
+  const micBtn = document.getElementById('micBtn');
+  const userInput = document.getElementById('userInput');
+
+  if ('webkitSpeechRecognition' in window || 'speechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US'; // Can understand English/Tamil voice inputs
+
+    micBtn.addEventListener('click', () => {
+      micBtn.classList.add('listening');
+      userInput.placeholder = "Listening... Speak now!";
+      recognition.start();
+    });
+
+    recognition.onresult = (event) => {
+      const speechToText = event.results[0][0].transcript;
+      userInput.value = speechToText;
+      micBtn.classList.remove('listening');
+      userInput.placeholder = "e.g., Motor not moving, IR sensor issue...";
+      askAaraAI();
+    };
+
+    recognition.onerror = () => {
+      micBtn.classList.remove('listening');
+      userInput.placeholder = "Voice recognition error. Try typing.";
+    };
+
+    recognition.onend = () => {
+      micBtn.classList.remove('listening');
+    };
+  } else {
+    micBtn.style.display = 'none'; // Hide if browser doesn't support
+  }
+</script>
+
+</body>
+</html>
