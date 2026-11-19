@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aaraa AI Troubleshooting Assistant - Aaraa Electro</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #eaf4ff; color: #0b2a5b; min-height: 100vh; display: flex; flex-direction: column; }
+  
+  .topbar { background: linear-gradient(90deg, #0b3fbf, #00b4f0); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar a { color: #fff; text-decoration: none; font-weight: bold; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; }
+  .topbar h2 { font-size: 22px; }
+  
+  .banner { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; text-align: center; padding: 35px 20px; }
+  .banner h1 { font-size: 32px; text-shadow: 0 3px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; gap: 12px; }
+  .banner p { margin-top: 8px; font-size: 15px; color: #dff8ff; }
+
+  .robot-icon { font-size: 36px; background: rgba(255,255,255,0.2); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: bounce 2s infinite; }
+
+  .container { max-width: 800px; margin: 30px auto; padding: 0 20px 80px; width: 100%; flex: 1; }
+  
+  .ai-box { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 6px 18px rgba(11,63,191,0.12); display: flex; flex-direction: column; gap: 20px; }
+  
+  .search-container { display: flex; gap: 10px; position: relative; align-items: center; }
+  
+  .search-bar-wrapper { flex: 1; display: flex; align-items: center; border: 2px solid #4aa8ff; border-radius: 30px; background: #f8fbff; padding: 4px 15px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.03); }
+  
+  .search-bar-wrapper span.robot-mini { font-size: 24px; margin-right: 10px; }
+  
+  .search-input { flex: 1; border: none; background: transparent; padding: 12px 5px; font-size: 16px; color: #0b2a5b; outline: none; }
+  
+  .mic-btn { background: #eef6ff; border: 1px solid #4aa8ff; color: #0b3fbf; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s; flex-shrink: 0; }
+  .mic-btn:hover { background: #0b3fbf; color: #fff; }
+  .mic-btn.listening { background: #d32f2f; color: #fff; border-color: #d32f2f; animation: pulse 1s infinite; }
+
+  .ask-btn { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(11,63,191,0.2); flex-shrink: 0; }
+  .ask-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  .result-card { background: #f3f9ff; border-left: 5px solid #0b3fbf; border-radius: 8px; padding: 20px; margin-top: 10px; display: none; animation: fadeIn 0.3s ease; }
+  .result-card h3 { color: #0b3fbf; margin-bottom: 10px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+  .result-card p { color: #334e68; font-size: 15px; line-height: 1.7; }
+
+  .suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
+  .chip { background: #eef6ff; border: 1px solid #b7d4ff; color: #0b3fbf; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; }
+  .chip:hover { background: #0b3fbf; color: #fff; }
+
+  .back-arrow { position: fixed; left: 18px; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transform: translateY(-50%); animation: shakeback 1s infinite; }
+
+  @keyframes shakeback {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(-8px); }
+    50% { transform: translateY(-50%) translateX(6px); }
+    75% { transform: translateY(-50%) translateX(-4px); }
+  }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1.1); } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h2>Aaraa Electro</h2>
+  <a href="project1-page3.html">&larr; Back to Circuit</a>
+</div>
+
+<div class="banner">
+  <h1><div class="robot-icon">🤖</div> Aaraa AI Assistant</h1>
+  <p>Created by ஆரா அமுதன் | Ask any electronics questions, get answers in Tamil!</p>
+</div>
+
+<div class="container">
+  <div class="ai-box">
+    <h3>🔍 Electronics & Components AI Hub</h3>
+    <p style="color: #4a6b9c; font-size: 14px;">Ask any electronics, circuit, sensor, motor, current, or microcontroller question - AI will explain clearly in Tamil!</p>
+
+    <div class="search-container">
+      <div class="search-bar-wrapper">
+        <span class="robot-mini">🤖</span>
+        <input type="text" id="userInput" class="search-input" placeholder="Ask any electronics question (e.g., how current works, no current, servo, sensor)..." onkeydown="if(event.key==='Enter') askAaraAI()">
+        <button id="micBtn" class="mic-btn" title="Speak your question">🎤</button>
+      </div>
+      <button class="ask-btn" onclick="askAaraAI()">Ask AI</button>
+    </div>
+
+    <div>
+      <p style="font-size: 13px; color: #6c8eb8; margin-bottom: 6px;">Sample Topics (Type anything you want too):</p>
+      <div class="suggestions">
+        <div class="chip" onclick="setQuery('how does current work')">How Current Works</div>
+        <div class="chip" onclick="setQuery('what happens if there is no current')">No Current Effect</div>
+        <div class="chip" onclick="setQuery('how does servo motor work')">Servo Motor Working</div>
+        <div class="chip" onclick="setQuery('how does ultrasonic sensor work')">Ultrasonic Sensor</div>
+      </div>
+    </div>
+
+    <!-- Result Display Box -->
+    <div id="resultCard" class="result-card">
+      <h3 id="resultTitle">🤖 Aaraa AI Solution</h3>
+      <p id="resultText">Your solution will appear here...</p>
+    </div>
+  </div>
+</div>
+
+<a class="back-arrow" href="project1-page3.html" title="Back to Circuit">&#10094;</a>
+
+<script>
+  function setQuery(text) {
+    document.getElementById('userInput').value = text;
+    askAaraAI();
+  }
+
+  function buildSmartTamilResponse(rawQuery, q) {
+    // 1. Current working & no current
+    if (q.includes('current') || q.includes('கரண்ட்') || q.includes('மின்சாரம்')) {
+      if (q.includes('no ') || q.includes('without') || q.includes('இல்ல') || q.includes('இல்லையென்றால்') || q.includes('போனா') || q.includes('cut')) {
+        return "<b>கரண்ட் (மின்சாரம்) இல்லையென்றால் என்ன ஆகும்?</b><br><br>" +
+               "1. <b>சாதனங்கள் இயங்காது:</b> மைக்ரோகண்ட்ரோலர் (Arduino / ESP32), சென்சார்கள், மோட்டார்கள் மற்றும் LED-கள் செயல்படுவதற்குத் தேவையான மின் ஆற்றல் கிடைக்காமல் உடனே நின்றுவிடும்.<br><br>" +
+               "2. <b>தரவு மற்றும் நிலை (State) பாதிப்பு:</b> சர்க்யூட்டில் தற்காலிகமாக இயங்கிக் கொண்டிருக்கும் சிக்னல்கள் மற்றும் டிரைவர் கட்டுப்பாடுகள் நிறுத்தப்படும்; நிரந்தர மெமரி (Flash/EEPROM) மட்டும் பாதுகாப்பாக இருக்கும்.";
+      }
+      return "<b>கரண்ட் (Electric Current) எப்படி ஒர்க் ஆகுது?</b><br><br>" +
+             "1. <b>எலக்ட்ரான்களின் ஓட்டம்:</b> ஒரு மூடிய சர்க்யூட்டில் (Closed Circuit) வோல்டேஜ் அழுத்தம் (Voltage) இருக்கும்போது, எலக்ட்ரான்கள் ஒரு முனையிலிருந்து மற்றொரு முனைக்குப் பாய்வதுதான் கரண்ட் ஆகும்.<br><br>" +
+             "2. <b>வேலை செய்யும் விதம்:</b> பேட்டரி அல்லது பவர் சப்ளையில் இருந்து கரண்ட் ஒயர்கள் வழியாகச் சென்று ரெசிஸ்டர், LED, மோட்டார் அல்லது சென்சார் போன்ற காம்போனென்ட்களை இயக்கி, மீண்டும் நெகட்டிவ் / GND வழியாகச் சுற்றை நிறைவு செய்யும்.";
+    }
+
+    // 2. Voltage / Volt / Battery / Power
+    if (q.includes('voltage') || q.includes('volt') || q.includes('வோல்டேஜ்') || q.includes('battery') || q.includes('பேட்டரி') || q.includes('power')) {
+      return "<b>வோல்டேஜ் மற்றும் பவர் சப்ளை விளக்கம்:</b><br><br>" +
+             "1. <b>வோல்டேஜ் என்றால் என்ன:</b> மின்சாரத்தைத் தள்ளி விடும் மின் அழுத்தமே (Electrical Potential Difference) வோல்டேஜ் ஆகும்.<br><br>" +
+             "2. <b>கவனிக்க வேண்டியவை:</b> ஒவ்வொரு காம்போனென்ட்டிற்கும் குறிப்பிட்ட வோல்டேஜ் இருக்கும் (எடுத்துக்காட்டாக Arduino pins 5V, ESP32 3.3V, மோட்டார்கள் 6V–12V). அதிக வோல்டேஜ் கொடுத்தால் காம்போனென்ட் சேதமடைய வாய்ப்புள்ளது; குறைவாகக் கொடுத்தால் சரியாக இயங்காது.";
+    }
+
+    // 3. Capacitor
+    if (q.includes('capacitor') || q.includes('கெப்பாசிட்டர்')) {
+      return "<b>கெப்பாசிட்டர் (Capacitor) என்றால் என்ன மற்றும் எப்படி வேலை செய்யும்?</b><br><br>" +
+             "1. <b>செயல்பாடு:</b> மின்சாரத்தை (Electrical Charge) தற்காலிகமாகச் சேமித்து வைத்து, தேவைப்படும்போது வேகமாக வெளியிடும் காம்போனென்ட் ஆகும்.<br><br>" +
+             "2. <b>பயன்பாடுகள்:</b> பவர் சப்ளையில் ஏற்படும் வோல்டேஜ் ஏற்ற இறக்கங்களைச் சமன்படுத்தவும் (Filtering), சத்தம் (Noise) குறைக்கவும், டைமிங் சர்க்யூட்களிலும் பயன்படுகிறது.";
+    }
+
+    // 4. Resistor
+    if (q.includes('resistor') || q.includes('ரெசிஸ்டர்')) {
+      return "<b>ரெசிஸ்டர் (Resistor) என்றால் என்ன?</b><br><br>" +
+             "1. <b>செயல்பாடு:</b> சர்க்யூட்டில் பாயும் கரண்ட்டின் அளவைக் கட்டுப்படுத்தி (Limit Current) வோல்டேஜைக் குறைக்கும் மின்தடைப் பொருள் ஆகும்.<br><br>" +
+             "2. <b>பயன்பாடு:</b> LED மற்றும் சென்சார்கள் போன்ற நுண்ணிய பாகங்களுக்கு அதிக கரண்ட் பாய்ந்து பழுதடைவதைத் தடுக்கிறது.";
+    }
+
+    // 5. LED
+    if (q.includes('led') || q.includes('blink') || q.includes('எல்இடி')) {
+      return "<b>எல்.ஈ.டி (LED) எப்படி வேலை செய்கிறது?</b><br><br>" +
+             "1. <b>செயல்பாடு:</b> இது ஒரு Light Emitting Diode ஆகும். சரியான திசையில் (Anode +, Cathode -) மின்சாரம் பாயும்போது எலக்ட்ரான்கள் இணைந்து ஒளியை (Light) வெளியிடும்.<br><br>" +
+             "2. <b>பிளிங்க் / கட்டுப்பாடு:</b> மைக்ரோகண்ட்ரோலர் பின் வழியாக ON மற்றும் OFF சிக்னல்களை மாற்றி மாற்றி அனுப்புவதால் LED ஒளிரும் அல்லது பிளிங்க் ஆகும்.";
+    }
+
+    // 6. Servo Motor
+    if (q.includes('servo')) {
+      return "<b>சர்வோ மோட்டார் (Servo Motor) எப்படி வேலை செய்கிறது?</b><br><br>" +
+             "1. <b>துல்லியமான கோணம்:</b> சர்வோ மோட்டார் 0° முதல் 180° வரை குறிப்பிட்ட கோணத்தில் (Angle) துல்லியமாகத் திரும்பக்கூடியது.<br><br>" +
+             "2. <b>PWM சிக்னல்:</b> சிக்னல் பின்னில் வரும் PWM (Pulse Width Modulation) சிக்னலின் அகலத்திற்கு ஏற்ப உள்ளே உள்ள கண்ட்ரோல் சர்க்யூட் மோட்டாரைச் சரியான இடத்தில் நிறுத்தும்.";
+    }
+
+    // 7. DC Motor / L298N / Robot movement
+    if (q.includes('motor') || q.includes('l298n') || q.includes('மோட்டார்') || q.includes('ரோபோ') || q.includes('robot') || q.includes('backward') || q.includes('forward') || q.includes('turn')) {
+      return "<b>மோட்டார் மற்றும் மோட்டார் டிரைவர் (L298N) விளக்கம்:</b><br><br>" +
+             "1. <b>இயக்கம்:</b> மின் ஆற்றலை இயந்திர சுழற்சியாக மாற்றுவது மோட்டார். IN1, IN2, IN3, IN4 பின் சிக்னல்களை மாற்றுவதன் மூலம் முன்னோக்கி, பின்னோக்கி, இடது அல்லது வலது புறமாகத் திரும்ப முடியும்.<br><br>" +
+             "2. <b>வேகம் மற்றும் திசை:</b> ENA / ENB PWM பின் மூலம் வேகத்தைக் கட்டுப்படுத்தலாம்; திசை மாறினால் மோட்டார் ஒயர்களை மாற்றி இணைத்துச் சரிபார்க்கலாம்.";
+    }
+
+    // 8. Ultrasonic / IR / Sensors
+    if (q.includes('sensor') || q.includes('ultrasonic') || q.includes('ir') || q.includes('சென்சார்')) {
+      return "<b>சென்சார்கள் (Sensors) எப்படி வேலை செய்கின்றன?</b><br><br>" +
+             "1. <b>சூழலை உணர்தல்:</b> தூரம், ஒளி, நிறம் அல்லது தடையைக் கண்டறிந்து அதை எலக்ட்ரிக்கல் சிக்னலாக மைக்ரோகண்ட்ரோலருக்கு அனுப்புகின்றன.<br><br>" +
+             "2. <b>உதாரணம்:</b> Ultrasonic சென்சார் ஒலி அலைகள் மூலம் தூரத்தையும், IR சென்சார் அகச்சிவப்புக் கதிர்கள் (Infrared reflection) மூலம் பொருள் அல்லது கோட்டையும் கண்டறியும்.";
+    }
+
+    // 9. Arduino / ESP32 / Microcontroller / Code / Pin / GND
+    if (q.includes('arduino') || q.includes('esp32') || q.includes('microcontroller') || q.includes('code') || q.includes('pin') || q.includes('gnd') || q.includes('ground') || q.includes('ஆர்டினோ')) {
+      return "<b>மைக்ரோகண்ட்ரோலர், பின் மற்றும் இணைப்பு விளக்கம்:</b><br><br>" +
+             "1. <b>மூளைச் செயல்பாடு:</b> நாம் எழுதும் கோடைப் படித்து, சென்சார் உள்ளீடுகளின் அடிப்படையில் அவுட்புட் பின்களுக்கு (Digital / Analog / PWM) கட்டளைகளை வழங்குகிறது.<br><br>" +
+             "2. <b>GND இணைப்பு:</b> Arduino மற்றும் மற்ற மாட்யூல்களின் Ground (GND) ஒன்றாக இணைக்கப்பட்டிருந்தால் மட்டுமே சிக்னல் வோல்டேஜ் சரியாகப் புரியும்.";
+    }
+
+    // 10. General fallback for ANY other electronics question
+    return "<b>கேள்வி:</b> \"" + rawQuery + "\"<br><br>" +
+           "<b>எலக்ட்ரானிக்ஸ் விளக்கம்:</b><br>" +
+           "1. <b>அடிப்படைத் தத்துவம்:</b> எந்தவொரு எலக்ட்ரானிக்ஸ் அமைப்பும் பவர் சப்ளை (Voltage & Current), கட்டுப்பாட்டுப் பகுதி (Switch / Transistor / Microcontroller) மற்றும் செயல்படும் பகுதி (Sensor / Actuator / Motor / LED) ஆகியவற்றின் ஒருங்கிணைப்பில் இயங்குகிறது.<br><br>" +
+           "2. <b>சரிபார்க்க வேண்டியவை:</b> நீங்கள் கேட்கும் குறிப்பிட்ட பாகம் அல்லது சர்க்யூட்டில் பவர் (VCC/GND), சிக்னல் பின் இணைப்புகள் மற்றும் கோட் லாஜிக் சரியாக உள்ளதா என்பதைச் சோதித்துப் பாருங்கள்.";
+  }
+
+  function askAaraAI() {
+    let rawInput = document.getElementById('userInput').value.trim();
+    let query = rawInput.toLowerCase();
+    let resultCard = document.getElementById('resultCard');
+    let resultTitle = document.getElementById('resultTitle');
+    let resultText = document.getElementById('resultText');
+
+    if (!query) {
+      alert("தயவுசெய்து உங்கள் கேள்வியைத் டைப் செய்யவும் அல்லது பேசவும்!");
+      return;
+    }
+
+    resultCard.style.display = "block";
+
+    // Strictly block non-electronics queries
+    let nonElectronicsTerms = [
+      'biscuit', 'biscuits', 'chocolate', 'chocolates', 'food', 'movie', 'film', 'song',
+      'cricket', 'football', 'politics', 'recipe', 'cooking', 'biriyani', 'ice cream',
+      'பிஸ்கட்', 'சாக்லேட்', 'சமையல்', 'சினிமா', 'பாட்டு', 'உணவு', 'பிரியாணி'
+    ];
+    let isNonElectronics = nonElectronicsTerms.some(term => query.includes(term));
+
+    if (isNonElectronics) {
+      resultTitle.innerHTML = "🤖 Aaraa AI - Notice";
+      resultText.innerHTML = "மன்னிக்கவும்! என்னால் எலக்ட்ரானிக்ஸ் மற்றும் சர்க்யூட் சம்பந்தப்பட்ட சந்தேகங்களுக்கு மட்டுமே பதிலளிக்க முடியும்.";
+      return;
+    }
+
+    resultTitle.innerHTML = "🤖 Aaraa AI Solution (Verified by ஆரா அமுதன்)";
+    resultText.innerHTML = buildSmartTamilResponse(rawInput, query);
+  }
+
+  // Voice Recognition (Speech-to-Text) Setup
+  const micBtn = document.getElementById('micBtn');
+  const userInput = document.getElementById('userInput');
+
+  if ('webkitSpeechRecognition' in window || 'speechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+
+    micBtn.addEventListener('click', () => {
+      micBtn.classList.add('listening');
+      userInput.placeholder = "Listening... Speak now!";
+      recognition.start();
+    });
+
+    recognition.onresult = (event) => {
+      const speechToText = event.results[0][0].transcript;
+      userInput.value = speechToText;
+      micBtn.classList.remove('listening');
+      userInput.placeholder = "Ask any electronics question...";
+      askAaraAI();
+    };
+
+    recognition.onerror = () => {
+      micBtn.classList.remove('listening');
+      userInput.placeholder = "Voice error. Try typing.";
+    };
+
+    recognition.onend = () => {
+      micBtn.classList.remove('listening');
+    };
+  } else {
+    micBtn.style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
