@@ -1,4 +1,4 @@
-A<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -9,17 +9,14 @@ A<!DOCTYPE html>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:var(--ink)}
 header{height:72px;background:linear-gradient(100deg,#07316f,#061e50);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 5%;gap:20px}
-.brand{font-size:clamp(21px,3vw,30px);font-weight:800;color:#7de0ff;white-space:nowrap}
-.brand span{color:#ffd54d}
+.brand{font-size:clamp(21px,3vw,30px);font-weight:800;color:#7de0ff;white-space:nowrap}.brand span{color:#ffd54d}
 nav{display:flex;gap:clamp(10px,2vw,28px);align-items:center;font-weight:700}
 nav a{color:white;text-decoration:none;padding:10px 13px;border-radius:24px}
 nav a.active,nav a:hover{background:#f1f8ff;color:#07316f}
 .robot-mini{font-size:30px}
 .hero{min-height:220px;padding:30px 5%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:radial-gradient(circle at 10% 20%,#75d8ff 0 9%,transparent 10%),linear-gradient(110deg,#0879d8,#11b9ee 55%,#2386e8);color:white;overflow:hidden}
 .hero-robot{font-size:clamp(65px,9vw,112px);filter:drop-shadow(0 8px 4px #064c8a55);animation:float 3.5s ease-in-out infinite}
-.hero-copy{text-align:center;flex:1}
-.hero h1{font-size:clamp(30px,5vw,54px);margin:0 0 7px;text-shadow:2px 3px 0 #07316f}
-.hero h2{font-size:clamp(21px,3.3vw,34px);margin:0 0 16px;text-shadow:2px 2px 0 #07316f}
+.hero-copy{text-align:center;flex:1}.hero h1{font-size:clamp(30px,5vw,54px);margin:0 0 7px;text-shadow:2px 3px 0 #07316f}.hero h2{font-size:clamp(21px,3.3vw,34px);margin:0 0 16px;text-shadow:2px 2px 0 #07316f}
 .tagline{display:inline-block;background:#fff;color:#10233f;border-radius:30px;padding:10px 24px;font-weight:800;font-size:18px}
 .hero-note{font-size:clamp(17px,2vw,24px);font-weight:800;max-width:190px;text-align:center;color:#fff8b7;line-height:1.4}
 main{max-width:1500px;margin:auto;padding:20px 24px 36px}
@@ -27,54 +24,25 @@ main{max-width:1500px;margin:auto;padding:20px 24px 36px}
 .grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px}
 .component{border:1px solid #c8e3ff;border-radius:19px;min-height:108px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;box-shadow:0 4px 10px #174b7920;transition:transform .2s,box-shadow .2s;text-align:left;color:#101d30}
 .component:hover,.component:focus-visible{transform:translateY(-5px);box-shadow:0 9px 18px #174b7933;outline:3px solid #1685ed}
-.component.selected{outline:3px solid #0875df}
-.component .emoji{font-size:clamp(34px,4vw,49px);min-width:54px;text-align:center;filter:drop-shadow(0 3px 2px #0002)}
-.component .name{font-weight:800;font-size:clamp(13px,1.25vw,17px);flex:1}
+.component.selected{outline:3px solid #0875df}.component .emoji{font-size:clamp(34px,4vw,49px);min-width:54px;text-align:center;filter:drop-shadow(0 3px 2px #0002)}.component .name{font-weight:800;font-size:clamp(13px,1.25vw,17px);flex:1}
 .arrow{background:#0875df;color:white;border-radius:50%;width:30px;height:30px;display:grid;place-items:center;font-size:20px;font-weight:bold;flex-shrink:0}
 .c1{background:linear-gradient(120deg,#c9edff,#e6f6ff)}.c2{background:linear-gradient(120deg,#fff0d0,#ffe4b5)}.c3{background:linear-gradient(120deg,#d9f5f2,#c7eeee)}.c4{background:linear-gradient(120deg,#e9ddff,#d9d0ff)}.c5{background:linear-gradient(120deg,#ffe0e8,#ffd0dd)}
 .c6{background:linear-gradient(120deg,#e1f1ff,#d2e7ff)}.c7{background:linear-gradient(120deg,#ffe5d2,#ffd7c1)}.c8{background:linear-gradient(120deg,#dceaff,#c9dcff)}.c9{background:linear-gradient(120deg,#def7ee,#c9eee2)}.c10{background:linear-gradient(120deg,#ffe8d8,#ffdac5)}
 .c11{background:linear-gradient(120deg,#fff0d2,#ffe2b3)}.c12{background:linear-gradient(120deg,#e9e1ff,#d9d0ff)}.c13{background:linear-gradient(120deg,#ddf6e8,#c9f0d8)}.c14{background:linear-gradient(120deg,#eee5ff,#ddd2ff)}.c15{background:linear-gradient(120deg,#e0eaff,#d1ddff)}
-#detail{margin-top:18px;min-height:0}
-#detail:empty{display:none}
+#detail{margin-top:18px;min-height:0}#detail:empty{display:none}
 .detail-card{border:2px solid #b9dcff;border-radius:24px;background:linear-gradient(115deg,#f2f9ff,#fff);padding:24px;display:grid;grid-template-columns:190px minmax(0,1fr) 220px;gap:22px;box-shadow:0 7px 20px #174b791c;animation:appear .3s ease}
-.detail-art{border-radius:20px;background:linear-gradient(145deg,#d9f2ff,#eef8ff);display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:220px}
-.detail-art .big{font-size:100px;filter:drop-shadow(0 8px 4px #0002)}
-.detail-art .bot{font-size:40px}
-.detail-main h3{margin:0 0 10px;background:#0756b8;color:white;padding:11px 17px;border-radius:14px;width:max-content;max-width:100%;font-size:24px}
-.detail-main p{line-height:1.55;margin:8px 0 15px}
-.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.info{background:#e8f2ff;border-radius:14px;padding:13px}
-.info h4{margin:0 0 7px;color:#064fa9}
-.info p{margin:0;font-size:14px}
-.procon{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
-.pro,.con{border-radius:13px;padding:12px}
-.pro{background:#ddf8e2;border:1px solid #83d99a}.con{background:#ffe3e3;border:1px solid #f2a0a0}
-.pro h4,.con h4{margin:0 0 8px}
-.pro ul,.con ul{margin:0;padding-left:18px;font-size:14px;line-height:1.65}
-.pinbox{background:#f0f5ff;border:1px solid #b7d2ff;border-radius:18px;padding:15px;text-align:center;align-self:stretch}
-.pinbox h4{margin:0 0 8px;background:#0756b8;color:white;padding:9px;border-radius:12px}
-.pinbox .pin-emoji{font-size:65px}
-.pinbox p{font-size:14px;line-height:1.5}
-.close-row{text-align:right;margin-bottom:8px}
-.close-btn{border:0;border-radius:20px;padding:8px 14px;background:#e7f1ff;color:#064fa9;font-weight:700;cursor:pointer}
+.detail-art{border-radius:20px;background:linear-gradient(145deg,#d9f2ff,#eef8ff);display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:220px}.detail-art .big{font-size:100px;filter:drop-shadow(0 8px 4px #0002)}.detail-art .bot{font-size:40px}
+.detail-main h3{margin:0 0 10px;background:#0756b8;color:white;padding:11px 17px;border-radius:14px;width:max-content;max-width:100%;font-size:24px}.detail-main p{line-height:1.55;margin:8px 0 15px}
+.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.info{background:#e8f2ff;border-radius:14px;padding:13px}.info h4{margin:0 0 7px;color:#064fa9}.info p{margin:0;font-size:14px}
+.procon{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.pro,.con{border-radius:13px;padding:12px}.pro{background:#ddf8e2;border:1px solid #83d99a}.con{background:#ffe3e3;border:1px solid #f2a0a0}.pro h4,.con h4{margin:0 0 8px}.pro ul,.con ul{margin:0;padding-left:18px;font-size:14px;line-height:1.65}
+.pinbox{background:#f0f5ff;border:1px solid #b7d2ff;border-radius:18px;padding:15px;text-align:center;align-self:stretch}.pinbox h4{margin:0 0 8px;background:#0756b8;color:white;padding:9px;border-radius:12px}.pinbox .pin-emoji{font-size:65px}.pinbox p{font-size:14px;line-height:1.5}
+.close-row{text-align:right;margin-bottom:8px}.close-btn{border:0;border-radius:20px;padding:8px 14px;background:#e7f1ff;color:#064fa9;font-weight:700;cursor:pointer}
 footer{text-align:center;color:#52708d;padding:20px;font-size:13px}
-.page-arrow{
-  position:fixed;top:50%;transform:translateY(-50%);z-index:1000;
-  width:80px;height:80px;display:flex;align-items:center;justify-content:center;
-  border-radius:50%;background:#0b5de5;color:#fff;text-decoration:none;
-  font-family:Arial,Helvetica,sans-serif;font-size:58px;font-weight:400;line-height:1;
-  box-shadow:0 8px 18px #0003;transition:background .2s,transform .2s;
-}
-.page-arrow:hover{background:#064fc8;transform:translateY(-50%) scale(1.06)}
-.page-arrow.prev{left:26px}
-.page-arrow.next{right:26px}
-.page-arrow.disabled{background:#9aa9ba;box-shadow:0 8px 18px #0002;cursor:not-allowed}
-@media(max-width:650px){
-  .page-arrow{width:52px;height:52px;font-size:39px}
-  .page-arrow.prev{left:10px}.page-arrow.next{right:10px}
-}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.page-pager{max-width:1500px;margin:8px auto 0;padding:0 24px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.page-pager a{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border:0;border-radius:40px;background:linear-gradient(#1688ed,#0756b8);color:#fff;text-decoration:none;font-size:16px;font-weight:800;box-shadow:0 5px 0 #063d83;transition:transform .15s,filter .15s}
+.page-pager a:hover{filter:brightness(1.08);transform:translateY(-2px)}.page-pager .pager-arrow{font-size:24px;line-height:1}
+@media(max-width:650px){.page-pager{padding:0 12px}.page-pager a{padding:10px 14px;font-size:14px}.page-pager .pager-arrow{font-size:21px}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:1050px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.detail-card{grid-template-columns:150px 1fr}.pinbox{grid-column:1/-1;min-height:130px}.pinbox .pin-emoji{font-size:42px}}
 @media(max-width:650px){header{height:auto;padding:13px 16px;flex-wrap:wrap}.brand{width:100%;text-align:center}nav{width:100%;justify-content:center;flex-wrap:wrap;font-size:13px}nav a{padding:7px}.hero{padding:20px 12px;min-height:180px}.hero-robot{font-size:48px}.hero-note{display:none}main{padding:16px 12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.component{min-height:86px;padding:8px;gap:5px}.component .emoji{min-width:38px;font-size:34px}.component .name{font-size:13px}.arrow{width:25px;height:25px;font-size:17px}.detail-card{grid-template-columns:1fr;padding:14px}.detail-art{min-height:125px}.detail-art .big{font-size:65px}.info-grid{grid-template-columns:1fr}.procon{grid-template-columns:1fr 1fr}.detail-main h3{font-size:21px}}
 </style>
@@ -83,16 +51,13 @@ footer{text-align:center;color:#52708d;padding:20px;font-size:13px}
 <header>
   <div class="brand"><span>⚡</span> Aara Electro</div>
   <nav aria-label="Main navigation">
-    <a href="index.html">⌂ Home</a><a href="#">▣ Learn</a><a class="active" href="components.html">▦ Components</a><a href="#">★ Challenges</a><a href="project2-page4.html">▤ Feedback</a>
+    <a href="index.html">⌂ Home</a><a href="#">▣ Learn</a><a class="active" href="components.html">▦ Components</a><a href="#">★ Challenges</a><a href="feedback.html">▤ Feedback</a>
   </nav>
   <div class="robot-mini" aria-label="Robot mascot">🤖</div>
 </header>
 <section class="hero">
   <div class="hero-robot" aria-hidden="true">🤖</div>
-  <div class="hero-copy">
-    <h1>Aara Electro</h1><h2>Component Learning Hub</h2>
-    <div class="tagline">Explore&nbsp; • &nbsp;Learn&nbsp; • &nbsp;Build</div>
-  </div>
+  <div class="hero-copy"><h1>Aara Electro</h1><h2>Component Learning Hub</h2><div class="tagline">Explore&nbsp; • &nbsp;Learn&nbsp; • &nbsp;Build</div></div>
   <div class="hero-note">Small Components…<br><span style="color:#fff06a">Big Ideas!</span><br>💡</div>
 </section>
 <main>
@@ -100,9 +65,9 @@ footer{text-align:center;color:#52708d;padding:20px;font-size:13px}
   <section class="grid" id="componentGrid" aria-label="Electronic components"></section>
   <section id="detail" aria-live="polite"></section>
 </main>
-<nav aria-label="Page navigation">
-  <a class="page-arrow prev" href="project2-page4.html" aria-label="Go back to Page 4">&#x276E;</a>
-  <span class="page-arrow next disabled" role="img" aria-label="Next page is not available yet" title="Page 6 has not been created yet">&#x276F;</span>
+<nav class="page-pager" aria-label="Page navigation">
+  <a href="project2-page4.html" aria-label="Go back to Student Feedback Wall"><span class="pager-arrow" aria-hidden="true">←</span> Back</a>
+  <a href="project2-page6.html" aria-label="Go to Page 6 Circuit Builder">Circuit Builder <span class="pager-arrow" aria-hidden="true">→</span></a>
 </nav>
 <footer>Made for curious learners • Aara Electro</footer>
 <script>
@@ -123,46 +88,26 @@ const components = [
 { name:"Wire",emoji:"🧵",what:"An electrical wire is a conductor used to carry current or signals between circuit parts.",made:"Usually a copper conductor covered by an insulating plastic or rubber layer.",works:"The conductive core provides a path for electric charge; the insulation helps prevent accidental contact.",uses:"Power connections, signal wiring, breadboard jumpers and circuit assembly.",pros:["Connects circuit parts","Flexible types are easy to route","Available in different gauges"],cons:["Wrong gauge can overheat","Insulation can be damaged","Loose connections cause faults"],extra:"Choose wire thickness for the current, strip only the needed insulation, and avoid short circuits."},
 { name:"Battery",emoji:"🔋",what:"A battery supplies electrical energy to a circuit by converting stored chemical energy into electrical energy.",made:"A cell contains electrodes, electrolyte and a separator; a battery may combine one or more cells.",works:"Chemical reactions create a voltage between the terminals and drive current through a connected circuit.",uses:"Portable electronics, robots, backup power and off-grid projects.",pros:["Portable power source","Available in many voltages and capacities","Useful away from mains power"],cons:["Needs recharging or replacement","Can be damaged by short circuits","Must match the circuit's voltage and current needs"],extra:"Never short battery terminals. Match battery chemistry, voltage and polarity to the device; use suitable protection and charging equipment."}
 ];
-
 const grid=document.getElementById("componentGrid");
 components.forEach((c,i)=>{
-  const btn=document.createElement("button");
-  btn.type="button";btn.className=`component c${i+1}`;btn.setAttribute("aria-label",`Learn about ${c.name}`);
-  btn.innerHTML=`<span class="emoji" aria-hidden="true">${c.emoji}</span><span class="name">${c.name}</span><span class="arrow" aria-hidden="true">➜</span>`;
-  btn.addEventListener("click",()=>showDetail(i,btn));
-  grid.appendChild(btn);
+ const btn=document.createElement("button");btn.type="button";btn.className=`component c${i+1}`;btn.setAttribute("aria-label",`Learn about ${c.name}`);
+ btn.innerHTML=`<span class="emoji" aria-hidden="true">${c.emoji}</span><span class="name">${c.name}</span><span class="arrow" aria-hidden="true">➜</span>`;
+ btn.addEventListener("click",()=>showDetail(i,btn));grid.appendChild(btn);
 });
 function showDetail(i,button){
-  const c=components[i];
-  document.querySelectorAll(".component").forEach(el=>el.classList.remove("selected"));
-  button.classList.add("selected");
-  const list=(items)=>items.map(x=>`<li>${x}</li>`).join("");
-  document.getElementById("detail").innerHTML=`
-    <div class="close-row"><button class="close-btn" type="button" onclick="closeDetail()">✕ Hide explanation</button></div>
-    <article class="detail-card">
-      <div class="detail-art"><div class="bot">🤖</div><div class="big">${c.emoji}</div><strong>${c.name}</strong></div>
-      <div class="detail-main">
-        <h3>What is ${c.name}?</h3>
-        <p>${c.what}</p>
-        <div class="info-grid">
-          <div class="info"><h4>⚙️ How is it made?</h4><p>${c.made}</p></div>
-          <div class="info"><h4>⚡ How does it work?</h4><p>${c.works}</p></div>
-          <div class="info"><h4>🛠️ Applications</h4><p>${c.uses}</p></div>
-          <div class="info"><h4>📌 Practical note</h4><p>${c.extra}</p></div>
-        </div>
-        <div class="procon">
-          <div class="pro"><h4>✅ Advantages</h4><ul>${list(c.pros)}</ul></div>
-          <div class="con"><h4>❌ Disadvantages</h4><ul>${list(c.cons)}</ul></div>
-        </div>
-      </div>
-      <aside class="pinbox"><h4>${c.name} quick view</h4><div class="pin-emoji">${c.emoji}</div><p>Select a component card above to view its lesson here. Always check the exact component datasheet before wiring.</p></aside>
-    </article>`;
-  document.getElementById("detail").scrollIntoView({behavior:"smooth",block:"start"});
+ const c=components[i];document.querySelectorAll(".component").forEach(el=>el.classList.remove("selected"));button.classList.add("selected");
+ const list=items=>items.map(x=>`<li>${x}</li>`).join("");
+ document.getElementById("detail").innerHTML=`
+ <div class="close-row"><button class="close-btn" type="button" onclick="closeDetail()">✕ Hide explanation</button></div>
+ <article class="detail-card"><div class="detail-art"><div class="bot">🤖</div><div class="big">${c.emoji}</div><strong>${c.name}</strong></div>
+ <div class="detail-main"><h3>What is ${c.name}?</h3><p>${c.what}</p><div class="info-grid">
+ <div class="info"><h4>⚙️ How is it made?</h4><p>${c.made}</p></div><div class="info"><h4>⚡ How does it work?</h4><p>${c.works}</p></div>
+ <div class="info"><h4>🛠️ Applications</h4><p>${c.uses}</p></div><div class="info"><h4>📌 Practical note</h4><p>${c.extra}</p></div></div>
+ <div class="procon"><div class="pro"><h4>✅ Advantages</h4><ul>${list(c.pros)}</ul></div><div class="con"><h4>❌ Disadvantages</h4><ul>${list(c.cons)}</ul></div></div></div>
+ <aside class="pinbox"><h4>${c.name} quick view</h4><div class="pin-emoji">${c.emoji}</div><p>Select a component card above to view its lesson here. Always check the exact component datasheet before wiring.</p></aside></article>`;
+ document.getElementById("detail").scrollIntoView({behavior:"smooth",block:"start"});
 }
-function closeDetail(){
-  document.getElementById("detail").innerHTML="";
-  document.querySelectorAll(".component").forEach(el=>el.classList.remove("selected"));
-}
+function closeDetail(){document.getElementById("detail").innerHTML="";document.querySelectorAll(".component").forEach(el=>el.classList.remove("selected"))}
 </script>
 </body>
 </html>
