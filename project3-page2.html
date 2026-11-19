@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circuit & Components - Arduino LED Blink | Aaraa Electro</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #eaf4ff; color: #0b2a5b; min-height: 100vh; }
+  
+  .topbar { background: linear-gradient(90deg, #0b3fbf, #00b4f0); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar a { color: #fff; text-decoration: none; font-weight: bold; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; }
+  .topbar h2 { font-size: 22px; }
+  
+  .banner { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; text-align: center; padding: 40px 20px; }
+  .banner h1 { font-size: 36px; text-shadow: 0 3px 8px rgba(0,0,0,0.3); }
+  .banner p { margin-top: 8px; font-size: 16px; color: #dff8ff; }
+  
+  .container { max-width: 1000px; margin: 30px auto; padding: 0 20px 100px; }
+  .card { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 28px; box-shadow: 0 6px 18px rgba(11,63,191,0.12); }
+  .card h2 { color: #0b3fbf; margin-bottom: 16px; }
+  
+  /* Circuit Diagram Box */
+  .circuit-box { width: 100%; height: 560px; border: 3px solid #4aa8ff; border-radius: 14px; background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: auto; padding: 15px; }
+  .circuit-box svg { width: 100%; max-width: 860px; height: auto; }
+
+  /* Components List Grid */
+  .comp-list { display: flex; flex-direction: column; gap: 14px; }
+  .comp-item { display: flex; align-items: center; justify-content: space-between; background: #f8fbff; border: 1px solid #d4e6ff; border-radius: 12px; padding: 12px 18px; transition: 0.2s; gap: 15px; }
+  .comp-item:hover { background: #eef6ff; border-color: #4aa8ff; }
+  
+  .comp-details h3 { color: #0b2a5b; font-size: 18px; margin-bottom: 4px; }
+  .comp-details p { color: #4a6b9c; font-size: 14px; }
+  
+  .mini-photo { width: 78px; height: 78px; flex: none; border: 2px solid #4aa8ff; border-radius: 10px; background: #fff; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; padding: 2px; }
+  .mini-photo img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; background: #f8fbff; }
+
+  /* Back Arrow (Left) */
+  .back-arrow { position: fixed; left: 18px; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transform: translateY(-50%); animation: shakeback 1s infinite; z-index: 10; }
+  
+  /* Next Arrow (Right) */
+  .next-arrow { position: fixed; right: 18px; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b3fbf; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transform: translateY(-50%); animation: shakenext 1s infinite; z-index: 10; }
+
+  @keyframes shakeback {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(-8px); }
+    50% { transform: translateY(-50%) translateX(6px); }
+    75% { transform: translateY(-50%) translateX(-4px); }
+  }
+  @keyframes shakenext {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(8px); }
+    50% { transform: translateY(-50%) translateX(-6px); }
+    75% { transform: translateY(-50%) translateX(4px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h2>Aaraa Electro</h2>
+  <a href="index1.html">&larr; Back to Search</a>
+</div>
+
+<div class="banner">
+  <h1>Circuit Diagram &amp; Components</h1>
+  <p>Wiring connections and required parts for the Arduino LED Blink project</p>
+</div>
+
+<div class="container">
+
+  <!-- Section 1: Circuit Diagram -->
+  <div class="card">
+    <h2>Circuit Diagram</h2>
+    <div class="circuit-box">
+      <svg viewBox="0 0 860 540" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+        <rect width="860" height="540" fill="#ffffff" rx="10"/>
+        <text x="430" y="28" font-size="16" font-weight="bold" fill="#0b3fbf" text-anchor="middle">Arduino LED Blink (Pin 13 + Resistor) - Wiring Diagram (Aaraa Electro)</text>
+
+        <!-- Arduino Uno -->
+        <rect x="295" y="95" width="270" height="175" rx="10" fill="#00878f" stroke="#005f66" stroke-width="2"/>
+        <text x="430" y="172" font-size="18" font-weight="bold" fill="#fff" text-anchor="middle">ARDUINO</text>
+        <text x="430" y="196" font-size="15" font-weight="bold" fill="#dff8ff" text-anchor="middle">UNO R3</text>
+
+        <!-- Digital Pin 13 & GND Labels -->
+        <rect x="445" y="102" width="102" height="16" rx="3" fill="#212529"/>
+        <text x="465" y="132" font-size="10" fill="#ffeb3b" font-weight="bold" text-anchor="middle">PIN 13</text>
+        <text x="525" y="132" font-size="10" fill="#ffffff" font-weight="bold" text-anchor="middle">GND</text>
+
+        <!-- Wire from Pin 13 to Resistor -->
+        <polyline points="465,102 465,68 235,68 235,340" fill="none" stroke="#e53935" stroke-width="3.5"/>
+        <text x="350" y="60" font-size="12" font-weight="bold" fill="#c62828" text-anchor="middle">Digital Pin 13 (5V HIGH / 0V LOW)</text>
+
+        <!-- Current Limiting Resistor (220 Ohm) -->
+        <rect x="180" y="340" width="110" height="36" rx="8" fill="#f5e1be" stroke="#8d6e63" stroke-width="2"/>
+        <line x1="202" y1="340" x2="202" y2="376" stroke="#c62828" stroke-width="4"/>
+        <line x1="222" y1="340" x2="222" y2="376" stroke="#c62828" stroke-width="4"/>
+        <line x1="242" y1="340" x2="242" y2="376" stroke="#6d4c41" stroke-width="4"/>
+        <line x1="268" y1="340" x2="268" y2="376" stroke="#d4af37" stroke-width="4"/>
+        <text x="235" y="398" font-size="13" font-weight="bold" fill="#0b2a5b" text-anchor="middle">220Ω Resistor</text>
+
+        <!-- Wire from Resistor to LED Anode (+) -->
+        <polyline points="290,358 395,358 395,330" fill="none" stroke="#e53935" stroke-width="3.5"/>
+        <text x="395" y="350" font-size="11" font-weight="bold" fill="#c62828" text-anchor="middle">Anode (+)</text>
+
+        <!-- LED Component -->
+        <circle cx="430" cy="310" r="28" fill="#ff5252" stroke="#b71c1c" stroke-width="2.5"/>
+        <circle cx="421" cy="300" r="7" fill="#ff9aa5" opacity="0.7"/>
+        <text x="430" y="314" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">LED</text>
+
+        <!-- LED Leads -->
+        <line x1="395" y1="310" x2="402" y2="310" stroke="#37474f" stroke-width="3"/>
+        <line x1="458" y1="310" x2="465" y2="310" stroke="#37474f" stroke-width="3"/>
+        <text x="465" y="350" font-size="11" font-weight="bold" fill="#212529" text-anchor="middle">Cathode (−)</text>
+
+        <!-- Wire from LED Cathode (-) to Arduino GND -->
+        <polyline points="465,330 465,358 525,358 525,118" fill="none" stroke="#212529" stroke-width="3.5"/>
+        <text x="560" y="350" font-size="12" font-weight="bold" fill="#212529" text-anchor="middle">Ground (GND)</text>
+
+        <!-- Summary Note Box -->
+        <rect x="130" y="435" width="600" height="72" rx="10" fill="#f0f7ff" stroke="#4aa8ff" stroke-width="2"/>
+        <text x="430" y="463" font-size="13" font-weight="bold" fill="#0b3fbf" text-anchor="middle">Connection Summary:</text>
+        <text x="430" y="486" font-size="12" fill="#0b2a5b" text-anchor="middle">Pin 13 → 220Ω Resistor → LED Long Leg (+ Anode)  |  LED Short Leg (− Cathode) → Arduino GND</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Section 2: Components List -->
+  <div class="card">
+    <h2>Required Components</h2>
+    <div class="comp-list">
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>1. Arduino Uno (with USB Cable)</h3>
+          <p>Runs the Blink sketch and toggles Digital Pin 13 between HIGH (5V) and LOW (0V).</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Arduino_Uno_-_R3.jpg" alt="Arduino Uno"></div>
+      </div>
+
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>2. Standard 5mm LED</h3>
+          <p>Lights up when current flows from the Anode (+) to the Cathode (−) and turns off when LOW.</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/LED%2C_5mm%2C_red_%282008%29.jpg" alt="5mm LED"></div>
+      </div>
+
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>3. Current-Limiting Resistor (220Ω – 1kΩ)</h3>
+          <p>Protects the LED from excess current and prevents burnout when Pin 13 goes HIGH.</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Axial_lead_resistor_220_ohm.jpg" alt="220 Ohm Resistor"></div>
+      </div>
+
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>4. Solderless Breadboard</h3>
+          <p>Lets you plug in the LED, resistor, and jumper wires cleanly without soldering.</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Breadboard.jpg" alt="Breadboard"></div>
+      </div>
+
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>5. Jumper Wires (Male-to-Male)</h3>
+          <p>Connects Arduino Pin 13 to the resistor/LED and connects the LED cathode to GND.</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Jumper_wires_arduino.jpg" alt="Jumper Wires"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation Arrows -->
+<a class="back-arrow" href="project3.html" title="Previous Page">&#10094;</a>
+<a class="next-arrow" href="project3-page3.html" title="Next Page">&#10095;</a>
+
+</body>
+</html>
