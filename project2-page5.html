@@ -1,1 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aara Electro | Component Learning Hub</title>
+<style>
+:root{--navy:#082b68;--blue:#0875df;--sky:#eaf6ff;--ink:#10233f;--brown:#9b6038}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:var(--ink)}
+header{height:72px;background:linear-gradient(100deg,#07316f,#061e50);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 5%;gap:20px}
+.brand{font-size:clamp(21px,3vw,30px);font-weight:800;color:#7de0ff;white-space:nowrap}
+.brand span{color:#ffd54d}
+nav{display:flex;gap:clamp(10px,2vw,28px);align-items:center;font-weight:700}
+nav a{color:white;text-decoration:none;padding:10px 13px;border-radius:24px}
+nav a.active,nav a:hover{background:#f1f8ff;color:#07316f}
+.robot-mini{font-size:30px}
+.hero{min-height:220px;padding:30px 5%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:radial-gradient(circle at 10% 20%,#75d8ff 0 9%,transparent 10%),linear-gradient(110deg,#0879d8,#11b9ee 55%,#2386e8);color:white;overflow:hidden}
+.hero-robot{font-size:clamp(65px,9vw,112px);filter:drop-shadow(0 8px 4px #064c8a55);animation:float 3.5s ease-in-out infinite}
+.hero-copy{text-align:center;flex:1}
+.hero h1{font-size:clamp(30px,5vw,54px);margin:0 0 7px;text-shadow:2px 3px 0 #07316f}
+.hero h2{font-size:clamp(21px,3.3vw,34px);margin:0 0 16px;text-shadow:2px 2px 0 #07316f}
+.tagline{display:inline-block;background:#fff;color:#10233f;border-radius:30px;padding:10px 24px;font-weight:800;font-size:18px}
+.hero-note{font-size:clamp(17px,2vw,24px);font-weight:800;max-width:190px;text-align:center;color:#fff8b7;line-height:1.4}
+main{max-width:1500px;margin:auto;padding:20px 24px 36px}
+.section-title{text-align:center;margin:0 auto 15px;background:#0756b8;color:#fff;border-radius:18px;padding:12px 24px;width:max-content;max-width:100%;font-size:clamp(17px,2.5vw,24px)}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px}
+.component{border:1px solid #c8e3ff;border-radius:19px;min-height:108px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;box-shadow:0 4px 10px #174b7920;transition:transform .2s,box-shadow .2s;text-align:left;color:#101d30}
+.component:hover,.component:focus-visible{transform:translateY(-5px);box-shadow:0 9px 18px #174b7933;outline:3px solid #1685ed}
+.component.selected{outline:3px solid #0875df}
+.component .emoji{font-size:clamp(34px,4vw,49px);min-width:54px;text-align:center;filter:drop-shadow(0 3px 2px #0002)}
+.component .name{font-weight:800;font-size:clamp(13px,1.25vw,17px);flex:1}
+.arrow{background:#0875df;color:white;border-radius:50%;width:30px;height:30px;display:grid;place-items:center;font-size:20px;font-weight:bold;flex-shrink:0}
+.c1{background:linear-gradient(120deg,#c9edff,#e6f6ff)}.c2{background:linear-gradient(120deg,#fff0d0,#ffe4b5)}.c3{background:linear-gradient(120deg,#d9f5f2,#c7eeee)}.c4{background:linear-gradient(120deg,#e9ddff,#d9d0ff)}.c5{background:linear-gradient(120deg,#ffe0e8,#ffd0dd)}
+.c6{background:linear-gradient(120deg,#e1f1ff,#d2e7ff)}.c7{background:linear-gradient(120deg,#ffe5d2,#ffd7c1)}.c8{background:linear-gradient(120deg,#dceaff,#c9dcff)}.c9{background:linear-gradient(120deg,#def7ee,#c9eee2)}.c10{background:linear-gradient(120deg,#ffe8d8,#ffdac5)}
+.c11{background:linear-gradient(120deg,#fff0d2,#ffe2b3)}.c12{background:linear-gradient(120deg,#e9e1ff,#d9d0ff)}.c13{background:linear-gradient(120deg,#ddf6e8,#c9f0d8)}.c14{background:linear-gradient(120deg,#eee5ff,#ddd2ff)}.c15{background:linear-gradient(120deg,#e0eaff,#d1ddff)}
+#detail{margin-top:18px;min-height:0}
+#detail:empty{display:none}
+.detail-card{border:2px solid #b9dcff;border-radius:24px;background:linear-gradient(115deg,#f2f9ff,#fff);padding:24px;display:grid;grid-template-columns:190px minmax(0,1fr) 220px;gap:22px;box-shadow:0 7px 20px #174b791c;animation:appear .3s ease}
+.detail-art{border-radius:20px;background:linear-gradient(145deg,#d9f2ff,#eef8ff);display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:220px}
+.detail-art .big{font-size:100px;filter:drop-shadow(0 8px 4px #0002)}
+.detail-art .bot{font-size:40px}
+.detail-main h3{margin:0 0 10px;background:#0756b8;color:white;padding:11px 17px;border-radius:14px;width:max-content;max-width:100%;font-size:24px}
+.detail-main p{line-height:1.55;margin:8px 0 15px}
+.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.info{background:#e8f2ff;border-radius:14px;padding:13px}
+.info h4{margin:0 0 7px;color:#064fa9}
+.info p{margin:0;font-size:14px}
+.procon{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.pro,.con{border-radius:13px;padding:12px}
+.pro{background:#ddf8e2;border:1px solid #83d99a}.con{background:#ffe3e3;border:1px solid #f2a0a0}
+.pro h4,.con h4{margin:0 0 8px}
+.pro ul,.con ul{margin:0;padding-left:18px;font-size:14px;line-height:1.65}
+.pinbox{background:#f0f5ff;border:1px solid #b7d2ff;border-radius:18px;padding:15px;text-align:center;align-self:stretch}
+.pinbox h4{margin:0 0 8px;background:#0756b8;color:white;padding:9px;border-radius:12px}
+.pinbox .pin-emoji{font-size:65px}
+.pinbox p{font-size:14px;line-height:1.5}
+.close-row{text-align:right;margin-bottom:8px}
+.close-btn{border:0;border-radius:20px;padding:8px 14px;background:#e7f1ff;color:#064fa9;font-weight:700;cursor:pointer}
+footer{text-align:center;color:#52708d;padding:20px;font-size:13px}
+.page-pager{max-width:1500px;margin:8px auto 0;padding:0 24px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.page-pager a,.page-pager .future-link{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border:0;border-radius:40px;background:linear-gradient(#1688ed,#0756b8);color:#fff;text-decoration:none;font-size:16px;font-weight:800;box-shadow:0 5px 0 #063d83}
+.page-pager .future-link{background:#aab8c8;box-shadow:0 5px 0 #78899b;cursor:not-allowed}
+.page-pager .pager-arrow{font-size:24px;line-height:1}
+@media(max-width:650px){.page-pager{padding:0 12px}.page-pager a,.page-pager .future-link{padding:10px 14px;font-size:14px}.page-pager .pager-arrow{font-size:21px}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:1050px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.detail-card{grid-template-columns:150px 1fr}.pinbox{grid-column:1/-1;min-height:130px}.pinbox .pin-emoji{font-size:42px}}
+@media(max-width:650px){header{height:auto;padding:13px 16px;flex-wrap:wrap}.brand{width:100%;text-align:center}nav{width:100%;justify-content:center;flex-wrap:wrap;font-size:13px}nav a{padding:7px}.hero{padding:20px 12px;min-height:180px}.hero-robot{font-size:48px}.hero-note{display:none}main{padding:16px 12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.component{min-height:86px;padding:8px;gap:5px}.component .emoji{min-width:38px;font-size:34px}.component .name{font-size:13px}.arrow{width:25px;height:25px;font-size:17px}.detail-card{grid-template-columns:1fr;padding:14px}.detail-art{min-height:125px}.detail-art .big{font-size:65px}.info-grid{grid-template-columns:1fr}.procon{grid-template-columns:1fr 1fr}.detail-main h3{font-size:21px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><span>⚡</span> Aara Electro</div>
+  <nav aria-label="Main navigation">
+    <a href="index.html">⌂ Home</a><a href="#">▣ Learn</a><a class="active" href="components.html">▦ Components</a><a href="#">★ Challenges</a><a href="feedback.html">▤ Feedback</a>
+  </nav>
+  <div class="robot-mini" aria-label="Robot mascot">🤖</div>
+</header>
+<section class="hero">
+  <div class="hero-robot" aria-hidden="true">🤖</div>
+  <div class="hero-copy">
+    <h1>Aara Electro</h1><h2>Component Learning Hub</h2>
+    <div class="tagline">Explore&nbsp; • &nbsp;Learn&nbsp; • &nbsp;Build</div>
+  </div>
+  <div class="hero-note">Small Components…<br><span style="color:#fff06a">Big Ideas!</span><br>💡</div>
+</section>
+<main>
+  <h2 class="section-title">Explore Our Components (Click any box)</h2>
+  <section class="grid" id="componentGrid" aria-label="Electronic components"></section>
+  <section id="detail" aria-live="polite"></section>
+</main>
+<nav class="page-pager" aria-label="Page navigation">
+  <a href="feedback.html" aria-label="Go back to Student Feedback Wall"><span class="pager-arrow" aria-hidden="true">←</span> Back</a>
+  <span class="future-link" aria-label="Next page is coming soon" title="Page 6 has not been created yet">Next <span class="pager-arrow" aria-hidden="true">→</span></span>
+</nav>
+<footer>Made for curious learners • Aara Electro</footer>
+<script>
+const components = [
+{ name:"LED",emoji:"🔴",what:"An LED (Light Emitting Diode) is a semiconductor component that produces light when current flows through it in the correct direction.",made:"Made from layered semiconductor materials. The exact materials vary by LED colour.",works:"When forward-biased, electrons and holes recombine in the semiconductor and release energy as light.",uses:"Indicator lights, displays, lighting, status signals and Arduino projects.",pros:["Uses relatively little power","Long operating life","Available in many colours"],cons:["Needs correct polarity","Needs a current-limiting resistor","Can be damaged by excess current"],extra:"The longer lead is commonly the anode (+); the shorter lead and flat edge usually indicate the cathode (−). Check the component datasheet when unsure."},
+{ name:"Resistor",emoji:"〰️",what:"A resistor is a passive component that limits or controls the flow of electric current in a circuit.",made:"Often made from a carbon film, metal film or a resistive wire on an insulating core.",works:"It creates a voltage drop and converts some electrical energy into heat. Its value is measured in ohms (Ω).",uses:"LED current limiting, voltage dividers, pull-up and pull-down circuits, and sensor circuits.",pros:["Simple and inexpensive","Reliable","Available in many resistance values"],cons:["Dissipates energy as heat","Value tolerance affects accuracy","Power rating must not be exceeded"],extra:"Read the colour bands or printed code to identify resistance. Choose a suitable resistance and power rating for the circuit."},
+{ name:"Capacitor",emoji:"🔋",what:"A capacitor stores energy in an electric field and can release that energy when the circuit needs it.",made:"Usually made from two conductive plates separated by an insulating dielectric material.",works:"It charges when voltage is applied and discharges when connected to a load. Capacitance is measured in farads (F).",uses:"Power-supply smoothing, filtering, timing circuits and short-term energy storage.",pros:["Useful for filtering noise","Can smooth voltage changes","Responds quickly to changing signals"],cons:["Stores charge after power is removed","Electrolytic types have polarity","Voltage rating must be respected"],extra:"Electrolytic capacitors usually have marked positive and negative leads. Observe polarity and voltage rating."},
+{ name:"DC Motor",emoji:"⚙️",what:"A DC motor converts direct-current electrical energy into rotating mechanical motion.",made:"Contains a rotor, stator magnets or field windings, coils, shaft and (in brushed types) a commutator and brushes.",works:"Magnetic forces act on current-carrying coils to create torque and turn the shaft.",uses:"Small robots, fans, toys, pumps and moving mechanisms.",pros:["Simple to control","Good for continuous rotation","Available in many sizes"],cons:["Can draw high starting current","Brushed types wear over time","Often needs a driver circuit"],extra:"Do not power a motor directly from a microcontroller pin. Use a suitable motor driver and power supply."},
+{ name:"Servo Motor",emoji:"🦾",what:"A servo motor is a motor system designed to move its shaft to a controlled position.",made:"A hobby servo commonly contains a small DC motor, gears, a control circuit and a position sensor.",works:"It receives a control signal and adjusts its shaft toward the requested angle.",uses:"Robot arms, steering systems, pan-tilt mounts and model vehicles.",pros:["Position control is straightforward","Good holding torque for its size","Easy to use with many boards"],cons:["Limited rotation on common hobby models","Can draw significant current","Gears can be damaged by force"],extra:"Typical hobby servos have signal, power and ground wires. Check the servo's voltage and current requirements."},
+{ name:"Breadboard",emoji:"▦",what:"A breadboard is a reusable board that lets you build temporary circuits without soldering.",made:"Contains a plastic body with rows of spring-metal contact clips underneath.",works:"The clips connect groups of holes electrically. The internal connection pattern depends on the breadboard model.",uses:"Prototyping Arduino circuits, testing components and learning electronics.",pros:["No soldering needed","Parts can be reused","Quick to change circuits"],cons:["Connections can become loose","Not ideal for high current","Wiring can become messy"],extra:"The centre gap separates the two terminal areas. Check the power-rail connections; some rails are split in the middle."},
+{ name:"Arduino Uno",emoji:"🟦",what:"Arduino Uno is a beginner-friendly microcontroller development board used to read inputs and control outputs.",made:"A circuit board carrying an ATmega328P microcontroller on the classic Uno R3, plus USB, power and support circuitry.",works:"A program uploaded to the board runs on the microcontroller and interacts with pins and connected devices.",uses:"Learning programming, sensor projects, automation and robotics.",pros:["Beginner-friendly ecosystem","Many learning examples","Digital and analog input/output"],cons:["Limited memory compared with newer boards","Pins have current limits","Not a full computer"],extra:"Use the correct board and port in the Arduino IDE. Check pin voltage and current limits before connecting components."},
+{ name:"Ultrasonic Sensor",emoji:"👀",what:"An ultrasonic distance sensor estimates distance by sending sound pulses above the range of human hearing.",made:"Common modules contain a transmitting transducer, receiving transducer and timing electronics.",works:"It measures the time taken for an ultrasonic pulse to travel to an object and echo back.",uses:"Obstacle detection, robot navigation and distance measurement.",pros:["Non-contact measurement","Useful for simple obstacle detection","Easy to connect to many controllers"],cons:["Soft or angled surfaces can give poor readings","Readings can be affected by nearby objects","Has a limited measurement range"],extra:"Connect trigger and echo pins as specified. Some modules use a 5 V echo signal; protect 3.3 V boards with level shifting."},
+{ name:"DHT11 Sensor",emoji:"🌡️",what:"DHT11 is a digital sensor module that measures temperature and relative humidity.",made:"Contains a humidity sensing element, temperature sensor and a small signal-processing circuit.",works:"It sends calibrated digital data to a controller using a single data line.",uses:"Basic room monitoring, classroom weather projects and simple environment displays.",pros:["Simple digital interface","Combines temperature and humidity","Low-cost learning sensor"],cons:["Lower accuracy than many advanced sensors","Slow response","Limited operating range"],extra:"Follow the module's pin labels and library instructions. Allow time between readings; it is not designed for rapid sampling."},
+{ name:"LDR Sensor",emoji:"🌞",what:"An LDR (Light Dependent Resistor) changes its resistance according to the amount of light falling on it.",made:"A light-sensitive semiconductor material is placed in a patterned resistive track, often on a small disc.",works:"Its resistance generally decreases as light intensity increases. A voltage divider lets a controller read the change.",uses:"Automatic night lamps, light meters and brightness-triggered projects.",pros:["Simple light sensing","Inexpensive","Easy to use in a voltage divider"],cons:["Not highly precise","Response can be slow","Readings vary with the component and lighting"],extra:"Connect it with a fixed resistor as a voltage divider, then read the midpoint using an analog input."},
+{ name:"Push Button",emoji:"🔴",what:"A push button is a mechanical switch that opens or closes an electrical connection when pressed.",made:"Contains a spring, moving contact and fixed metal contacts inside a housing.",works:"Pressing the button changes the contact state. A pull-up or pull-down arrangement gives the input a stable logic level.",uses:"Start/stop controls, user input, reset controls and menu navigation.",pros:["Easy human input","Simple and inexpensive","Available in many sizes"],cons:["Mechanical contacts can bounce","Needs correct input wiring","Can wear with repeated use"],extra:"Use a pull-up or pull-down resistor. Software debouncing can prevent one press from being read as several."},
+{ name:"Buzzer",emoji:"🔊",what:"A buzzer is an output component that produces sound for alerts and feedback.",made:"A common active buzzer contains an oscillator and a sound-producing element; passive types use a piezo element.",works:"An active buzzer makes a tone when powered. A passive buzzer needs a changing signal to produce tones.",uses:"Alarms, timers, alerts and interactive projects.",pros:["Simple audible feedback","Small and lightweight","Useful for alerts"],cons:["Limited sound quality","Can be loud or irritating","Some types need a driver"],extra:"Check whether the buzzer is active or passive and observe its voltage and polarity markings."},
+{ name:"LCD Display",emoji:"🖥️",what:"An LCD (Liquid Crystal Display) shows text or symbols using liquid-crystal pixels controlled by electrical signals.",made:"Contains liquid-crystal material between glass layers, transparent electrodes, polarizers and a backlight on many modules.",works:"Electrical signals change how the liquid crystals affect light, creating visible characters or pixels.",uses:"Sensor readings, menus, clocks and project status displays.",pros:["Displays readable information","Low power for many character modules","Useful user interface"],cons:["Viewing angle can vary","Needs wiring and code","Backlight may need power"],extra:"A common 16×2 character LCD can use a parallel interface or an I²C adapter. Confirm the module type before wiring."},
+{ name:"Wire",emoji:"🧵",what:"An electrical wire is a conductor used to carry current or signals between circuit parts.",made:"Usually a copper conductor covered by an insulating plastic or rubber layer.",works:"The conductive core provides a path for electric charge; the insulation helps prevent accidental contact.",uses:"Power connections, signal wiring, breadboard jumpers and circuit assembly.",pros:["Connects circuit parts","Flexible types are easy to route","Available in different gauges"],cons:["Wrong gauge can overheat","Insulation can be damaged","Loose connections cause faults"],extra:"Choose wire thickness for the current, strip only the needed insulation, and avoid short circuits."},
+{ name:"Battery",emoji:"🔋",what:"A battery supplies electrical energy to a circuit by converting stored chemical energy into electrical energy.",made:"A cell contains electrodes, electrolyte and a separator; a battery may combine one or more cells.",works:"Chemical reactions create a voltage between the terminals and drive current through a connected circuit.",uses:"Portable electronics, robots, backup power and off-grid projects.",pros:["Portable power source","Available in many voltages and capacities","Useful away from mains power"],cons:["Needs recharging or replacement","Can be damaged by short circuits","Must match the circuit's voltage and current needs"],extra:"Never short battery terminals. Match battery chemistry, voltage and polarity to the device; use suitable protection and charging equipment."}
+];
 
+const grid=document.getElementById("componentGrid");
+components.forEach((c,i)=>{
+  const btn=document.createElement("button");
+  btn.type="button";btn.className=`component c${i+1}`;btn.setAttribute("aria-label",`Learn about ${c.name}`);
+  btn.innerHTML=`<span class="emoji" aria-hidden="true">${c.emoji}</span><span class="name">${c.name}</span><span class="arrow" aria-hidden="true">➜</span>`;
+  btn.addEventListener("click",()=>showDetail(i,btn));
+  grid.appendChild(btn);
+});
+function showDetail(i,button){
+  const c=components[i];
+  document.querySelectorAll(".component").forEach(el=>el.classList.remove("selected"));
+  button.classList.add("selected");
+  const list=(items)=>items.map(x=>`<li>${x}</li>`).join("");
+  document.getElementById("detail").innerHTML=`
+    <div class="close-row"><button class="close-btn" type="button" onclick="closeDetail()">✕ Hide explanation</button></div>
+    <article class="detail-card">
+      <div class="detail-art"><div class="bot">🤖</div><div class="big">${c.emoji}</div><strong>${c.name}</strong></div>
+      <div class="detail-main">
+        <h3>What is ${c.name}?</h3>
+        <p>${c.what}</p>
+        <div class="info-grid">
+          <div class="info"><h4>⚙️ How is it made?</h4><p>${c.made}</p></div>
+          <div class="info"><h4>⚡ How does it work?</h4><p>${c.works}</p></div>
+          <div class="info"><h4>🛠️ Applications</h4><p>${c.uses}</p></div>
+          <div class="info"><h4>📌 Practical note</h4><p>${c.extra}</p></div>
+        </div>
+        <div class="procon">
+          <div class="pro"><h4>✅ Advantages</h4><ul>${list(c.pros)}</ul></div>
+          <div class="con"><h4>❌ Disadvantages</h4><ul>${list(c.cons)}</ul></div>
+        </div>
+      </div>
+      <aside class="pinbox"><h4>${c.name} quick view</h4><div class="pin-emoji">${c.emoji}</div><p>Select a component card above to view its lesson here. Always check the exact component datasheet before wiring.</p></aside>
+    </article>`;
+  document.getElementById("detail").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function closeDetail(){
+  document.getElementById("detail").innerHTML="";
+  document.querySelectorAll(".component").forEach(el=>el.classList.remove("selected"));
+}
+</script>
+</body>
+</html>
