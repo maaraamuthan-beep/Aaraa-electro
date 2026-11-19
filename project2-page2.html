@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arduino Obstacle Avoiding Robot - Aaraa Electro</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #eaf4ff; color: #0b2a5b; min-height: 100vh; }
+  .topbar { background: linear-gradient(90deg, #0b3fbf, #00b4f0); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar a { color: #fff; text-decoration: none; font-weight: bold; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; }
+  .topbar h2 { font-size: 22px; }
+  .banner { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; text-align: center; padding: 50px 20px; }
+  .banner h1 { font-size: 40px; text-shadow: 0 3px 8px rgba(0,0,0,0.3); }
+  .banner p { margin-top: 10px; font-size: 18px; }
+  .container { max-width: 1000px; margin: 30px auto; padding: 0 20px 100px; }
+  .card { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 28px; box-shadow: 0 6px 18px rgba(11,63,191,0.12); }
+  .card h2 { color: #0b3fbf; margin-bottom: 12px; }
+  .card p { line-height: 1.7; font-size: 17px; margin-bottom: 10px; }
+  .photos { display: flex; gap: 20px; flex-wrap: wrap; }
+  .photo-box { flex: 1; min-width: 260px; height: 260px; border: 3px dashed #4aa8ff; border-radius: 14px; background: #f3f9ff; display: flex; align-items: center; justify-content: center; text-align: center; color: #4a78b8; overflow: hidden; }
+  .photo-box img { width: 100%; height: 100%; object-fit: cover; }
+  .next-arrow { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); animation: shake 1s infinite; }
+  @keyframes shake {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(-8px); }
+    50% { transform: translateY(-50%) translateX(6px); }
+    75% { transform: translateY(-50%) translateX(-4px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h2>Aara Electro</h2>
+  <a href="index1.html">&larr; Back to Search</a>
+</div>
+
+<div class="banner">
+  <h1>Arduino Obstacle Avoiding Robot</h1>
+  <p>Build a smart robot that detects obstacles and steers using a servo motor and Arduino.</p>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2>What is this project?</h2>
+    <p>An obstacle avoiding robot with a servo motor is an autonomous smart car that moves forward and avoids hitting objects in its path without manual remote control. It mounts an ultrasonic distance sensor on a rotating servo motor so the robot can scan left and right before choosing a clear direction.</p>
+  </div>
+
+  <div class="card">
+    <h2>How does it work scientifically?</h2>
+    <p>The ultrasonic sensor sends out high-frequency sound pulses (ultrasonic waves) and measures the echo time taken for the waves to bounce back off an obstacle. Using the speed of sound, the Arduino calculates the exact distance to the object in front of the robot.</p>
+    <p>When an obstacle comes closer than the safe limit, the Arduino stops the motors, rotates the servo motor to scan left and right distances, compares which side has more open space, and drives the wheel motors via the motor driver to steer safely around the obstacle.</p>
+  </div>
+
+  <div class="card">
+    <h2>Real Project Photos</h2>
+    <div class="photos">
+      <div class="photo-box">
+        <!-- To add your photo, replace this text with: <img src="obstacle-photo1.jpg" alt="Obstacle robot photo 1"> -->
+        Photo 1 - upload here
+      </div>
+      <div class="photo-box">
+        <!-- To add your photo, replace this text with: <img src="obstacle-photo2.jpg" alt="Obstacle robot photo 2"> -->
+        Photo 2 - upload here
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<a class="next-arrow" href="project2-page2.html" title="Next page">&#10095;</a>
+
+</body>
+</html>
