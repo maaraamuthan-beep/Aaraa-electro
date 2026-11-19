@@ -20,9 +20,8 @@
     position: relative;
   }
 
-  /* Moving Background Components Animation Canvas */
-  .bg-animation {
-    position: absolute;
+  .bg-layer {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
@@ -32,9 +31,9 @@
     pointer-events: none;
   }
 
-  .floating-icon {
+  .comp-item {
     position: absolute;
-    left: 105%;
+    left: 0;
     stroke: #ffffff;
     fill: none;
     stroke-width: 3.5;
@@ -42,21 +41,19 @@
     stroke-linejoin: round;
     opacity: 0.65;
     filter: drop-shadow(0 2px 6px rgba(255, 255, 255, 0.25));
-    animation: moveAcrossFullScreen linear infinite;
+    will-change: transform;
+    animation: slideRightToLeft linear infinite;
   }
 
-  @keyframes moveAcrossFullScreen {
+  @keyframes slideRightToLeft {
     0% {
-      left: 105%;
-      transform: rotate(0deg);
+      transform: translateX(105vw) rotate(0deg);
     }
     100% {
-      left: -220px;
-      transform: rotate(360deg);
+      transform: translateX(-220px) rotate(360deg);
     }
   }
 
-  /* Foreground Content */
   .content {
     position: relative;
     z-index: 2;
@@ -71,11 +68,13 @@
     text-shadow: 0 4px 10px rgba(0,0,0,0.2);
     font-weight: 900;
   }
+
   p {
     font-size: 18px;
     margin-bottom: 30px;
     font-weight: 500;
   }
+
   .next-btn {
     background: #fff;
     color: #075de8;
@@ -88,11 +87,13 @@
     transition: all 0.3s ease;
     display: inline-block;
   }
+
   .next-btn:hover {
     background: #f0f8ff;
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
   }
+
   .next-btn:active {
     transform: translateY(1px) scale(0.98);
   }
@@ -100,8 +101,82 @@
 </head>
 <body>
 
-  <!-- Moving Electronic Components Background -->
-  <div class="bg-animation" id="bgAnimation"></div>
+  <div class="bg-layer" id="bgLayer">
+    <!-- 1. Arduino / Microcontroller -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 115px; height: 100px; top: 6%; animation-duration: 22s; animation-delay: -2s;">
+      <rect x="8" y="10" width="54" height="40" rx="3"/><rect x="4" y="18" width="8" height="10"/><rect x="4" y="34" width="8" height="8"/><rect x="24" y="22" width="22" height="14"/><line x1="16" y1="10" x2="16" y2="14"/><line x1="24" y1="10" x2="24" y2="14"/><line x1="32" y1="10" x2="32" y2="14"/><line x1="40" y1="10" x2="40" y2="14"/><line x1="48" y1="10" x2="48" y2="14"/>
+    </svg>
+
+    <!-- 2. Soldering Iron -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 110px; height: 95px; top: 14%; animation-duration: 26s; animation-delay: -9s;">
+      <path d="M10 48 L24 34"/><rect x="22" y="24" width="22" height="10" rx="3" transform="rotate(-45 33 29)"/><line x1="41" y1="21" x2="54" y2="8"/><polygon points="52,6 62,4 58,12"/>
+    </svg>
+
+    <!-- 3. Multimeter -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 105px; height: 95px; top: 22%; animation-duration: 24s; animation-delay: -15s;">
+      <rect x="18" y="6" width="34" height="48" rx="4"/><rect x="23" y="11" width="24" height="12"/><circle cx="35" cy="36" r="8"/><line x1="35" y1="36" x2="40" y2="31"/><circle cx="26" cy="48" r="2"/><circle cx="35" cy="48" r="2"/><circle cx="44" cy="48" r="2"/>
+    </svg>
+
+    <!-- 4. Servo Motor -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 115px; height: 95px; top: 30%; animation-duration: 28s; animation-delay: -5s;">
+      <rect x="16" y="18" width="38" height="28" rx="2"/><line x1="10" y1="26" x2="16" y2="26"/><line x1="54" y1="26" x2="60" y2="26"/><circle cx="28" cy="14" r="5"/><rect x="20" y="9" width="28" height="4" rx="2"/>
+    </svg>
+
+    <!-- 5. Ultrasonic Sensor -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 120px; height: 100px; top: 38%; animation-duration: 25s; animation-delay: -18s;">
+      <rect x="10" y="16" width="50" height="26" rx="2"/><circle cx="23" cy="29" r="9"/><circle cx="47" cy="29" r="9"/><line x1="29" y1="42" x2="29" y2="50"/><line x1="33" y1="42" x2="33" y2="50"/><line x1="37" y1="42" x2="37" y2="50"/><line x1="41" y1="42" x2="41" y2="50"/>
+    </svg>
+
+    <!-- 6. Resistor -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 110px; height: 90px; top: 46%; animation-duration: 21s; animation-delay: -11s;">
+      <polyline points="4,30 16,30 21,18 29,42 37,18 45,42 50,30 66,30"/>
+    </svg>
+
+    <!-- 7. Capacitor -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 100px; height: 90px; top: 54%; animation-duration: 27s; animation-delay: -4s;">
+      <line x1="28" y1="12" x2="28" y2="48"/><line x1="42" y1="12" x2="42" y2="48"/><line x1="6" y1="30" x2="28" y2="30"/><line x1="42" y1="30" x2="64" y2="30"/>
+    </svg>
+
+    <!-- 8. LED -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 105px; height: 90px; top: 62%; animation-duration: 23s; animation-delay: -14s;">
+      <line x1="6" y1="32" x2="24" y2="32"/><polygon points="24,18 24,46 44,32"/><line x1="44" y1="18" x2="44" y2="46"/><line x1="44" y1="32" x2="64" y2="32"/><line x1="36" y1="13" x2="45" y2="4"/><line x1="27" y1="15" x2="36" y2="6"/>
+    </svg>
+
+    <!-- 9. Transistor -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 95px; height: 90px; top: 70%; animation-duration: 29s; animation-delay: -7s;">
+      <path d="M22 28 A 13 13 0 0 1 48 28 Z"/><rect x="22" y="28" width="26" height="6"/><line x1="27" y1="34" x2="27" y2="52"/><line x1="35" y1="34" x2="35" y2="52"/><line x1="43" y1="34" x2="43" y2="52"/>
+    </svg>
+
+    <!-- 10. Battery -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 100px; height: 95px; top: 78%; animation-duration: 24s; animation-delay: -19s;">
+      <rect x="20" y="14" width="30" height="40" rx="3"/><rect x="25" y="9" width="6" height="5"/><rect x="39" y="9" width="6" height="5"/><line x1="35" y1="23" x2="35" y2="31"/><line x1="31" y1="27" x2="39" y2="27"/><line x1="31" y1="41" x2="39" y2="41"/>
+    </svg>
+
+    <!-- 11. IC Chip -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 110px; height: 95px; top: 10%; animation-duration: 25s; animation-delay: -12s;">
+      <rect x="14" y="14" width="42" height="32" rx="3"/><line x1="22" y1="14" x2="22" y2="6"/><line x1="35" y1="14" x2="35" y2="6"/><line x1="48" y1="14" x2="48" y2="6"/><line x1="22" y1="46" x2="22" y2="54"/><line x1="35" y1="46" x2="35" y2="54"/><line x1="48" y1="46" x2="48" y2="54"/><circle cx="22" cy="30" r="3"/>
+    </svg>
+
+    <!-- 12. Inductor Coil -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 115px; height: 90px; top: 42%; animation-duration: 27s; animation-delay: -16s;">
+      <path d="M6 34 L14 34 A 6 6 0 0 1 26 34 A 6 6 0 0 1 38 34 A 6 6 0 0 1 50 34 L64 34"/>
+    </svg>
+
+    <!-- 13. Extra Microcontroller -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 120px; height: 100px; top: 66%; animation-duration: 23s; animation-delay: -6s;">
+      <rect x="8" y="10" width="54" height="40" rx="3"/><rect x="4" y="18" width="8" height="10"/><rect x="4" y="34" width="8" height="8"/><rect x="24" y="22" width="22" height="14"/><line x1="16" y1="10" x2="16" y2="14"/><line x1="24" y1="10" x2="24" y2="14"/><line x1="32" y1="10" x2="32" y2="14"/><line x1="40" y1="10" x2="40" y2="14"/><line x1="48" y1="10" x2="48" y2="14"/>
+    </svg>
+
+    <!-- 14. Extra Multimeter -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 105px; height: 95px; top: 26%; animation-duration: 28s; animation-delay: -21s;">
+      <rect x="18" y="6" width="34" height="48" rx="4"/><rect x="23" y="11" width="24" height="12"/><circle cx="35" cy="36" r="8"/><line x1="35" y1="36" x2="40" y2="31"/>
+    </svg>
+
+    <!-- 15. Extra Servo Motor -->
+    <svg class="comp-item" viewBox="0 0 70 60" style="width: 110px; height: 95px; top: 50%; animation-duration: 22s; animation-delay: -8s;">
+      <rect x="16" y="18" width="38" height="28" rx="2"/><line x1="10" y1="26" x2="16" y2="26"/><line x1="54" y1="26" x2="60" y2="26"/><circle cx="28" cy="14" r="5"/>
+    </svg>
+  </div>
 
   <div class="content">
     <h1>Welcome to Aara Electro</h1>
@@ -111,16 +186,5 @@
     <a href="index1.html" class="next-btn">Next</a>
   </div>
 
-  <script>
-    const bgContainer = document.getElementById('bgAnimation');
-    
-    // 12 விதமான எலக்ட்ரானிக் காம்போனென்ட்கள் மற்றும் டூல்ஸ்
-    const componentPaths = [
-      // 1. Arduino Microcontroller Board
-      '<rect x="8" y="10" width="54" height="40" rx="3"/><rect x="4" y="18" width="8" height="10"/><rect x="4" y="34" width="8" height="8"/><rect x="24" y="22" width="22" height="14"/><line x1="16" y1="10" x2="16" y2="14"/><line x1="24" y1="10" x2="24" y2="14"/><line x1="32" y1="10" x2="32" y2="14"/><line x1="40" y1="10" x2="40" y2="14"/><line x1="48" y1="10" x2="48" y2="14"/>',
-      
-      // 2. Soldering Iron
-      '<path d="M10 48 L24 34"/><rect x="22" y="24" width="22" height="10" rx="3" transform="rotate(-45 33 29)"/><line x1="41" y1="21" x2="54" y2="8"/><polygon points="52,6 62,4 58,12"/>',
-      
-      // 3. Digital Multimeter
-      '<rect x="18" y="6" width="34" height="48" rx="4"/><rect x="23" y="11" width="24" height="12"/><circle cx="35" cy="36" r="8"/><line x1="35" y1="36" x2="40" y2="31
+</body>
+</html>
