@@ -16,7 +16,6 @@
     overflow-x: hidden;
   }
 
-  /* New Soft Wave & Pulse Animation */
   .wave-bg {
     position: fixed;
     inset: 0;
@@ -33,31 +32,9 @@
     animation: floatOrb 10s ease-in-out infinite alternate;
   }
 
-  .orb-1 {
-    width: 240px;
-    height: 240px;
-    background: #38bdf8;
-    top: 8%;
-    left: 6%;
-  }
-
-  .orb-2 {
-    width: 300px;
-    height: 300px;
-    background: #2563eb;
-    bottom: 10%;
-    right: 8%;
-    animation-delay: -4s;
-  }
-
-  .orb-3 {
-    width: 180px;
-    height: 180px;
-    background: #0ea5e9;
-    top: 48%;
-    left: 52%;
-    animation-delay: -7s;
-  }
+  .orb-1 { width: 240px; height: 240px; background: #38bdf8; top: 8%; left: 6%; }
+  .orb-2 { width: 300px; height: 300px; background: #2563eb; bottom: 10%; right: 8%; animation-delay: -4s; }
+  .orb-3 { width: 180px; height: 180px; background: #0ea5e9; top: 48%; left: 52%; animation-delay: -7s; }
 
   @keyframes floatOrb {
     0% { transform: translate(0, 0) scale(1); }
@@ -76,10 +53,7 @@
     box-shadow: 0 4px 14px rgba(11, 63, 191, 0.18);
   }
 
-  .header-bar h2 {
-    font-size: 21px;
-    letter-spacing: 0.3px;
-  }
+  .header-bar h2 { font-size: 21px; letter-spacing: 0.3px; }
 
   .back-link {
     color: #fff;
@@ -91,10 +65,7 @@
     font-size: 14px;
     transition: background 0.2s ease;
   }
-
-  .back-link:hover {
-    background: rgba(255, 255, 255, 0.32);
-  }
+  .back-link:hover { background: rgba(255, 255, 255, 0.32); }
 
   .hero-banner {
     position: relative;
@@ -129,11 +100,7 @@
     50% { transform: scale(1.08); }
   }
 
-  .hero-banner p {
-    margin-top: 8px;
-    font-size: 15px;
-    color: #e6f7ff;
-  }
+  .hero-banner p { margin-top: 8px; font-size: 15px; color: #e6f7ff; }
 
   .main-wrap {
     position: relative;
@@ -152,24 +119,10 @@
     box-shadow: 0 10px 28px rgba(11, 63, 191, 0.1);
   }
 
-  .panel-title {
-    font-size: 20px;
-    color: #0b3fbf;
-    margin-bottom: 6px;
-  }
+  .panel-title { font-size: 20px; color: #0b3fbf; margin-bottom: 6px; }
+  .panel-sub { font-size: 14px; color: #486581; margin-bottom: 18px; }
 
-  .panel-sub {
-    font-size: 14px;
-    color: #486581;
-    margin-bottom: 18px;
-  }
-
-  .prompt-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
+  .prompt-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 
   .input-shell {
     flex: 1;
@@ -203,17 +156,8 @@
     cursor: pointer;
     transition: all 0.2s ease;
   }
-
-  .voice-btn:hover {
-    background: #1d4ed8;
-    color: #fff;
-  }
-
-  .voice-btn.active {
-    background: #dc2626;
-    border-color: #dc2626;
-    color: #fff;
-  }
+  .voice-btn:hover { background: #1d4ed8; color: #fff; }
+  .voice-btn.active { background: #dc2626; border-color: #dc2626; color: #fff; }
 
   .send-btn {
     border: none;
@@ -227,17 +171,10 @@
     box-shadow: 0 6px 16px rgba(11, 63, 191, 0.22);
     transition: transform 0.15s ease;
   }
+  .send-btn:hover { transform: translateY(-1px); }
+  .send-btn:disabled { opacity: 0.6; cursor: wait; transform: none; }
 
-  .send-btn:hover {
-    transform: translateY(-1px);
-  }
-
-  .quick-bar {
-    margin-top: 14px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+  .quick-bar { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
 
   .quick-tag {
     background: #edf6ff;
@@ -249,11 +186,7 @@
     cursor: pointer;
     transition: all 0.2s ease;
   }
-
-  .quick-tag:hover {
-    background: #0b3fbf;
-    color: #fff;
-  }
+  .quick-tag:hover { background: #0b3fbf; color: #fff; }
 
   .answer-box {
     margin-top: 22px;
@@ -270,17 +203,14 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .answer-header {
-    font-size: 17px;
-    font-weight: 700;
-    color: #0b3fbf;
-    margin-bottom: 8px;
-  }
+  .answer-header { font-size: 17px; font-weight: 700; color: #0b3fbf; margin-bottom: 8px; }
 
   .answer-body {
     font-size: 15px;
     line-height: 1.7;
     color: #1e3a5f;
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
 
   .left-nav-arrow {
@@ -318,32 +248,32 @@
 
 <section class="hero-banner">
   <h1><span class="bot-badge">🤖</span> Aaraa AI Assistant</h1>
-  <p>Created by ஆரா அமுதன் | எந்தக் கேள்வி கேட்டாலும் தமிழில் தெளிவான பதில்</p>
+  <p>Created by ஆரா அமுதன் | எலக்ட்ரானிக்ஸ் கேள்விகளுக்கு எளிய பதில்</p>
 </section>
 
 <main class="main-wrap">
   <div class="panel">
     <h3 class="panel-title">💬 Aaraa Smart AI Hub</h3>
-    <p class="panel-sub">எந்தக் கேள்வியும் கேளுங்கள் — உடனடியாகத் தமிழில் பதில் கிடைக்கும்.</p>
+    <p class="panel-sub">எலக்ட்ரானிக்ஸ் மற்றும் Arduino சந்தேகங்களைக் கேளுங்கள் — தமிழிலோ ஆங்கிலத்திலோ கேட்கலாம்.</p>
 
     <div class="prompt-row">
       <div class="input-shell">
         <span>🤖</span>
-        <input id="questionField" class="prompt-input" type="text" placeholder="உங்கள் கேள்வியை இங்கே டைப் செய்யவும்..." onkeydown="if(event.key==='Enter') runAaraAI()">
+        <input id="questionField" class="prompt-input" type="text" maxlength="500" placeholder="உங்கள் எலக்ட்ரானிக்ஸ் கேள்வியை இங்கே டைப் செய்யவும்..." onkeydown="if(event.key==='Enter') runAaraAI()">
         <button id="speechTrigger" class="voice-btn" type="button" title="பேசி கேள்வி கேட்க">🎤</button>
       </div>
-      <button class="send-btn" type="button" onclick="runAaraAI()">Ask AI</button>
+      <button id="askBtn" class="send-btn" type="button" onclick="runAaraAI()">Ask AI</button>
     </div>
 
     <div class="quick-bar">
-      <button class="quick-tag" type="button" onclick="askPreset('who are you')">Who are you?</button>
-      <button class="quick-tag" type="button" onclick="askPreset('how to make a cake')">How to make a cake</button>
-      <button class="quick-tag" type="button" onclick="askPreset('how does current work')">How current works</button>
-      <button class="quick-tag" type="button" onclick="askPreset('what is a servo motor')">What is a servo motor</button>
+      <button class="quick-tag" type="button" onclick="askPreset('Who are you?')">Who are you?</button>
+      <button class="quick-tag" type="button" onclick="askPreset('How does current work?')">How current works</button>
+      <button class="quick-tag" type="button" onclick="askPreset('What is a servo motor?')">What is a servo motor</button>
+      <button class="quick-tag" type="button" onclick="askPreset('What is an Arduino Nano?')">What is an Arduino Nano</button>
     </div>
 
     <div id="answerCard" class="answer-box">
-      <div id="answerTitle" class="answer-header">🤖 Aaraa AI பதில்</div>
+      <div id="answerTitle" class="answer-header">🤖 Aaraa AI Solution</div>
       <div id="answerContent" class="answer-body"></div>
     </div>
   </div>
@@ -352,89 +282,30 @@
 <a class="left-nav-arrow" href="project1-page3.html" title="Back to Circuit">&#10094;</a>
 
 <script>
+  // Your Cloudflare Worker address (the AI key stays hidden inside the Worker)
+  const WORKER_URL = 'https://wild-scene-dde1aaraa.maaraamuthan.workers.dev/';
+
   function askPreset(text) {
     document.getElementById('questionField').value = text;
     runAaraAI();
   }
 
-  function buildAnswerForAnyQuestion(rawText, lowerText) {
-    const q = rawText.trim();
-
-    // Identity questions ("who are you", "நீ யார்", etc.)
-    if (
-      lowerText.includes('who are you') ||
-      lowerText.includes('who r u') ||
-      lowerText.includes('your name') ||
-      lowerText.includes('நீ யார்') ||
-      lowerText.includes('உன் பெயர்')
-    ) {
-      return "நான் <b>Aaraa AI Assistant</b> (ஆரா அமுதன் உருவாக்கிய ஸ்மார்ட் உதவியாளர்). நீங்கள் கேட்கும் எலக்ட்ரானிக்ஸ், சர்க்யூட், ரோபோடிக்ஸ் மற்றும் பொதுவான கேள்விகளுக்குத் தமிழில் உடனடியாகப் பதில் சொல்லத் தயாராக இருக்கிறேன்.";
-    }
-
-    // Cake making questions
-    if (lowerText.includes('cake') || lowerText.includes('கேக்')) {
-      return "<b>கேக் (Cake) எப்படி செய்வது?</b><br><br>" +
-             "• <b>தேவையான பொருட்கள்:</b> மைதா அல்லது கோதுமை மாவு, சர்க்கரை, வெண்ணெய் அல்லது எண்ணெய், பால்/முட்டை, பேக்கிங் பவுடர் மற்றும் வெண்ணிலா எசன்ஸ்.<br>" +
-             "• <b>கலவை:</b> சர்க்கரை மற்றும் வெண்ணெய்/எண்ணெயை நன்கு அடித்துக் கலக்கவும். அதனுடன் பால்/முட்டை மற்றும் எசன்ஸ் சேர்த்து, சலித்த மாவு + பேக்கிங் பவுடரைக் கட்டியில்லாமல் மெதுவாகக் கலக்கவும்.<br>" +
-             "• <b>வேகவைத்தல்:</b> நெய் தடவிய பாத்திரத்தில் மாவை ஊற்றி, ஓவனில் (180°C-ல் சுமார் 25–35 நிமிடம்) அல்லது குக்கரில்/கடாயில் மிதமான தீயில் வெந்தவுடன் ஆறவைத்து எடுக்கவும்.";
-    }
-
-    // Current & electricity questions
-    if (lowerText.includes('current') || lowerText.includes('கரண்ட்') || lowerText.includes('மின்சாரம்')) {
-      if (lowerText.includes('no ') || lowerText.includes('without') || lowerText.includes('இல்ல') || lowerText.includes('போனா')) {
-        return "<b>கரண்ட் (மின்சாரம்) இல்லையென்றால் என்ன ஆகும்?</b><br><br>" +
-               "• மின் ஓட்டம் இல்லாததால் விளக்குகள், மோட்டார்கள், சென்சார்கள் மற்றும் மைக்ரோகண்ட்ரோலர்கள் உடனே நின்றுவிடும்.<br>" +
-               "• தற்காலிகமாக இயங்கும் சிக்னல்கள் நிற்கும்; ஆனால் நிரந்தர மெமரி / சேமிப்பு பாதுகாப்பாக இருக்கும்.";
-      }
-      return "<b>கரண்ட் (Electric Current) எப்படி வேலை செய்கிறது?</b><br><br>" +
-             "• வோல்டேஜ் அழுத்தத்தால் மூடிய சர்க்யூட்டில் எலக்ட்ரான்கள் பாய்வதுதான் கரண்ட் ஆகும்.<br>" +
-             "• மூலத்திலிருந்து புறப்பட்டு காம்போனென்ட்களை இயக்கி மீண்டும் எதிர் முனைக்குச் செல்லும்போது மின்சுற்று முழுமையடையும்.";
-    }
-
-    // Electronics components & robotics
-    if (lowerText.includes('servo') || lowerText.includes('motor') || lowerText.includes('sensor') || lowerText.includes('arduino') || lowerText.includes('capacitor') || lowerText.includes('resistor') || lowerText.includes('led')) {
-      return "<b>எலக்ட்ரானிக்ஸ் &amp; ரோபோடிக்ஸ் விளக்கம்</b><br><br>" +
-             "• <b>கேள்வி:</b> \"" + q + "\"<br>" +
-             "• இந்தப் பாகம் அல்லது அமைப்பு சரியாக இயங்க <b>சரியான வோல்டேஜ் (Voltage)</b>, <b>பொதுவான GND</b> மற்றும் <b>சரியான பின்/சிக்னல் இணைப்பு</b> அவசியம்.<br>" +
-             "• உள்ளீடு (Sensor/Signal) -> செயலாக்கம் (Controller/Driver) -> வெளியீடு (Motor/LED) என்ற வரிசையில் இது செயல்படும்.";
-    }
-
-    // Universal smart handler for ANY other question
-    const cleanedWords = q.replace(/[?!.,]/g, '').trim();
-
-    if (lowerText.startsWith('how') || lowerText.includes('எப்படி')) {
-      return "<b>செய்முறை விளக்கம்</b><br><br>" +
-             "• <b>கேள்வி:</b> \"" + q + "\"<br>" +
-             "• <b>படி 1:</b> " + cleanedWords + " என்பதற்குத் தேவையான அடிப்படைப் பொருட்கள், கருவிகள் அல்லது விதிகளைத் தயார் செய்ய வேண்டும்.<br>" +
-             "• <b>படி 2:</b> ஒவ்வொரு படியையும் சரியான வரிசையில் பின்பற்றி, தேவையான அளவு/அமைப்பைச் சரிபார்த்துச் செயல்படுத்த வேண்டும்.";
-    }
-
-    if (lowerText.startsWith('why') || lowerText.includes('ஏன்')) {
-      return "<b>காரண விளக்கம்</b><br><br>" +
-             "• <b>கேள்வி:</b> \"" + q + "\"<br>" +
-             "• \"" + cleanedWords + "\" என்பதற்கான முக்கியக் காரணம் அந்தச் சூழல், இயற்பியல் விதி அல்லது செயல்பாட்டில் ஏற்படும் மாற்றமே ஆகும்.<br>" +
-             "• அடிப்படைக் காரணத்தைக் கண்டறிந்து சரிசெய்தால் சரியான முடிவைப் பெற முடியும்.";
-    }
-
-    if (lowerText.startsWith('what') || lowerText.includes('என்ன')) {
-      return "<b>விளக்கம்</b><br><br>" +
-             "• <b>கேள்வி:</b> \"" + q + "\"<br>" +
-             "• \"" + cleanedWords + "\" என்பது அதன் செயல்பாடு, தன்மை மற்றும் பயன்பாட்டால் அறியப்படுகிறது.<br>" +
-             "• இது எங்கு, எதற்காகப் பயன்படுகிறது என்பதைப் புரிந்துகொள்வது முக்கியம்.";
-    }
-
-    return "<b>Aaraa AI பதில்</b><br><br>" +
-           "• <b>கேள்வி:</b> \"" + q + "\"<br>" +
-           "• நீங்கள் கேட்ட \"" + cleanedWords + "\" என்ற கேள்விக்கு, அதன் அடிப்படைத் தத்துவம், தேவையான படிகள் மற்றும் நடைமுறைப் பயன்பாடு ஆகியவற்றைச் சரியாகப் பின்பற்றுவதே முக்கியத் தீர்வாகும்.";
+  // Safely show the AI text: escape HTML, then turn **bold** into <b>bold</b>
+  function formatAnswer(text) {
+    const escaped = String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    return escaped.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
   }
 
-  function runAaraAI() {
+  async function runAaraAI() {
     const inputEl = document.getElementById('questionField');
-    const rawText = inputEl.value.trim();
-    const lowerText = rawText.toLowerCase();
+    const askBtn = document.getElementById('askBtn');
+    const question = inputEl.value.trim();
 
-    if (!rawText) {
-      alert("தயவுசெய்து ஒரு கேள்வியை டைப் செய்யவும் அல்லது பேசவும்.");
+    if (!question) {
+      alert('தயவுசெய்து ஒரு கேள்வியை டைப் செய்யவும் அல்லது பேசவும்.');
       return;
     }
 
@@ -443,13 +314,34 @@
     const contentEl = document.getElementById('answerContent');
 
     card.style.display = 'block';
-    titleEl.innerHTML = '🤖 Aaraa AI Solution';
-    contentEl.innerHTML = buildAnswerForAnyQuestion(rawText, lowerText);
+    titleEl.textContent = '🤖 Aaraa AI Solution';
+    contentEl.textContent = '⏳ யோசிக்கிறேன்... (Thinking...)';
+    askBtn.disabled = true;
+
+    try {
+      const response = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: question })
+      });
+
+      if (!response.ok) {
+        throw new Error('Server error ' + response.status);
+      }
+
+      const data = await response.json();
+      contentEl.innerHTML = formatAnswer(data.answer || 'Sorry, no answer came back. Please try again.');
+    } catch (err) {
+      contentEl.textContent = 'மன்னிக்கவும், இப்போது பதில் கிடைக்கவில்லை. இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும். (Sorry, could not get an answer. Please check your internet and try again.)';
+    } finally {
+      askBtn.disabled = false;
+    }
   }
 
   const speechBtn = document.getElementById('speechTrigger');
   const qField = document.getElementById('questionField');
   const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const defaultPlaceholder = qField.placeholder;
 
   if (SpeechRec) {
     const rec = new SpeechRec();
@@ -464,13 +356,13 @@
     rec.onresult = (e) => {
       qField.value = e.results[0][0].transcript;
       speechBtn.classList.remove('active');
-      qField.placeholder = 'உங்கள் கேள்வியை இங்கே டைப் செய்யவும்...';
+      qField.placeholder = defaultPlaceholder;
       runAaraAI();
     };
 
     rec.onerror = () => {
       speechBtn.classList.remove('active');
-      qField.placeholder = 'உங்கள் கேள்வியை இங்கே டைப் செய்யவும்...';
+      qField.placeholder = defaultPlaceholder;
     };
 
     rec.onend = () => {
