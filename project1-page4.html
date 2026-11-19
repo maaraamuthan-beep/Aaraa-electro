@@ -3,216 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aaraa AI Troubleshooting Assistant - Aaraa Electro</title>
+<title>Aara Electro | Student Feedback Wall</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; background: #eaf4ff; color: #0b2a5b; min-height: 100vh; display: flex; flex-direction: column; }
-  
-  .topbar { background: linear-gradient(90deg, #0b3fbf, #00b4f0); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
-  .topbar a { color: #fff; text-decoration: none; font-weight: bold; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; }
-  .topbar h2 { font-size: 22px; }
-  
-  .banner { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; text-align: center; padding: 35px 20px; }
-  .banner h1 { font-size: 32px; text-shadow: 0 3px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; gap: 12px; }
-  .banner p { margin-top: 8px; font-size: 15px; color: #dff8ff; }
+:root{--navy:#06265e;--blue:#087cf0;--sky:#79d7ff;--yellow:#ffc928;--ink:#09234c;--white:#fff}
+*{box-sizing:border-box}
+body{margin:0;font-family: "Trebuchet MS",Arial,sans-serif;color:var(--ink);background:#dff5ff;overflow-x:hidden}
+.page{min-height:100vh;position:relative;background:radial-gradient(circle at 15% 22%,#fff9 0 2px,transparent 3px),radial-gradient(circle at 85% 38%,#fff9 0 3px,transparent 4px),linear-gradient(135deg,#39bdf5,#a9eaff 48%,#e6faff);background-size:90px 90px,130px 130px,auto;padding-bottom:28px}
+.circuit-lines{position:absolute;inset:0;pointer-events:none;opacity:.25;background-image:linear-gradient(90deg,transparent 97%,#087cf0 97%),linear-gradient(0deg,transparent 97%,#087cf0 97%);background-size:48px 48px;mask-image:linear-gradient(to bottom,#000,transparent 90%)}
+header{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px clamp(16px,4vw,54px);background:linear-gradient(100deg,#031d4c,#063b80);border-bottom:5px solid #23baf4;box-shadow:0 7px 18px #06366b55;color:white}
+.brand{display:flex;align-items:center;gap:12px;font-size:clamp(23px,3vw,38px);font-weight:900;white-space:nowrap}
+.brand .bulb{font-size:48px;filter:drop-shadow(0 0 8px #ffdb45);animation:glow 2s infinite alternate}
+.brand span span{color:#ffd22e}
+.tagline{display:block;font-size:14px;letter-spacing:2px;color:#d8f3ff;margin-top:2px}
+nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+nav a{color:white;text-decoration:none;font-weight:800;padding:12px 15px;border-radius:28px}
+nav a:hover{background:#15599d}
+nav a.active{background:var(--yellow);color:#09234c;box-shadow:0 4px 0 #d78b00}
+.hero{position:relative;z-index:1;min-height:260px;display:flex;align-items:center;justify-content:center;padding:34px 20px 26px;overflow:hidden}
+.wood{position:relative;text-align:center;width:min(680px,90%);padding:25px 24px 28px;background:linear-gradient(#ffe18a,#ffb83e);border:7px solid #a95b16;border-radius:28px;box-shadow:inset 0 0 0 4px #fff0a8,0 12px 0 #75400f,0 18px 24px #174b7a55;transform:rotate(-1deg);animation:signFloat 4s ease-in-out infinite}
+.wood:before,.wood:after{content:"";position:absolute;left:-14px;right:-14px;height:17px;background:#f6a72f;border:3px solid #a95b16;border-radius:50%;z-index:-1}
+.wood:before{top:10px}.wood:after{bottom:10px}
+.wood h1{margin:0;color:#071e4b;font-size:clamp(30px,5vw,56px);text-shadow:2px 3px #fff2b0}
+.wood p{margin:8px 0 0;font-size:clamp(17px,2.5vw,26px);font-weight:900;color:#151c2d}
+.robot{position:absolute;width:155px;height:178px;bottom:5px;animation:bob 3s ease-in-out infinite}
+.robot.left{left:3%;}.robot.right{right:3%;animation-delay:1s}
+.robot .head{position:absolute;left:15px;top:8px;width:126px;height:112px;border:8px solid #1355a8;border-radius:42px;background:linear-gradient(145deg,#fff,#b8e7ff);box-shadow:inset -7px -8px #7ab9e9,0 8px 12px #174b7a55}
+.robot .face{position:absolute;inset:15px 13px 17px;background:#061d49;border-radius:30px;display:flex;align-items:center;justify-content:center;gap:22px}
+.eye{width:13px;height:23px;background:#5cecff;border-radius:50%;animation:blink 4s infinite}
+.smile{position:absolute;bottom:12px;width:24px;height:10px;border-bottom:4px solid #5cecff;border-radius:50%}
+.robot .ear{position:absolute;top:42px;width:20px;height:35px;border:5px solid #0c4f9c;background:#ffd13b;border-radius:10px}
+.robot .ear.l{left:4px}.robot .ear.r{right:4px}
+.robot .body{position:absolute;left:42px;top:119px;width:72px;height:52px;background:linear-gradient(130deg,#fff,#9bdcff);border:6px solid #1456a5;border-radius:23px}
+.robot .core{position:absolute;left:62px;top:132px;width:32px;height:25px;border:5px solid #087cf0;border-radius:50%;background:#0b315f}
+.robot .antenna{position:absolute;left:76px;top:-2px;width:5px;height:18px;background:#1456a5}
+.robot .antenna:after{content:"";position:absolute;top:-9px;left:-6px;width:16px;height:16px;border-radius:50%;background:#ffd12e;border:3px solid #1456a5}
+.speech{position:absolute;top:0;left:110px;background:white;border:3px solid #1263b8;border-radius:22px;padding:9px 13px;font-weight:900;transform:rotate(-7deg);box-shadow:0 4px 0 #7eb8ed}
+.right .speech{left:auto;right:100px;top:10px}
+.spark{position:absolute;color:#ffca24;font-size:32px;animation:twinkle 2s infinite alternate}
+.s1{left:24%;top:22px}.s2{right:24%;top:34px;animation-delay:.6s}.s3{left:7%;bottom:28px;animation-delay:1s}
+.boards{position:absolute;right:15%;top:15px;display:flex;gap:12px;transform:rotate(12deg);animation:float 5s ease-in-out infinite}
+.board{width:88px;height:56px;border:5px solid #07529a;border-radius:9px;background:repeating-linear-gradient(90deg,#168b58 0 8px,#087444 8px 12px);box-shadow:0 5px 0 #063b6a}
+.board:before{content:"";display:block;width:25px;height:24px;background:#202d40;border:4px solid #aab8c9;margin:10px auto}
+.content{position:relative;z-index:1;width:min(1260px,94%);margin:0 auto;display:grid;grid-template-columns:1fr 1.08fr;gap:14px}
+.panel{background:#ffffffed;border:3px solid #8fcaff;border-radius:28px;padding:20px;box-shadow:0 9px 20px #1261a333}
+.panel-title{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(#ffdc58,#ffb900);border:2px solid #ff9e00;border-radius:24px;padding:10px 20px;font-size:clamp(20px,2.4vw,29px);font-weight:1000;color:#101c38;box-shadow:0 4px 0 #d98a00;margin:0 0 18px}
+label{display:block;font-size:18px;font-weight:900;margin:12px 0 8px}
+input,textarea{width:100%;font:inherit;font-size:17px;padding:13px 15px;border:2px solid #b8cce9;border-radius:15px;background:#fff;outline:none;color:#10294d}
+input:focus,textarea:focus{border-color:#087cf0;box-shadow:0 0 0 3px #087cf022}
+textarea{min-height:112px;resize:vertical}
+.rating{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:16px 0}
+.rating strong{font-size:18px;margin-right:8px}
+.star{border:0;background:none;color:#ffb400;font-size:31px;cursor:pointer;padding:0;transition:transform .15s}
+.star:hover{transform:scale(1.2)}
+.post{width:100%;border:0;border-radius:40px;padding:16px 20px;background:linear-gradient(#159bff,#0060d9);color:white;font-size:22px;font-weight:1000;box-shadow:0 6px 0 #0648a4;cursor:pointer;transition:transform .2s,filter .2s}
+.post:hover{transform:translateY(-3px);filter:brightness(1.08)}
+.post:active{transform:translateY(2px);box-shadow:0 2px 0 #0648a4}
+.feedback-list{display:grid;gap:10px}
+.comment{display:grid;grid-template-columns:55px 1fr;gap:12px;align-items:center;background:#fff;border:2px solid #c4dcff;border-radius:19px;padding:12px;box-shadow:0 3px 0 #e1efff;animation:popIn .45s ease both}
+.avatar{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:#e5f5ff;font-size:30px;border:2px solid #9bcfff}
+.comment-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.comment-head b{font-size:20px;color:#061e4c}
+.stars{color:#ffad00;letter-spacing:1px}
+.date{margin-left:auto;color:#4c6386;font-size:13px}
+.comment p{margin:5px 0 0;font-size:16px;line-height:1.35}
+.keep{position:absolute;right:2%;top:470px;background:#ffe18a;border:5px solid #9a5718;border-radius:15px;padding:12px 17px;font-size:22px;font-weight:1000;transform:rotate(7deg);box-shadow:0 7px 0 #78400e;animation:signFloat 3.5s infinite}
+.footer{position:relative;z-index:1;width:max-content;max-width:90%;margin:22px auto 0;background:#fff0c4;border:4px solid #ed9c32;border-radius:40px;padding:13px 25px;text-align:center;font-size:20px;font-weight:1000;box-shadow:0 5px 0 #a95b16}
+.parts{position:absolute;bottom:6px;left:2%;font-size:42px;letter-spacing:12px;animation:float 4s infinite}
+.note{font-size:12px;color:#526987;margin-top:10px}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+@keyframes signFloat{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@keyframes blink{0%,46%,50%,100%{transform:scaleY(1)}48%{transform:scaleY(.08)}}
+@keyframes glow{from{filter:drop-shadow(0 0 3px #ffdb45)}to{filter:drop-shadow(0 0 13px #ffdb45)}}
+@keyframes twinkle{from{transform:scale(.8) rotate(-10deg);opacity:.6}to{transform:scale(1.2) rotate(12deg);opacity:1}}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -10px}}
+@keyframes popIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:850px){header{align-items:flex-start;flex-direction:column}.content{grid-template-columns:1fr}.hero{min-height:235px}.robot{transform:scale(.72);transform-origin:bottom}.robot.left{left:-22px}.robot.right{right:-22px}.wood{width:75%;padding:20px 12px}.boards{right:9%;top:7px;scale:.7}.keep{display:none}.parts{font-size:27px}}
+@media(max-width:520px){nav{justify-content:flex-start}nav a{padding:8px 10px;font-size:13px}.brand .bulb{font-size:36px}.hero{min-height:205px}.robot{scale:.65}.robot.left{left:-48px}.robot.right{right:-48px}.wood{width:82%;margin-top:25px}.wood h1{font-size:27px}.wood p{font-size:15px}.panel{padding:14px}.panel-title{font-size:19px;padding:9px 13px}.date{margin-left:0}.footer{font-size:15px}.parts{display:none}}
 
-  .robot-icon { font-size: 36px; background: rgba(255,255,255,0.2); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: bounce 2s infinite; }
+/* Side navigation arrows matching the project pages */
+.page-arrow{
+  position:fixed;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:1000;
+  width:80px;
+  height:80px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#0b5de5;
+  color:#fff;
+  text-decoration:none;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:58px;
+  font-weight:400;
+  line-height:1;
+  box-shadow:0 8px 18px #0003;
+  transition:background .2s,transform .2s;
+}
+.page-arrow:hover{
+  background:#064fc8;
+  transform:translateY(-50%) scale(1.06);
+}
+.page-arrow.prev{left:26px}
+.page-arrow.next{right:26px}
+@media(max-width:650px){
+  .page-arrow{width:52px;height:52px;font-size:39px}
+  .page-arrow.prev{left:10px}
+  .page-arrow.next{right:10px}
+}
 
-  .container { max-width: 800px; margin: 30px auto; padding: 0 20px 80px; width: 100%; flex: 1; }
-  
-  .ai-box { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 6px 18px rgba(11,63,191,0.12); display: flex; flex-direction: column; gap: 20px; }
-  
-  .search-container { display: flex; gap: 10px; position: relative; align-items: center; }
-  
-  .search-bar-wrapper { flex: 1; display: flex; align-items: center; border: 2px solid #4aa8ff; border-radius: 30px; background: #f8fbff; padding: 4px 15px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.03); }
-  
-  .search-bar-wrapper span.robot-mini { font-size: 24px; margin-right: 10px; }
-  
-  .search-input { flex: 1; border: none; background: transparent; padding: 12px 5px; font-size: 16px; color: #0b2a5b; outline: none; }
-  
-  .mic-btn { background: #eef6ff; border: 1px solid #4aa8ff; color: #0b3fbf; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s; flex-shrink: 0; }
-  .mic-btn:hover { background: #0b3fbf; color: #fff; }
-  .mic-btn.listening { background: #d32f2f; color: #fff; border-color: #d32f2f; animation: pulse 1s infinite; }
-
-  .ask-btn { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(11,63,191,0.2); flex-shrink: 0; }
-  .ask-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-
-  .result-card { background: #f3f9ff; border-left: 5px solid #0b3fbf; border-radius: 8px; padding: 20px; margin-top: 10px; display: none; animation: fadeIn 0.3s ease; }
-  .result-card h3 { color: #0b3fbf; margin-bottom: 8px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
-  .result-card p { color: #334e68; font-size: 15px; line-height: 1.6; }
-
-  .suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
-  .chip { background: #eef6ff; border: 1px solid #b7d4ff; color: #0b3fbf; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; }
-  .chip:hover { background: #0b3fbf; color: #fff; }
-
-  .back-arrow { position: fixed; left: 18px; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transform: translateY(-50%); animation: shakeback 1s infinite; }
-
-  @keyframes shakeback {
-    0%, 100% { transform: translateY(-50%) translateX(0); }
-    25% { transform: translateY(-50%) translateX(-8px); }
-    50% { transform: translateY(-50%) translateX(6px); }
-    75% { transform: translateY(-50%) translateX(-4px); }
-  }
-  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1.1); } }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
-
-<div class="topbar">
-  <h2>Aaraa Electro</h2>
-  <a href="project1-page3.html">&larr; Back to Circuit</a>
-</div>
-
-<div class="banner">
-  <h1><div class="robot-icon">🤖</div> Aaraa AI Assistant</h1>
-  <p>Created by ஆரா அமுதன் | Ask any electronics questions, get answers in Tamil!</p>
-</div>
-
-<div class="container">
-  <div class="ai-box">
-    <h3>🔍 Electronics & Components AI Hub</h3>
-    <p style="color: #4a6b9c; font-size: 14px;">Type or use microphone to ask electronics questions - AI will explain clearly in Tamil!</p>
-
-    <div class="search-container">
-      <div class="search-bar-wrapper">
-        <span class="robot-mini">🤖</span>
-        <input type="text" id="userInput" class="search-input" placeholder="Type or click mic to speak (e.g., capacitor, LED)...">
-        <button id="micBtn" class="mic-btn" title="Speak your question">🎤</button>
-      </div>
-      <button class="ask-btn" onclick="askAaraAI()">Ask AI</button>
-    </div>
-
-    <div>
-      <p style="font-size: 13px; color: #6c8eb8; margin-bottom: 6px;">Quick Topics (Click to ask):</p>
-      <div class="suggestions">
-        <div class="chip" onclick="setQuery('what is capacitor')">What is a Capacitor?</div>
-        <div class="chip" onclick="setQuery('what is resistor')">What is a Resistor?</div>
-        <div class="chip" onclick="setQuery('how does LED work')">How does LED work?</div>
-        <div class="chip" onclick="setQuery('dc motor working')">DC motor working</div>
-      </div>
-    </div>
-
-    <!-- Result Display Box -->
-    <div id="resultCard" class="result-card">
-      <h3 id="resultTitle">🤖 Aaraa AI Solution</h3>
-      <p id="resultText">Your solution will appear here...</p>
-    </div>
+<div class="page">
+<div class="circuit-lines"></div>
+<header>
+  <div class="brand"><span class="bulb">💡</span><span><span>Aara</span> Electro<small class="tagline">Learn • Build • Innovate</small></span></div>
+  <nav aria-label="Main navigation">
+    <a href="index.html">⌂ Home</a><a href="projects.html">▣ Projects</a><a href="learn.html">▤ Learn</a><a href="components.html">⚙ Components</a><a class="active" href="feedback.html">● Feedback</a><a href="about.html">★ About</a>
+  </nav>
+</header>
+<section class="hero">
+  <div class="robot left"><div class="antenna"></div><div class="head"><div class="face"><i class="eye"></i><i class="eye"></i><i class="smile"></i></div></div><div class="ear l"></div><div class="ear r"></div><div class="body"></div><div class="core"></div><div class="speech">Tell us what<br>you think!</div></div>
+  <span class="spark s1">★</span><span class="spark s2">✦</span><span class="spark s3">★</span>
+  <div class="boards"><div class="board"></div><div class="board"></div></div>
+  <div class="wood"><h1>Student Feedback Wall</h1><p>Your ideas help us grow! ❤️</p></div>
+  <div class="robot right"><div class="antenna"></div><div class="head"><div class="face"><i class="eye"></i><i class="eye"></i><i class="smile"></i></div></div><div class="ear l"></div><div class="ear r"></div><div class="body"></div><div class="core"></div><div class="speech">Keep<br>sharing!</div></div>
+</section>
+<main class="content">
+<section class="panel">
+  <h2 class="panel-title">⭐ Post Your Feedback</h2>
+  <form id="feedbackForm">
+    <label for="studentName">✏️ Your Name (Optional)</label>
+    <input id="studentName" maxlength="30" placeholder="e.g. Science Star">
+    <label for="message">💬 Your Feedback / Suggestion</label>
+    <textarea id="message" maxlength="500" required placeholder="Write your message here..."></textarea>
+    <div class="rating"><strong>⭐ Rate Our Website:</strong><span id="ratingStars" aria-label="Choose a rating">
+      <button class="star" type="button" data-rate="1" aria-label="1 star">☆</button><button class="star" type="button" data-rate="2" aria-label="2 stars">☆</button><button class="star" type="button" data-rate="3" aria-label="3 stars">☆</button><button class="star" type="button" data-rate="4" aria-label="4 stars">☆</button><button class="star" type="button" data-rate="5" aria-label="5 stars">☆</button>
+    </span></div>
+    <button class="post" type="submit">➤ Post Message</button>
+    <div class="note">Demo mode: posts are saved only in this browser on this device.</div>
+  </form>
+</section>
+<section class="panel">
+  <h2 class="panel-title">📣 What Students Say</h2>
+  <div class="feedback-list" id="feedbackList">
+    <!-- Real student feedback will appear here after a student posts it. -->
   </div>
+</section>
+</main>
+<div class="footer">🏆 Together we can make Aara Electro even better! ❤️</div>
+<div class="parts" aria-hidden="true">🔴　🟨　▰　⚡</div>
 </div>
-
-<a class="back-arrow" href="project1-page3.html" title="Back to Circuit">&#10094;</a>
-
 <script>
-  function setQuery(text) {
-    document.getElementById('userInput').value = text;
-    askAaraAI();
-  }
-
-  function askAaraAI() {
-    let query = document.getElementById('userInput').value.toLowerCase().trim();
-    let resultCard = document.getElementById('resultCard');
-    let resultTitle = document.getElementById('resultTitle');
-    let resultText = document.getElementById('resultText');
-
-    if (!query) {
-      alert("தயவுசெய்து உங்கள் கேள்வியைத் டைப் செய்யவும் அல்லது பேசவும்!");
-      return;
-    }
-
-    resultCard.style.display = "block";
-
-    // Strict Electronics Keywords Checking
-    let electronicsKeywords = [
-      'motor', 'sensor', 'ir', 'arduino', 'l298n', 'battery', 'wire', 'wiring', 
-      'power', 'code', 'pin', 'ena', 'enb', 'in1', 'in2', 'in3', 'in4', 'robot', 
-      'chassis', 'switch', 'wheel', 'speed', 'backward', 'forward', 'turning', 'light', 'volt', 'gnd', '5v', '12v',
-      'led', 'blink', 'esp32', 'nodemcu', 'resistor', 'capacitor', 'transistor', 'relay', 'ic', 'microcontroller', 'circuit', 'current', 'voltage',
-      'கெப்பாசிட்டர்', 'capacitor', 'resistor', 'led', 'motor', 'மோட்டார்', 'சென்சார்', 'ஒயர்', 'பேட்டரி', 'ரோபோ', 'ஆர்டினோ', 'எலக்ட்ரானிக்ஸ்', 'what', 'how', 'why', 'use', 'working'
-    ];
-
-    // Explicitly block non-electronics queries like biscuit, chocolate, food, etc.
-    let nonElectronicsTerms = ['biscuit', 'chocolate', 'food', 'movie', 'song', 'cricket', 'politics', 'biscuits', 'chocolates', 'recipe', 'cooking'];
-    let isNonElectronics = nonElectronicsTerms.some(term => query.includes(term));
-
-    let isElectronics = electronicsKeywords.some(keyword => query.includes(keyword));
-
-    if (isNonElectronics || !isElectronics) {
-      resultTitle.innerHTML = "🤖 Aaraa AI - Notice";
-      resultText.innerHTML = "மன்னிக்கவும்! என்னால் எலக்ட்ரானிக்ஸ் மற்றும் சர்க்யூட் சம்பந்தப்பட்ட சந்தேகங்களுக்கு மட்டுமே பதிலளிக்க முடியும்.";
-      return;
-    }
-
-    resultTitle.innerHTML = "🤖 Aaraa AI Solution (Verified by ஆரா அமுதன்)";
-    let responseHtml = "";
-
-    if (query.includes('capacitor') || query.includes('கெப்பாசிட்டர்')) {
-      responseHtml = "<b>கெப்பாசிட்டர் (Capacitor) என்றால் என்ன மற்றும் அதன் பயன்பாடு:</b><br><br>" +
-                     "1. <b>வரையறை:</b> கெப்பாசிட்டர் என்பது மின்சாரத்தை (Electrical Energy) தற்காலிகமாக சேமித்து வைத்து, தேவைப்படும்போது உடனடியாக வெளிப்படுத்தும் ஒரு எலக்ட்ரானிக்ஸ் காம்போனென்ட் ஆகும்.<br><br>" +
-                     "2. <b>முக்கிய பயன்பாடுகள்:</b><br>" +
-                     "- சர்க்யூட்டில் வரும் திடீர் வோல்டேஜ் மாற்றங்களை (Voltage Spikes) தடுத்து சீரான மின்சாரத்தை வழங்கும்.<br>" +
-                     "- பில்டரிங் (Filtering) மற்றும் டைமிங் சர்க்யூட்களில் பரவலாகப் பயன்படுகிறது.";
-    } 
-    else if (query.includes('resistor') || query.includes('ரெசிஸ்டர்')) {
-      responseHtml = "<b>ரெசிஸ்டர் (Resistor) என்றால் என்ன மற்றும் அதன் பயன்பாடு:</b><br><br>" +
-                     "1. <b>வரையறை:</b> ரெசிஸ்டர் என்பது சர்க்யூட்டில் பாயும் மின்சாரத்தின் (Current) அளவைக் கட்டுப்படுத்தும் அல்லது தடுத்து நிறுத்தும் ஒரு மின்தடைப் பொருள் ஆகும்.<br><br>" +
-                     "2. <b>முக்கிய பயன்பாடுகள்:</b><br>" +
-                     "- எல்.ஈ.டி (LED) போன்ற சிறிய சாதனங்களுக்கு அதிகப்படியான கரண்ட் சென்று பியூஸ் ஆகிவிடாமல் பாதுகாக்கிறது.";
-    } 
-    else if (query.includes('led') || query.includes('light')) {
-      responseHtml = "<b>எல்.ஈ.டி (LED - Light Emitting Diode) என்றால் என்ன?</b><br><br>" +
-                     "1. <b>வரையறை:</b> இது ஒரு செமிகண்டக்டர் காம்போனென்ட் ஆகும். இதன் வழியே மின்சாரம் பாயும் போது ஒளி வெளிப்படுகிறது.<br><br>" +
-                     "2. <b>முக்கிய பயன்பாடுகள்:</b> இண்டிகேட்டர்களாகவும், டிஸ்ப்ளே மற்றும் லைட்டிங் தேவைகளுக்கும் இது பயன்படுகிறது.";
-    } 
-    else if (query.includes('motor') || query.includes('dc motor')) {
-      responseHtml = "<b>டி.சி மோட்டார் (DC Motor) என்றால் என்ன?</b><br><br>" +
-                     "1. <b>வரையறை:</b> மின் ஆற்றலை (Electrical Energy) இயந்திர ஆற்றலாக (Mechanical Energy - சுழற்சி) மாற்றும் சாதனம் ஆகும்.<br><br>" +
-                     "2. <b>முக்கிய பயன்பாடுகள்:</b> ரோபோக்கள், கார்கள் மற்றும் பல்வேறு இயக்கப் பொருட்களில் சக்கரங்களை இயக்கப் பயன்படுகிறது.";
-    } 
-    else {
-      responseHtml = "<b>பொதுவான எலக்ட்ரானிக்ஸ் விளக்கம்:</b><br><br>" +
-                     "நீங்கள் கேட்டுள்ள இந்த எலக்ட்ரானிக்ஸ் காம்போனென்ட் அல்லது சர்க்யூட் பகுதியில், அனைத்து வயர் இணைப்புகளும் மற்றும் பவர் சப்ளையும் சரியாக இணைக்கப்பட்டுள்ளதா எனச் சரிபார்க்கவும்.";
-    }
-
-    resultText.innerHTML = responseHtml;
-  }
-
-  // Voice Recognition (Speech-to-Text) Setup
-  const micBtn = document.getElementById('micBtn');
-  const userInput = document.getElementById('userInput');
-
-  if ('webkitSpeechRecognition' in window || 'speechRecognition' in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US'; // Understands spoken English queries
-
-    micBtn.addEventListener('click', () => {
-      micBtn.classList.add('listening');
-      userInput.placeholder = "Listening... Speak now!";
-      recognition.start();
-    });
-
-    recognition.onresult = (event) => {
-      const speechToText = event.results[0][0].transcript;
-      userInput.value = speechToText;
-      micBtn.classList.remove('listening');
-      userInput.placeholder = "Type or click mic to speak...";
-      askAaraAI();
-    };
-
-    recognition.onerror = () => {
-      micBtn.classList.remove('listening');
-      userInput.placeholder = "Voice error. Try typing.";
-    };
-
-    recognition.onend = () => {
-      micBtn.classList.remove('listening');
-    };
-  } else {
-    micBtn.style.display = 'none';
-  }
+let selectedRating=0;
+const starButtons=[...document.querySelectorAll('.star')];
+starButtons.forEach(button=>button.addEventListener('click',()=>{
+  selectedRating=Number(button.dataset.rate);
+  starButtons.forEach((star,index)=>star.textContent=index<selectedRating?'★':'☆');
+}));
+const list=document.getElementById('feedbackList');
+const saved=JSON.parse(localStorage.getItem('aaraFeedbackWall')||'[]');
+saved.forEach(addCard);
+function addCard(item){
+  const card=document.createElement('article');card.className='comment';
+  const avatar=document.createElement('div');avatar.className='avatar';avatar.textContent='🤖';
+  const body=document.createElement('div');
+  const head=document.createElement('div');head.className='comment-head';
+  const name=document.createElement('b');name.textContent=item.name||'Student';
+  const stars=document.createElement('span');stars.className='stars';stars.textContent='★'.repeat(item.rating)+'☆'.repeat(5-item.rating);
+  const date=document.createElement('time');date.className='date';date.textContent=item.date;
+  const message=document.createElement('p');message.textContent=item.message;
+  head.append(name,stars,date);body.append(head,message);card.append(avatar,body);list.prepend(card);
+}
+document.getElementById('feedbackForm').addEventListener('submit',event=>{
+  event.preventDefault();
+  const message=document.getElementById('message').value.trim();
+  if(!message){alert('Please write your feedback first.');return;}
+  const item={name:document.getElementById('studentName').value.trim(),message,rating:selectedRating||5,date:new Date().toLocaleDateString()};
+  saved.unshift(item);localStorage.setItem('aaraFeedbackWall',JSON.stringify(saved));
+  addCard(item);event.target.reset();selectedRating=0;starButtons.forEach(star=>star.textContent='☆');
+});
 </script>
+
+<a class="page-arrow prev" href="project2-page3.html" aria-label="Previous page">&#x276E;</a>
+<a class="page-arrow next" href="project2-page5.html" aria-label="Next page">&#x276F;</a>
 
 </body>
 </html>
