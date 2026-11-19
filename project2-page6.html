@@ -12,8 +12,37 @@ header{min-height:70px;background:linear-gradient(100deg,#07316f,#061e50);color:
 .brand{font-size:clamp(22px,3vw,30px);font-weight:800;color:#7de0ff;white-space:nowrap}.brand span{color:#ffd54d}
 nav{display:flex;gap:clamp(8px,2vw,24px);flex-wrap:wrap}nav a{color:#fff;text-decoration:none;font-weight:700;padding:9px 12px;border-radius:22px}nav a:hover,nav a.active{background:#fff;color:#07316f}
 .robot-mini{font-size:30px}
-.intro{text-align:center;padding:24px 15px 18px;background:linear-gradient(110deg,#0879d8,#11b9ee 55%,#2386e8);color:#fff}
-.intro h1{margin:0 0 8px;font-size:clamp(27px,4vw,42px)}.intro p{margin:0;font-size:16px}
+
+/* Intro banner with left-corner animated round back arrow & centered title */
+.intro{position:relative;text-align:center;padding:24px 76px 18px;background:linear-gradient(110deg,#0879d8,#11b9ee 55%,#2386e8);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:110px}
+.intro h1{margin:0 0 8px;font-size:clamp(27px,4vw,42px);text-align:center}
+.intro p{margin:0;font-size:16px;text-align:center}
+
+.back-round-btn{
+  position:fixed;
+  left:18px;
+  top:96px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#1976d2,#005bb5);
+  border:3px solid #ffffff;
+  color:#ffffff;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  box-shadow:0 8px 20px rgba(4,42,110,0.38);
+  z-index:60;
+  animation:backSlideX 1.3s ease-in-out infinite alternate;
+  transition:filter .15s,transform .15s;
+}
+.back-round-btn:hover{filter:brightness(1.1)}
+@keyframes backSlideX{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-7px)}
+}
+
 main{max-width:1500px;margin:auto;padding:20px}
 .toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .toolbar h2{margin:0;color:#0756b8;font-size:22px}
@@ -123,14 +152,7 @@ button{font:inherit;cursor:pointer}
 
 footer{text-align:center;color:#60758b;padding:20px;font-size:13px}
 @media(max-width:1000px){.workspace{grid-template-columns:170px minmax(0,1fr)}.right-panel{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px}.right-panel h3{grid-column:1/-1}}
-@media(max-width:680px){header{justify-content:center;flex-wrap:wrap;padding:12px}nav{justify-content:center;font-size:13px}.workspace{grid-template-columns:1fr}.parts-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.parts-panel h3,.parts-panel .hint{grid-column:1/-1}.part{margin:3px 0}.workbench{min-height:560px}.breadboard{width:88%;height:230px}.holes{gap:7px 2px}.right-panel{display:block}}
-
-.page-pager{max-width:1500px;margin:8px auto 0;padding:0 24px;display:flex;justify-content:space-between;align-items:center;gap:14px}
-.page-pager a{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border:0;border-radius:40px;background:linear-gradient(#1688ed,#0756b8);color:#fff;text-decoration:none;font-size:16px;font-weight:800;box-shadow:0 5px 0 #063d83;transition:transform .15s,filter .15s}
-.page-pager a:hover{filter:brightness(1.08);transform:translateY(-2px)}
-.page-pager .pager-arrow{font-size:24px;line-height:1}
-.page-pager .future-link{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border-radius:40px;background:#aab8c8;color:#fff;font-size:16px;font-weight:800;box-shadow:0 5px 0 #78899b;cursor:not-allowed}
-@media(max-width:650px){.page-pager{padding:0 12px}.page-pager a,.page-pager .future-link{padding:10px 14px;font-size:14px}.page-pager .pager-arrow{font-size:21px}}
+@media(max-width:680px){header{justify-content:center;flex-wrap:wrap;padding:12px}nav{justify-content:center;font-size:13px}.intro{padding:20px 64px 16px}.back-round-btn{top:116px;left:12px;width:46px;height:46px}.workspace{grid-template-columns:1fr}.parts-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.parts-panel h3,.parts-panel .hint{grid-column:1/-1}.part{margin:3px 0}.workbench{min-height:560px}.breadboard{width:88%;height:230px}.holes{gap:7px 2px}.right-panel{display:block}}
 </style>
 </head>
 <body>
@@ -141,8 +163,16 @@ footer{text-align:center;color:#60758b;padding:20px;font-size:13px}
   </nav>
   <div class="robot-mini" aria-label="Aara AI robot">🤖</div>
 </header>
+
+<a href="project2-page5.html" class="back-round-btn" aria-label="Go back to previous page" title="Back to Previous Page">
+  <svg width="26" height="26" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+    <path d="M18 6L9 14L18 22" stroke="#ffffff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10 14H22" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+  </svg>
+</a>
+
 <section class="intro">
-  <h1>Page 6 — Circuit Builder</h1>
+  <h1>Circuit Builder</h1>
   <p>Use the Switch, Resistor, and Jumper Wires to control your DC Motor, LED, or Buzzer!</p>
 </section>
 <main>
@@ -222,10 +252,6 @@ footer{text-align:center;color:#60758b;padding:20px;font-size:13px}
   </div>
 </div>
 
-<nav class="page-pager" aria-label="Page navigation">
-  <a href="project2-page5.html" aria-label="Go back to Page 5 Component Learning Hub"><span class="pager-arrow" aria-hidden="true">←</span> Page 5 · Components</a>
-  <span class="future-link" aria-label="Page 7 has not been created yet" title="Page 7 will be linked when it is created">Page 7 · Next <span class="pager-arrow" aria-hidden="true">→</span></span>
-</nav>
 <footer>Made for curious learners • Aara Electro</footer>
 <script>
 const workbench=document.getElementById('workbench');
@@ -252,7 +278,7 @@ let selectedItem=null;
 let activeWireEnd=null;
 let circuitState='incomplete';
 let circuitReason='';
-let motorSpinDir=null; // 'right' | 'left' | null
+let motorSpinDir=null;
 let jumperAlertTimer=null;
 
 const art={
@@ -636,7 +662,6 @@ function evaluateCircuit(){
 
  const isReversePolarity=(posPathToLoad==='-' && negPathToLoad==='+');
 
- // DC Motor behavior: + to + spins right (green arrow), + to - spins left (red arrow)
  if(loadType==='motor'){
    if(isReversePolarity){
      circuitState='motor-left';
@@ -658,7 +683,6 @@ function evaluateCircuit(){
    return;
  }
 
- // LED & Buzzer behavior
  if(isReversePolarity){
    circuitState=loadType+'-busted';
    circuitReason='polarity';
