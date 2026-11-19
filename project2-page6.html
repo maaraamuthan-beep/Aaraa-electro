@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aara Electro | Circuit Builder</title>
+<style>
+:root{--navy:#082b68;--blue:#0875df;--ink:#10233f;--sky:#eaf6ff}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#f4f8fc}
+header{min-height:70px;background:linear-gradient(100deg,#07316f,#061e50);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 5%;gap:18px}
+.brand{font-size:clamp(22px,3vw,30px);font-weight:800;color:#7de0ff;white-space:nowrap}.brand span{color:#ffd54d}
+nav{display:flex;gap:clamp(8px,2vw,24px);flex-wrap:wrap}nav a{color:#fff;text-decoration:none;font-weight:700;padding:9px 12px;border-radius:22px}nav a:hover,nav a.active{background:#fff;color:#07316f}
+.robot-mini{font-size:30px}
+.intro{text-align:center;padding:24px 15px 18px;background:linear-gradient(110deg,#0879d8,#11b9ee 55%,#2386e8);color:#fff}
+.intro h1{margin:0 0 8px;font-size:clamp(27px,4vw,42px)}.intro p{margin:0;font-size:16px}
+main{max-width:1500px;margin:auto;padding:20px}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.toolbar h2{margin:0;color:#0756b8;font-size:22px}
+button{font:inherit;cursor:pointer}
+.new-project{border:0;border-radius:24px;background:#0756b8;color:#fff;font-weight:800;padding:12px 20px;box-shadow:0 4px 0 #063d83}
+.workspace{display:grid;grid-template-columns:190px minmax(0,1fr) 235px;gap:14px;align-items:stretch}
+.panel{background:#fff;border:1px solid #d7e6f4;border-radius:18px;padding:14px;box-shadow:0 5px 18px #174b7910}
+.panel h3{margin:0 0 12px;color:#0756b8;font-size:17px}
+.part{width:100%;display:flex;align-items:center;gap:10px;border:1px solid #d8e7f5;background:#f8fbff;border-radius:13px;padding:10px;margin:8px 0;text-align:left;font-weight:700;color:var(--ink);transition:.18s}
+.part:hover{transform:translateY(-2px);border-color:#1685ed;background:#eef7ff}
+.part svg{width:48px;height:42px;flex:none}
+.hint{font-size:12px;line-height:1.45;color:#5b7088;margin:12px 2px 0}
+.workbench{position:relative;min-height:590px;overflow:hidden;border:1px solid #d6e1eb;border-radius:18px;background-color:#fff;background-image:linear-gradient(#dce6ef 1px,transparent 1px),linear-gradient(90deg,#dce6ef 1px,transparent 1px);background-size:22px 22px;box-shadow:inset 0 0 35px #c5d8e522}
+.bench-label{position:absolute;top:12px;left:15px;background:#ffffffdf;border-radius:20px;padding:7px 12px;font-size:12px;font-weight:800;color:#64778c;z-index:3}
+.breadboard{position:absolute;width:min(76%,660px);height:260px;left:50%;top:48%;transform:translate(-50%,-50%);border-radius:17px;background:linear-gradient(145deg,#fff,#e9edf0);border:1px solid #cbd2d8;box-shadow:0 13px 22px #26394a30,inset 0 2px 5px #fff;z-index:1}
+.board-top{position:absolute;inset:12px;border-radius:11px;background:linear-gradient(145deg,#fdfefe,#e9edef);box-shadow:inset 0 2px 8px #aeb8c055}
+.rail{position:absolute;left:20px;right:20px;height:2px;background:#d74c4c;top:28px}.rail.bottom{top:auto;bottom:28px;background:#2786d5}
+.rail:after{content:"";position:absolute;left:0;right:0;top:5px;height:1px;background:#cbd3d9}
+.holes{position:absolute;left:28px;right:28px;top:58px;bottom:58px;display:grid;grid-template-columns:repeat(30,1fr);grid-template-rows:repeat(5,1fr);gap:8px 5px}
+.hole{width:7px;height:7px;justify-self:center;align-self:center;border-radius:50%;background:radial-gradient(circle at 35% 30%,#68727b,#202a32 65%);box-shadow:inset 0 1px 2px #0008,0 1px 0 #fff}
+.center-gap{position:absolute;left:12px;right:12px;top:50%;height:13px;transform:translateY(-50%);background:#dce1e4;border-top:1px solid #c5cdd2;border-bottom:1px solid #fff}
+.board-mark{position:absolute;left:12px;right:12px;top:4px;font-size:9px;color:#9aa4ac;display:flex;justify-content:space-between}
+.dropzone{position:absolute;inset:0;z-index:2;pointer-events:none}
+.placed{position:absolute;z-index:4;touch-action:none;cursor:grab;user-select:none;pointer-events:auto;filter:drop-shadow(0 5px 3px #1b2b3a33);transform-origin:center}.placed.selected{outline:2px dashed #0875df;outline-offset:5px;border-radius:8px}
+.placed:active{cursor:grabbing}.placed svg{display:block;overflow:visible}
+.led-part{width:42px;height:76px}.res-part{width:95px;height:36px}.battery-part{width:120px;height:90px}.buzzer-part{width:65px;height:65px}
+.part-actions{display:flex;gap:8px;margin-top:10px}.part-actions button{flex:1;border:0;border-radius:10px;padding:10px 7px;font-size:12px;font-weight:800}.remove-selected{background:#ffe8e8;color:#a32222}.rotate-selected{background:#e8f3ff;color:#0756b8}.selected-note{font-size:12px;color:#47627c;line-height:1.4;margin:8px 2px}
+.wire{position:absolute;z-index:3;pointer-events:none;overflow:visible}
+.wire path{fill:none;stroke-width:5;stroke-linecap:round;filter:drop-shadow(0 2px 1px #0003)}
+.status{margin-top:14px;padding:12px 14px;border-radius:13px;background:#edf6ff;color:#234767;font-size:14px;line-height:1.5}
+.check{width:100%;border:0;border-radius:13px;padding:12px;background:#0b8a55;color:#fff;font-weight:800;margin-top:10px}
+.robot-card{position:relative;min-height:220px;background:linear-gradient(145deg,#f0f8ff,#fff);border:1px solid #cfe4f8;border-radius:16px;padding:12px;overflow:hidden}
+.robot{font-size:68px;text-align:center;display:block;transform:translateX(120%);opacity:0}
+.robot.show{animation:robotIn .65s ease forwards}.robot.leave{animation:robotOut .6s ease forwards}
+.speech{font-size:13px;line-height:1.5;background:#fff;border:1px solid #dbe9f5;border-radius:12px;padding:10px;margin-top:7px;min-height:76px}
+.legend{font-size:12px;color:#62768a;line-height:1.5;margin-top:12px}
+@keyframes robotIn{to{transform:translateX(0);opacity:1}}@keyframes robotOut{to{transform:translateX(130%);opacity:0}}
+.glow{filter:drop-shadow(0 0 8px #ffdf35) drop-shadow(0 0 15px #ffb900)!important;animation:pulse .8s ease-in-out infinite alternate}
+@keyframes pulse{to{filter:drop-shadow(0 0 15px #ffe66d) drop-shadow(0 0 25px #ffb900)}}
+footer{text-align:center;color:#60758b;padding:20px;font-size:13px}
+@media(max-width:1000px){.workspace{grid-template-columns:165px minmax(0,1fr)}.right-panel{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px}.right-panel h3{grid-column:1/-1}.robot-card{min-height:150px}}
+@media(max-width:680px){header{justify-content:center;flex-wrap:wrap;padding:12px}nav{justify-content:center;font-size:13px}.workspace{grid-template-columns:1fr}.parts-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.parts-panel h3,.parts-panel .hint{grid-column:1/-1}.part{margin:3px 0}.workbench{min-height:520px}.breadboard{width:88%;height:230px}.holes{gap:7px 2px}.right-panel{display:block}.robot-card{min-height:180px}}
+
+.page-pager{max-width:1500px;margin:8px auto 0;padding:0 24px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.page-pager a{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border:0;border-radius:40px;background:linear-gradient(#1688ed,#0756b8);color:#fff;text-decoration:none;font-size:16px;font-weight:800;box-shadow:0 5px 0 #063d83;transition:transform .15s,filter .15s}
+.page-pager a:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.page-pager .pager-arrow{font-size:24px;line-height:1}
+.page-pager .future-link{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border-radius:40px;background:#aab8c8;color:#fff;font-size:16px;font-weight:800;box-shadow:0 5px 0 #78899b;cursor:not-allowed}
+@media(max-width:650px){.page-pager{padding:0 12px}.page-pager a,.page-pager .future-link{padding:10px 14px;font-size:14px}.page-pager .pager-arrow{font-size:21px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><span>⚡</span> Aara Electro</div>
+  <nav aria-label="Main navigation">
+    <a href="index.html">⌂ Home</a><a href="#">▣ Learn</a><a href="components.html">▦ Components</a><a href="#">★ Challenges</a><a href="feedback.html">▤ Feedback</a>
+  </nav>
+  <div class="robot-mini" aria-label="Aara AI robot">🤖</div>
+</header>
+<section class="intro">
+  <h1>Page 6 — Circuit Builder</h1>
+  <p>Drag components onto the breadboard, connect the circuit and learn by experimenting!</p>
+</section>
+<main>
+  <div class="toolbar">
+    <h2>Build your first LED circuit</h2>
+    <button class="new-project" id="newProject">↻ New Project</button>
+  </div>
+  <section class="workspace">
+    <aside class="panel parts-panel">
+      <h3>Components</h3>
+      <button class="part" draggable="true" data-part="led">
+        <svg viewBox="0 0 60 48" aria-hidden="true"><path d="M25 26v20M35 26v20" stroke="#aaa" stroke-width="2"/><path d="M19 25a11 11 0 1 1 22 0v3H19z" fill="#ed3448" stroke="#9d1729" stroke-width="2"/><path d="M25 8l-5-5m17 5 5-5" stroke="#ffb5bd" stroke-width="2"/></svg>LED
+      </button>
+      <button class="part" draggable="true" data-part="resistor">
+        <svg viewBox="0 0 70 48" aria-hidden="true"><path d="M2 24h66" stroke="#aaa" stroke-width="2"/><rect x="17" y="14" width="36" height="20" rx="8" fill="#e9c99b" stroke="#98734b"/><path d="M25 15v18m7-18v18m8-18v18" stroke="#a33b24" stroke-width="3"/></svg>1 kΩ Resistor
+      </button>
+      <button class="part" draggable="true" data-part="battery">
+        <svg viewBox="0 0 80 58" aria-hidden="true"><rect x="12" y="9" width="56" height="43" rx="7" fill="#202a35" stroke="#101820" stroke-width="2"/><rect x="25" y="4" width="12" height="7" rx="2" fill="#aaa"/><rect x="48" y="4" width="12" height="7" rx="2" fill="#aaa"/><text x="40" y="34" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">9V</text></svg>9V Battery
+      </button>
+      <button class="part" draggable="true" data-part="buzzer">
+        <svg viewBox="0 0 60 48" aria-hidden="true"><circle cx="30" cy="23" r="18" fill="#252b31" stroke="#111" stroke-width="2"/><circle cx="30" cy="23" r="11" fill="#59616a"/><circle cx="30" cy="23" r="4" fill="#1d252c"/><path d="M22 39v8m16-8v8" stroke="#aaa" stroke-width="2"/></svg>Buzzer
+      </button>
+      <div class="part-actions"><button class="remove-selected" id="removeSelected" type="button">✕ Remove selected</button><button class="rotate-selected" id="rotateSelected" type="button">↻ Rotate</button></div><p class="selected-note" id="selectedNote">No component selected. Click a placed component to select it.</p><p class="hint">Drag a component from here into the work area. To rearrange it, drag the component already on the board. Select it and use Remove selected if you want to take it out.</p>
+    </aside>
+
+    <section class="workbench" id="workbench" aria-label="Circuit work area">
+      <div class="bench-label">WORK AREA • drag parts here</div>
+      <div class="breadboard" aria-label="Illustrated solderless breadboard">
+        <div class="board-top"></div><div class="board-mark"><span>＋</span><span>1　5　10　15　20　25　30</span><span>＋</span></div>
+        <div class="rail"></div><div class="rail bottom"></div>
+        <div class="holes" id="holes"></div><div class="center-gap"></div>
+      </div>
+      <svg class="wire" id="wireLayer" width="100%" height="100%" aria-hidden="true"></svg>
+      <div class="dropzone" id="dropzone"></div>
+    </section>
+
+    <aside class="panel right-panel">
+      <h3>Aara AI • Circuit Guide</h3>
+      <div class="robot-card">
+        <span class="robot" id="robot">🤖</span>
+        <div class="speech" id="speech" aria-live="polite">Hi! I'm Aara AI. Place an LED, a 1 kΩ resistor and a battery. Then press “Check Circuit” and I'll help you understand what happened.</div>
+      </div>
+      <button class="check" id="checkCircuit">✓ Check Circuit</button>
+      <div class="status" id="status">Ready to build. Remember: an LED needs a current-limiting resistor.</div>
+      <div class="legend"><b>How to use:</b><br>1. Drag the parts into the work area.<br>2. Place the LED and resistor on the breadboard.<br>3. Add the battery and connect the circuit.<br>4. Press Check Circuit.</div>
+    </aside>
+  </section>
+</main>
+<nav class="page-pager" aria-label="Page navigation">
+  <a href="project2-page5.html" aria-label="Go back to Page 5 Component Learning Hub"><span class="pager-arrow" aria-hidden="true">←</span> Page 5 · Components</a>
+  <span class="future-link" aria-label="Page 7 has not been created yet" title="Page 7 will be linked when it is created">Page 7 · Next <span class="pager-arrow" aria-hidden="true">→</span></span>
+</nav>
+<footer>Made for curious learners • Aara Electro</footer>
+<script>
+const workbench=document.getElementById('workbench');
+const dropzone=document.getElementById('dropzone');
+const wireLayer=document.getElementById('wireLayer');
+const statusBox=document.getElementById('status');
+const speech=document.getElementById('speech');
+const robot=document.getElementById('robot');
+const holes=document.getElementById('holes');
+for(let i=0;i<150;i++){const h=document.createElement('span');h.className='hole';holes.appendChild(h)}
+let items=[],dragType=null,wireMode=false,wireStart=null,selectedItem=null;
+const art={
+ led:`<svg viewBox="0 0 42 76"><path d="M16 43v31M26 43v31" stroke="#aeb6bd" stroke-width="2.5"/><path d="M10 39a11 11 0 1 1 22 0v5H10z" fill="#ed3448" stroke="#9d1729" stroke-width="2"/><ellipse cx="21" cy="29" rx="7" ry="5" fill="#ff9aa5" opacity=".65"/><path d="M12 16L5 9m25 7 7-7" stroke="#ffc84a" stroke-width="2" stroke-linecap="round"/></svg>`,
+ resistor:`<svg viewBox="0 0 100 38"><path d="M1 19h98" stroke="#aeb6bd" stroke-width="2"/><rect x="20" y="8" width="60" height="22" rx="9" fill="#e8c79a" stroke="#98734b" stroke-width="1.5"/><path d="M32 9v20m10-20v20m17-20v20" stroke="#9b3326" stroke-width="4"/><path d="M70 9v20" stroke="#c49a31" stroke-width="3"/></svg>`,
+ battery:`<svg viewBox="0 0 120 90"><path d="M42 7h13v9H42zm25 0h13v9H67z" fill="#aeb5bb" stroke="#737d85"/><rect x="17" y="14" width="86" height="68" rx="9" fill="#202a35" stroke="#101820" stroke-width="2"/><rect x="23" y="20" width="74" height="56" rx="6" fill="#303d4a"/><text x="60" y="48" text-anchor="middle" font-size="20" fill="#fff" font-weight="bold">9V</text><text x="60" y="64" text-anchor="middle" font-size="9" fill="#cfe7ff">BATTERY</text><path d="M55 14v-5m12 5v-5" stroke="#c8d0d6" stroke-width="2"/></svg>`,
+ buzzer:`<svg viewBox="0 0 65 65"><circle cx="32" cy="29" r="24" fill="#252b31" stroke="#101820" stroke-width="2"/><circle cx="32" cy="29" r="15" fill="#59616a"/><circle cx="32" cy="29" r="6" fill="#1d252c"/><path d="M23 51v12m18-12v12" stroke="#aeb6bd" stroke-width="2.5"/></svg>`
+};
+function addPart(type,x,y){
+ const el=document.createElement('div');el.className='placed '+type+'-part';el.dataset.type=type;el.innerHTML=art[type];
+ const r=workbench.getBoundingClientRect();const px=Math.max(8,Math.min(x-r.left-30,r.width-125));const py=Math.max(55,Math.min(y-r.top-25,r.height-100));
+ el.style.left=px+'px';el.style.top=py+'px';dropzone.appendChild(el);items.push(el);makeMovable(el);
+}
+function makeMovable(el){
+ let sx=0,sy=0,ox=0,oy=0,moved=false;
+ el.addEventListener('click',()=>selectItem(el));
+ el.addEventListener('dblclick',()=>{selectItem(el);removeSelected()});
+ el.addEventListener('pointerdown',e=>{e.preventDefault();selectItem(el);moved=false;el.setPointerCapture(e.pointerId);sx=e.clientX;sy=e.clientY;ox=parseFloat(el.style.left);oy=parseFloat(el.style.top);el.style.zIndex=8});
+ el.addEventListener('pointermove',e=>{if(!el.hasPointerCapture(e.pointerId))return;if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>3)moved=true;const maxX=workbench.clientWidth-el.offsetWidth;const maxY=workbench.clientHeight-el.offsetHeight;el.style.left=Math.max(0,Math.min(maxX,ox+e.clientX-sx))+'px';el.style.top=Math.max(45,Math.min(maxY,oy+e.clientY-sy))+'px'});
+ el.addEventListener('pointerup',e=>{if(el.hasPointerCapture(e.pointerId))el.releasePointerCapture(e.pointerId);el.style.zIndex=4;if(!moved)selectItem(el)});
+}
+function selectItem(el){if(selectedItem)selectedItem.classList.remove('selected');selectedItem=el;el.classList.add('selected');document.getElementById('selectedNote').textContent=el.dataset.type.toUpperCase()+' selected. Drag to move, Rotate to turn, or Remove selected to take it out.';}
+function removeSelected(){if(!selectedItem){statusBox.textContent='Select a component on the work area first.';return;}const name=selectedItem.dataset.type;items=items.filter(x=>x!==selectedItem);selectedItem.remove();selectedItem=null;document.getElementById('selectedNote').textContent='Component removed. You can add it again from the Components panel.';statusBox.textContent=name+' removed. Add it again or choose another component.';document.querySelectorAll('.placed').forEach(el=>el.classList.remove('selected'));}
+document.getElementById('removeSelected').addEventListener('click',removeSelected);
+document.getElementById('rotateSelected').addEventListener('click',()=>{if(!selectedItem){statusBox.textContent='Select a component first, then press Rotate.';return;}const angle=Number(selectedItem.dataset.angle||0)+90;selectedItem.dataset.angle=angle;selectedItem.style.rotate=angle+'deg';});
+document.addEventListener('keydown',e=>{if((e.key==='Delete'||e.key==='Backspace')&&selectedItem){e.preventDefault();removeSelected();}});
+document.querySelectorAll('.part').forEach(btn=>{
+ btn.addEventListener('dragstart',e=>{dragType=btn.dataset.part;e.dataTransfer.setData('text/plain',dragType)});
+ btn.addEventListener('click',()=>{const r=workbench.getBoundingClientRect();addPart(btn.dataset.part,r.left+r.width/2,r.top+r.height/2);statusBox.textContent=btn.textContent.trim()+' added. Drag it to the position you want.'});
+});
+workbench.addEventListener('dragover',e=>e.preventDefault());
+workbench.addEventListener('drop',e=>{e.preventDefault();const type=e.dataTransfer.getData('text/plain')||dragType;if(art[type])addPart(type,e.clientX,e.clientY);dragType=null});
+function robotTalk(message){speech.textContent=message;robot.classList.remove('leave');robot.classList.add('show');setTimeout(()=>{robot.classList.remove('show');robot.classList.add('leave')},5200)}
+function drawDemoWires(){
+ const w=workbench.clientWidth,h=workbench.clientHeight;
+ wireLayer.setAttribute('viewBox',`0 0 ${w} ${h}`);wireLayer.innerHTML='';
+ const paths=[`M ${w*.22} ${h*.68} C ${w*.2} ${h*.83},${w*.42} ${h*.85},${w*.48} ${h*.68}`,`M ${w*.48} ${h*.68} C ${w*.58} ${h*.55},${w*.68} ${h*.72},${w*.75} ${h*.61}`];
+ paths.forEach((d,i)=>{const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',d);p.setAttribute('stroke',i?'#277bd2':'#e34b43');wireLayer.appendChild(p)});
+}
+function checkCircuit(){
+ const types=items.map(el=>el.dataset.type);
+ const hasLed=types.includes('led'),hasRes=types.includes('resistor'),hasBattery=types.includes('battery');
+ document.querySelectorAll('.led-part').forEach(el=>el.classList.remove('glow'));
+ if(hasLed&&hasRes&&hasBattery){
+   const led=items.find(el=>el.dataset.type==='led');led.classList.add('glow');drawDemoWires();
+   statusBox.textContent='Great! Your practice circuit has the key parts: LED, resistor and battery. The LED glow is a learning animation, not a measurement of a real wired circuit.';
+   robotTalk('Excellent work! Your practice circuit has an LED, a resistor and a battery. The resistor limits current and helps protect the LED. In a real circuit, check polarity and calculate the resistor value for the supply voltage. This page is a visual simulator.');
+ }else{
+   statusBox.textContent='Not complete yet. Add an LED, a 1 kΩ resistor and a battery. A buzzer is optional for this first LED lesson.';
+   robotTalk('Let’s finish the basics together. I need to see an LED, a resistor and a battery in the workspace. The resistor is important because too much current can damage an LED.');
+ }
+}
+document.getElementById('checkCircuit').addEventListener('click',checkCircuit);
+document.getElementById('newProject').addEventListener('click',()=>{
+ items.forEach(el=>el.remove());items=[];selectedItem=null;document.getElementById('selectedNote').textContent='No component selected. Click a placed component to select it.';wireLayer.innerHTML='';robot.classList.remove('show','leave');speech.textContent='Fresh workbench! Drag an LED, a 1 kΩ resistor and a battery onto the breadboard to begin again.';statusBox.textContent='Workspace cleared. Start a new circuit whenever you are ready.';
+});
+window.addEventListener('resize',()=>{if(items.length)wireLayer.innerHTML=''});
+</script>
+</body>
+</html>
