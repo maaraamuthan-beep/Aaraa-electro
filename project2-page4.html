@@ -120,30 +120,30 @@
 
 <div class="banner">
   <h1><div class="robot-icon">🤖</div> Aaraa AI Assistant</h1>
-  <p>Created by ஆரா அமுதன் | Ask any electronics questions, get answers in Tamil!</p>
+  <p>Created by ஆரா அமுதன் | Ask any question, get clear answers in Tamil!</p>
 </div>
 
 <div class="container">
   <div class="ai-box">
-    <h3>🔍 Electronics & Components AI Hub</h3>
-    <p style="color: #4a6b9c; font-size: 14px;">Ask any electronics or technical question - Mini AI will answer in Tamil!</p>
+    <h3>🔍 Aaraa Smart AI Hub</h3>
+    <p style="color: #4a6b9c; font-size: 14px;">Ask any question — electronics, recipes, science, or general topics — AI answers clearly in Tamil!</p>
 
     <div class="search-container">
       <div class="search-bar-wrapper">
         <span class="robot-mini">🤖</span>
-        <input type="text" id="userInput" class="search-input" placeholder="Type or click mic to ask any question..." onkeydown="if(event.key==='Enter') askAaraAI()">
+        <input type="text" id="userInput" class="search-input" placeholder="Ask any question (e.g., how to make a cake, how current works)..." onkeydown="if(event.key==='Enter') askAaraAI()">
         <button id="micBtn" class="mic-btn" title="Speak your question">🎤</button>
       </div>
       <button class="ask-btn" onclick="askAaraAI()">Ask AI</button>
     </div>
 
     <div>
-      <p style="font-size: 13px; color: #6c8eb8; margin-bottom: 6px;">Quick Topics (Click or type anything):</p>
+      <p style="font-size: 13px; color: #6c8eb8; margin-bottom: 6px;">Quick Topics (Click or type any question):</p>
       <div class="suggestions">
-        <div class="chip" onclick="setQuery('what is capacitor')">What is a Capacitor?</div>
-        <div class="chip" onclick="setQuery('what is resistor')">What is a Resistor?</div>
-        <div class="chip" onclick="setQuery('how does LED work')">How does LED work?</div>
-        <div class="chip" onclick="setQuery('dc motor working')">DC motor working</div>
+        <div class="chip" onclick="setQuery('how to make a cake')">How to Make a Cake</div>
+        <div class="chip" onclick="setQuery('how does current work')">How Current Works</div>
+        <div class="chip" onclick="setQuery('what is a capacitor')">What is a Capacitor?</div>
+        <div class="chip" onclick="setQuery('how does servo motor work')">Servo Motor Working</div>
       </div>
     </div>
 
@@ -163,122 +163,101 @@
     askAaraAI();
   }
 
-  // Dynamic Mini-AI Answer Generator for ANY question
-  function generateDynamicMiniAIAnswer(rawInput, q) {
+  function answerAnyQuestion(rawInput, q) {
     const cleanQ = rawInput.trim();
-    const isWhy = q.includes('why') || q.includes('ஏன்');
-    const isHow = q.includes('how') || q.includes('எப்படி');
-    const isDifference = q.includes('difference') || q.includes('vs') || q.includes('வித்தியாசம்');
 
-    // Specific topic knowledge
-    const knowledgeBank = [
-      {
-        keys: ['current', 'கரண்ட்', 'மின்சாரம்'],
-        title: 'கரண்ட் (Electric Current) விளக்கம்',
-        points: [
-          'சர்க்யூட்டில் மின்னூட்டம் (Charge / Electrons) பாயும் வீதமே கரண்ட் ஆகும் (அலகு: Ampere).',
-          (q.includes('no') || q.includes('without') || q.includes('இல்ல') || q.includes('போனா'))
-            ? 'கரண்ட் இல்லையென்றால் LED, மோட்டார், சென்சார் மற்றும் மைக்ரோகண்ட்ரோலர்கள் இயங்காமல் நின்றுவிடும்; சர்க்யூட்டில் மின் ஓட்டம் இருக்காது.'
-            : 'வோல்டேஜ் (மின் அழுத்தம்) இருக்கும்போது, மூடிய சர்க்யூட் (Closed Path) வழியாக எலக்ட்ரான்கள் நகர்ந்து காம்போனென்ட்களை இயக்கும்.'
-        ]
-      },
-      {
-        keys: ['voltage', 'volt', 'வோல்டேஜ்', 'battery', 'பேட்டரி'],
-        title: 'வோல்டேஜ் மற்றும் பேட்டரி விளக்கம்',
-        points: [
-          'வோல்டேஜ் என்பது மின்சாரத்தைத் தள்ளிச் செல்லும் மின் அழுத்தம் ஆகும் (அலகு: Volt).',
-          'சரியான வோல்டேஜ் (எடுத்துக்காட்டாக 5V, 7.4V, 12V) கொடுத்தால் மட்டுமே காம்போனென்ட்கள் பாதுகாப்பாகவும் சரியாகவும் இயங்கும்.'
-        ]
-      },
-      {
-        keys: ['capacitor', 'கெப்பாசிட்டர்'],
-        title: 'கெப்பாசிட்டர் (Capacitor) விளக்கம்',
-        points: [
-          'மின்சாரத்தைத் தற்காலிகமாகச் சேமித்து வைத்து, தேவைப்படும்போது உடனடியாக வெளியிடும் எலக்ட்ரானிக்ஸ் பாகம் ஆகும்.',
-          'வோல்டேஜ் ஏற்ற இறக்கங்களைச் சமன்படுத்தவும் (Filtering), சிக்னல் சத்தத்தைக் குறைக்கவும் பயன்படுகிறது.'
-        ]
-      },
-      {
-        keys: ['resistor', 'ரெசிஸ்டர்'],
-        title: 'ரெசிஸ்டர் (Resistor) விளக்கம்',
-        points: [
-          'சர்க்யூட்டில் பாயும் கரண்ட்டின் அளவைக் கட்டுப்படுத்தித் தடுக்கும் மின்தடைப் பொருள் ஆகும் (அலகு: Ohm).',
-          'LED அல்லது சென்சார்களுக்கு அதிக கரண்ட் சென்று பழுதடைவதைத் தடுக்கப் பயன்படுகிறது.'
-        ]
-      },
-      {
-        keys: ['led', 'blink', 'எல்இடி'],
-        title: 'எல்.ஈ.டி (LED) விளக்கம்',
-        points: [
-          'மின்சாரம் பாயும்போது ஒளியை (Light) வெளியிடும் செமிகண்டக்டர் டையோடு ஆகும்.',
-          'டிஜிட்டல் பின் மூலம் ON மற்றும் OFF சிக்னல்களை மாற்றி மாற்றி அனுப்பும்போது LED பிளிங்க் ஆகும்.'
-        ]
-      },
-      {
-        keys: ['servo', 'சர்வோ'],
-        title: 'சர்வோ மோட்டார் (Servo Motor) விளக்கம்',
-        points: [
-          '0° முதல் 180° வரை குறிப்பிட்ட கோணத்தில் (Angle) துல்லியமாகத் திரும்பக்கூடிய மோட்டார் ஆகும்.',
-          'PWM சிக்னல் மூலம் நாம் விரும்பும் கோணத்தில் இதை நிறுத்த முடியும்.'
-        ]
-      },
-      {
-        keys: ['motor', 'l298n', 'மோட்டார்', 'ரோபோ', 'robot'],
-        title: 'மோட்டார் & ரோபோ இயக்கம் விளக்கம்',
-        points: [
-          'மின் ஆற்றலை இயந்திரச் சுழற்சியாக மாற்றுவது மோட்டார்; L298N டிரைவர் திசை மற்றும் வேகத்தைக் கட்டுப்படுத்தும்.',
-          'பின் சிக்னல்கள் அல்லது மோட்டார் ஒயர்களின் இணைப்பு மாறினால் சுழலும் திசையும் (Forward / Backward) மாறும்.'
-        ]
-      },
-      {
-        keys: ['sensor', 'ultrasonic', 'ir', 'சென்சார்'],
-        title: 'சென்சார் (Sensor) செயல்பாடு',
-        points: [
-          'தூரம், ஒளி, தடை அல்லது கோட்டைக் கண்டறிந்து அதை எலக்ட்ரிக்கல் சிக்னலாக மாற்றி மைக்ரோகண்ட்ரோலருக்கு அனுப்பும்.',
-          'Ultrasonic சென்சார் ஒலி அலைகள் மூலமும், IR சென்சார் அகச்சிவப்புக் கதிர்கள் மூலமும் செயல்படும்.'
-        ]
-      },
-      {
-        keys: ['arduino', 'esp32', 'microcontroller', 'code', 'pin', 'gnd', 'ஆர்டினோ'],
-        title: 'மைக்ரோகண்ட்ரோலர் & பின் இணைப்பு',
-        points: [
-          'நாம் எழுதும் கோடைப் படித்து, சென்சார் தகவல்களின் அடிப்படையில் அவுட்புட் பின்களைக் கட்டுப்படுத்தும் மூளையாகச் செயல்படும்.',
-          'எல்லா பாகங்களுக்கும் பொதுவான Ground (GND) இணைப்பு மற்றும் சரியான பின் எண்கள் இருந்தால் மட்டுமே சர்க்யூட் சரியாக வேலை செய்யும்.'
-        ]
-      }
-    ];
-
-    const matched = knowledgeBank.find(item => item.keys.some(k => q.includes(k)));
-
-    if (matched) {
-      let angleNote = isWhy
-        ? 'இதற்கான முக்கியக் காரணம் மின்னோட்டம், சிக்னல் கட்டுப்பாடு அல்லது இணைப்புகளில் ஏற்படும் மாற்றங்களாகும்.'
-        : isHow
-          ? 'இது உள்ளீடு (Input) -> செயலாக்கம் (Process) -> வெளியீடு (Output) என்ற முறையில் செயல்படுகிறது.'
-          : isDifference
-            ? 'இரண்டிற்கும் இடையிலான முக்கிய வேறுபாடு அவற்றின் செயல்பாடு, சிக்னல் வகை மற்றும் பயன்பாட்டில்தான் உள்ளது.'
-            : 'இதைப் புரிந்துகொள்ள அதன் அடிப்படைத் தத்துவத்தையும் நடைமுறைப் பயன்பாட்டையும் கவனிக்க வேண்டும்.';
-
-      return "<b>" + matched.title + "</b><br>" +
+    // 1. Cake recipe / making cake
+    if (q.includes('cake') || q.includes('கேக்')) {
+      return "<b>கேக் (Cake) எப்படி செய்வது?</b><br>" +
              "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-             "• " + matched.points[0] + "<br>" +
-             "• " + matched.points[1] + "<br>" +
-             "• " + angleNote;
+             "• <b>தேவையான பொருட்கள்:</b> மைதா மாவு (அல்லது கோதுமை மாவு), சர்க்கரை/பொடித்த சர்க்கரை, வெண்ணெய் அல்லது எண்ணெய், முட்டை அல்லது பால்/தயிர், பேக்கிங் பவுடர் மற்றும் வெண்ணிலா எசன்ஸ்.<br>" +
+             "• <b>செய்முறை:</b> சர்க்கரையையும் எண்ணெய்/வெண்ணெயையும் நன்கு கலக்கவும். அதனுடன் பால்/முட்டை மற்றும் எசன்ஸ் சேர்த்து, சலித்த மாவு + பேக்கிங் பவுடரைக் கட்டியில்லாமல் மெதுவாகக் கலக்கவும்.<br>" +
+             "• <b>பேக்கிங் / வேகவைத்தல்:</b> நெய் தடவிய கேக் பாத்திரத்தில் ஊற்றி, ஓவனில் (சுமார் 180°C-ல் 25–35 நிமிடங்கள்) அல்லது குக்கரில்/கடாயில் மிதமான தீயில் வெந்தவுடன் ஆறவைத்து எடுத்துப் பயன்படுத்தலாம்.";
     }
 
-    // Tailored answer for ANY other custom question asked by the user
-    const focusType = isWhy
-      ? 'காரணம் (Why): ' + cleanQ + ' என்பதற்கான அடிப்படைக் காரணம் அந்த அமைப்பில் உள்ள மின்னோட்டம், சிக்னல் அல்லது கட்டுப்பாட்டு விதிகளில் உள்ளது.'
-      : isHow
-        ? 'செயல்முறை (How): ' + cleanQ + ' என்பது உள்ளீட்டைப் பெற்று, அதைச் செயலாக்கி, தேவையான வெளியீட்டை உருவாக்குவதன் மூலம் செயல்படுகிறது.'
-        : isDifference
-          ? 'ஒப்பீடு (Difference): "' + cleanQ + '" என்பதில் உள்ள அம்சங்களின் செயல்பாடு மற்றும் பயன்பாட்டு வேறுபாடுகளை ஒப்பிட்டுப் பார்ப்பதே முக்கியம்.'
-          : 'விளக்கம்: "' + cleanQ + '" என்பது தொடர்பான முக்கியக் கருத்தை எளிமையாகப் புரிந்துகொள்ள அதன் செயல்பாடும் பயன்பாடும் தெளிவாக இருக்க வேண்டும்.';
+    // 2. Current / No current
+    if (q.includes('current') || q.includes('கரண்ட்') || q.includes('மின்சாரம்')) {
+      if (q.includes('no ') || q.includes('without') || q.includes('இல்ல') || q.includes('போனா') || q.includes('cut')) {
+        return "<b>கரண்ட் (மின்சாரம்) இல்லையென்றால் என்ன ஆகும்?</b><br>" +
+               "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
+               "• மின்சார ஓட்டம் இல்லாததால் விளக்குகள், மோட்டார்கள், சென்சார்கள் மற்றும் மைக்ரோகண்ட்ரோலர்கள் செயல்படாமல் நின்றுவிடும்.<br>" +
+               "• தற்காலிகமாக இயங்கிக் கொண்டிருக்கும் சிக்னல்கள் நிற்கும்; ஆனால் நிரந்தர சேமிப்பு (Storage/Flash) பாதுகாப்பாக இருக்கும்.";
+      }
+      return "<b>கரண்ட் (Electric Current) எப்படி வேலை செய்கிறது?</b><br>" +
+             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
+             "• வோல்டேஜ் அழுத்தத்தால் மூடிய சர்க்யூட் வழியாக எலக்ட்ரான்கள் பாய்வதே கரண்ட் ஆகும்.<br>" +
+             "• மூலத்திலிருந்து புறப்பட்டு காம்போனென்ட்களை இயக்கி மீண்டும் எதிர் முனைக்குச் சுற்றி வரும்போது சர்க்யூட் முழுமையடையும்.";
+    }
+
+    // 3. Voltage / Battery / Power
+    if (q.includes('voltage') || q.includes('volt') || q.includes('வோல்டேஜ்') || q.includes('battery') || q.includes('பேட்டரி')) {
+      return "<b>வோல்டேஜ் மற்றும் பேட்டரி விளக்கம்</b><br>" +
+             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
+             "• வோல்டேஜ் என்பது மின்சாரத்தை நகர்த்தும் மின் அழுத்த வேறுபாடு ஆகும்.<br>" +
+             "• பேட்டரி வேதியியல் ஆற்றலை மின் ஆற்றலாக மாற்றிச் சர்க்யூட்டிற்குத் தேவையான வோல்டேஜை வழங்குகிறது.";
+    }
+
+    // 4. Capacitor
+    if (q.includes('capacitor') || q.includes('கெப்பாசிட்டர்')) {
+      return "<b>கெப்பாசிட்டர் (Capacitor) விளக்கம்</b><br>" +
+             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
+             "• மின்சாரத்தைத் தற்காலிகமாகச் சேமித்து வைத்துத் தேவைப்படும்போது உடனடியாக வெளியிடும் பாகம் ஆகும்.<br>" +
+             "• வோல்டேஜ் மாற்றங்களைச் சீராக்கவும் (Filtering) டைமிங் சர்க்யூட்களிலும் பயன்படுகிறது.";
+    }
+
+    // 5. Resistor
+    if (q.includes('resistor') || q.includes('ரெசிஸ்டர்')) {
+      return "<b>ரெசிஸ்டர் (Resistor) விளக்கம்</b><br>" +
+             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
+             "• சர்க்யூட்டில் பாயும் கரண்ட்டின் அளவைக் கட்டுப்படுத்தும் மின்தடைக் கூறு ஆகும்.<br>" +
+             "• LED மற்றும் பிற பாகங்களுக்கு அதிக கரண்ட் சென்று சேதமடைவதைத் தடுக்கும்.";
+    }
+
+    // 6. LED
+    if (q.includes('led') || q.includes('எல்இடி')) {
+      return "<b>எல்.ஈ.டி (LED) விளக்கம்</b><br>" +
+             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
+             "• மின்சாரம் செல்லும்போது ஒளி தரும் செமிகண்டக்டர் டையோடு ஆகும்.<br>" +
+             "• சரியான முனைய இணைப்பு மற்றும் தகுந்த ரெசிஸ்டருடன் பயன்படுத்தினால் நீண்ட நாள் இயங்கும்.";
+    }
+
+    // 7. Servo / Motor / Sensor / Arduino
+    if (q.includes('servo') || q.includes('motor') || q.includes('sensor') || q.includes('arduino') || q.includes('மோட்டார்') || q.includes('சென்சார்') || q.includes('ஆர்டினோ')) {
+      return "<b>ரோபோடிக்ஸ் &amp; எலக்ட்ரானிக்ஸ் பதில்</b><br>" +
+             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
+             "• சென்சார்கள் சுற்றுப்புறத் தகவலைச் சேகரித்து மைக்ரோகண்ட்ரோலருக்கு அனுப்பும்; அதன் அடிப்படையில் மோட்டார்/சர்வோ இயங்கும்.<br>" +
+             "• சரியான பின் இணைப்புகள், பொதுவான GND மற்றும் சரியான பவர் சப்ளை இருந்தால் துல்லியமாகச் செயல்படும்.";
+    }
+
+    // 8. General answer for ANY other question in the world
+    const words = cleanQ.replace(/[?.,!]/g, '').split(/\s+/).filter(Boolean);
+    const topicSummary = words.slice(0, 6).join(' ');
+
+    if (q.startsWith('how') || q.includes('எப்படி')) {
+      return "<b>செய்முறை விளக்கம் (" + topicSummary + ")</b><br>" +
+             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
+             "• <b>படி 1:</b> " + cleanQ + " என்பதற்குத் தேவையான அடிப்படைப் பொருட்கள், விதிகள் அல்லது கருவிகளைத் தயார் செய்ய வேண்டும்.<br>" +
+             "• <b>படி 2:</b> ஒவ்வொரு படியையும் சரியான வரிசையில் பின்பற்றி, தேவையான அளவு அல்லது அமைப்பைச் சரிபார்த்துச் செயல்படுத்த வேண்டும்.";
+    }
+
+    if (q.startsWith('why') || q.includes('ஏன்')) {
+      return "<b>காரண விளக்கம் (" + topicSummary + ")</b><br>" +
+             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
+             "• \"" + cleanQ + "\" என்பதற்கான முக்கியக் காரணம் அந்தச் சூழல், விதி அல்லது செயல்பாட்டில் ஏற்படும் மாற்றமே ஆகும்.<br>" +
+             "• அடிப்படைக் காரணத்தைக் கண்டறிந்து சரிசெய்தால் எதிர்பார்க்கும் விளைவைப் பெற முடியும்.";
+    }
+
+    if (q.startsWith('what') || q.includes('என்ன')) {
+      return "<b>விளக்கம் (" + topicSummary + ")</b><br>" +
+             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
+             "• \"" + cleanQ + "\" என்பது அதன் தனித்துவமான தன்மை, செயல்பாடு மற்றும் பயன்பாட்டால் அறியப்படுகிறது.<br>" +
+             "• அதை எங்கு, எதற்காகப் பயன்படுத்துகிறோம் என்பதைப் புரிந்துகொள்வதே முக்கியம்.";
+    }
 
     return "<b>மினி AI பதில்</b><br>" +
            "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-           "• " + focusType + "<br>" +
-           "• நடைமுறையில் இதைச் சோதிக்கும்போது இணைப்புகள், மதிப்புகள் மற்றும் செயல்பாட்டு நிலை சரியாக உள்ளதா என்பதைச் சரிபார்ப்பது அவசியம்.";
+           "• நீங்கள் கேட்ட \"" + cleanQ + "\" என்ற கேள்விக்கான முக்கியக் கருத்து: அதன் நோக்கம், தேவையான படிகள் மற்றும் சரியான அணுகுமுறை ஆகியவற்றைக் கவனிப்பதே ஆகும்.<br>" +
+           "• இன்னும் கூடுதல் விவரம் தேவைப்பட்டால் அதே கேள்வியை வேறு கோணத்திலும் கேட்கலாம்.";
   }
 
   function askAaraAI() {
@@ -294,23 +273,8 @@
     }
 
     resultCard.style.display = "block";
-
-    // Strictly block non-electronics queries
-    let nonElectronicsTerms = [
-      'biscuit', 'biscuits', 'chocolate', 'chocolates', 'food', 'movie', 'film', 'song',
-      'cricket', 'football', 'politics', 'recipe', 'cooking', 'biriyani', 'ice cream',
-      'பிஸ்கட்', 'சாக்லேட்', 'சமையல்', 'சினிமா', 'பாட்டு', 'உணவு', 'பிரியாணி'
-    ];
-    let isNonElectronics = nonElectronicsTerms.some(term => query.includes(term));
-
-    if (isNonElectronics) {
-      resultTitle.innerHTML = "🤖 Aaraa AI - Notice";
-      resultText.innerHTML = "மன்னிக்கவும்! என்னால் எலக்ட்ரானிக்ஸ் மற்றும் சர்க்யூட் சம்பந்தப்பட்ட சந்தேகங்களுக்கு மட்டுமே பதிலளிக்க முடியும்.";
-      return;
-    }
-
     resultTitle.innerHTML = "🤖 Aaraa AI Solution (Verified by ஆரா அமுதன்)";
-    resultText.innerHTML = generateDynamicMiniAIAnswer(rawInput, query);
+    resultText.innerHTML = answerAnyQuestion(rawInput, query);
   }
 
   // Voice Recognition (Speech-to-Text) Setup
