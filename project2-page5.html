@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+A<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -58,11 +58,21 @@ main{max-width:1500px;margin:auto;padding:20px 24px 36px}
 .close-row{text-align:right;margin-bottom:8px}
 .close-btn{border:0;border-radius:20px;padding:8px 14px;background:#e7f1ff;color:#064fa9;font-weight:700;cursor:pointer}
 footer{text-align:center;color:#52708d;padding:20px;font-size:13px}
-.page-pager{max-width:1500px;margin:8px auto 0;padding:0 24px;display:flex;justify-content:space-between;align-items:center;gap:14px}
-.page-pager a,.page-pager .future-link{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border:0;border-radius:40px;background:linear-gradient(#1688ed,#0756b8);color:#fff;text-decoration:none;font-size:16px;font-weight:800;box-shadow:0 5px 0 #063d83}
-.page-pager .future-link{background:#aab8c8;box-shadow:0 5px 0 #78899b;cursor:not-allowed}
-.page-pager .pager-arrow{font-size:24px;line-height:1}
-@media(max-width:650px){.page-pager{padding:0 12px}.page-pager a,.page-pager .future-link{padding:10px 14px;font-size:14px}.page-pager .pager-arrow{font-size:21px}}
+.page-arrow{
+  position:fixed;top:50%;transform:translateY(-50%);z-index:1000;
+  width:80px;height:80px;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;background:#0b5de5;color:#fff;text-decoration:none;
+  font-family:Arial,Helvetica,sans-serif;font-size:58px;font-weight:400;line-height:1;
+  box-shadow:0 8px 18px #0003;transition:background .2s,transform .2s;
+}
+.page-arrow:hover{background:#064fc8;transform:translateY(-50%) scale(1.06)}
+.page-arrow.prev{left:26px}
+.page-arrow.next{right:26px}
+.page-arrow.disabled{background:#9aa9ba;box-shadow:0 8px 18px #0002;cursor:not-allowed}
+@media(max-width:650px){
+  .page-arrow{width:52px;height:52px;font-size:39px}
+  .page-arrow.prev{left:10px}.page-arrow.next{right:10px}
+}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 @keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:1050px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.detail-card{grid-template-columns:150px 1fr}.pinbox{grid-column:1/-1;min-height:130px}.pinbox .pin-emoji{font-size:42px}}
@@ -73,7 +83,7 @@ footer{text-align:center;color:#52708d;padding:20px;font-size:13px}
 <header>
   <div class="brand"><span>⚡</span> Aara Electro</div>
   <nav aria-label="Main navigation">
-    <a href="index.html">⌂ Home</a><a href="#">▣ Learn</a><a class="active" href="components.html">▦ Components</a><a href="#">★ Challenges</a><a href="feedback.html">▤ Feedback</a>
+    <a href="index.html">⌂ Home</a><a href="#">▣ Learn</a><a class="active" href="components.html">▦ Components</a><a href="#">★ Challenges</a><a href="project2-page4.html">▤ Feedback</a>
   </nav>
   <div class="robot-mini" aria-label="Robot mascot">🤖</div>
 </header>
@@ -90,9 +100,9 @@ footer{text-align:center;color:#52708d;padding:20px;font-size:13px}
   <section class="grid" id="componentGrid" aria-label="Electronic components"></section>
   <section id="detail" aria-live="polite"></section>
 </main>
-<nav class="page-pager" aria-label="Page navigation">
-  <a href="feedback.html" aria-label="Go back to Student Feedback Wall"><span class="pager-arrow" aria-hidden="true">←</span> Back</a>
-  <span class="future-link" aria-label="Next page is coming soon" title="Page 6 has not been created yet">Next <span class="pager-arrow" aria-hidden="true">→</span></span>
+<nav aria-label="Page navigation">
+  <a class="page-arrow prev" href="project2-page4.html" aria-label="Go back to Page 4">&#x276E;</a>
+  <span class="page-arrow next disabled" role="img" aria-label="Next page is not available yet" title="Page 6 has not been created yet">&#x276F;</span>
 </nav>
 <footer>Made for curious learners • Aara Electro</footer>
 <script>
