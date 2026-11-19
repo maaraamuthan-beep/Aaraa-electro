@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arduino Obstacle Avoiding Robot- Aaraa Electro</title>
+<title>Arduino Obstacle Avoiding Robot - Aaraa Electro</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, sans-serif; background: #eaf4ff; color: #0b2a5b; min-height: 100vh; }
@@ -37,32 +37,32 @@
 </div>
 
 <div class="banner">
-  <h1>Arduino Obstacle Avoiding Robo</h1>
-  <p>Build a smart robot that follows a line using Arduino.</p>
+  <h1>Arduino Obstacle Avoiding Robot</h1>
+  <p>Build a smart robot that detects obstacles and steers using a servo motor and Arduino.</p>
 </div>
 
 <div class="container">
 
   <div class="card">
     <h2>What is this project?</h2>
-    <p>A obstacle avoiding robot avoid the obstacle and move in right way.</p>
+    <p>An obstacle avoiding robot with a servo motor is an autonomous smart car that moves forward and avoids hitting objects in its path without manual remote control. It mounts an ultrasonic distance sensor on a rotating servo motor so the robot can scan left and right before choosing a clear direction.</p>
   </div>
 
   <div class="card">
     <h2>How does it work scientifically?</h2>
-    <p>The robot has infrared (IR) sensors under it. Each sensor sends out infrared light and checks how much light comes back. A white floor reflects most of the light back. A black line absorbs the light, so very little comes back.</p>
-    <p>T.</p>
+    <p>The ultrasonic sensor sends out high-frequency sound pulses (ultrasonic waves) and measures the echo time taken for the waves to bounce back off an obstacle. Using the speed of sound, the Arduino calculates the exact distance to the object in front of the robot.</p>
+    <p>When an obstacle comes closer than the safe limit, the Arduino stops the motors, rotates the servo motor to scan left and right distances, compares which side has more open space, and drives the wheel motors via the motor driver to steer safely around the obstacle.</p>
   </div>
 
   <div class="card">
     <h2>Real Project Photos</h2>
     <div class="photos">
       <div class="photo-box">
-        <!-- To add your photo, replace this text with: <img src="photo1.jpg" alt="Robot photo 1"> -->
+        <!-- To add your photo, replace this text with: <img src="obstacle-photo1.jpg" alt="Obstacle robot photo 1"> -->
         Photo 1 - upload here
       </div>
       <div class="photo-box">
-        <!-- To add your photo, replace this text with: <img src="photo2.jpg" alt="Robot photo 2"> -->
+        <!-- To add your photo, replace this text with: <img src="obstacle-photo2.jpg" alt="Obstacle robot photo 2"> -->
         Photo 2 - upload here
       </div>
     </div>
@@ -70,7 +70,7 @@
 
 </div>
 
-<a class="next-arrow" href="project1-page2.html" title="Next page">&#10095;</a>
+<a class="next-arrow" href="project2-page2.html" title="Next page">&#10095;</a>
 
 </body>
 </html>
