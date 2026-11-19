@@ -17,7 +17,7 @@
     nav a{color:#09245b;text-decoration:none;border:1px solid #c8dcff;border-radius:22px;padding:11px 15px;font-weight:700;font-size:14px;transition:.25s}
     nav a:hover,nav a.active{background:#075de8;color:#fff;transform:translateY(-2px);box-shadow:0 5px 14px #075de844}
     
-    .hero{min-height:420px;position:relative;overflow:hidden;padding:34px 3% 22px;background:linear-gradient(115deg,#0348b9,#007be8 58%,#00b9ef);color:#fff}
+    .hero{min-height:420px;position:relative;overflow:hidden;padding:34px 3% 36px;background:linear-gradient(115deg,#0348b9,#007be8 58%,#00b9ef);color:#fff}
     .hero-inner{max-width:1200px;margin:auto;position:relative;z-index:1}
     .headline{text-align:center;margin:0 auto 14px;max-width:850px}
     h1{font-size:clamp(42px,7vw,76px);line-height:1;margin:0 0 12px;font-weight:900;letter-spacing:-2px;text-shadow:0 4px 12px #001e6b55}
@@ -43,31 +43,25 @@
     #searchButton:hover{background:#054bc4}
     .hint{text-align:center;color:#e4faff;font-size:13px;margin:12px 0 0}
     
-    /* Results Panel - Initially Hidden */
-    main{max-width:1250px;margin:20px auto 28px;padding:0 22px;position:relative;z-index:1}
-    .results-panel{background:#fff;border:2px solid #b7d7ff;border-radius:18px;overflow:hidden;box-shadow:0 9px 28px #0a4fa51b;display:none;animation:fadeIn 0.3s ease}
+    /* Results Panel - Right close to Search Bar, Hidden until search */
+    .results-panel{background:#fff;border:2px solid #b7d7ff;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px #062a8233;display:none;margin-top:14px;color:var(--ink);animation:fadeIn 0.25s ease}
     .results-panel.visible{display:block}
-    .panel-title{background:linear-gradient(90deg,#075de8,#087bdc);color:#fff;font-size:19px;font-weight:800;padding:12px 18px}
-    .results-content{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px;padding:12px 14px}
+    .panel-title{background:linear-gradient(90deg,#075de8,#087bdc);color:#fff;font-size:17px;font-weight:800;padding:10px 18px}
+    .results-content{padding:10px 14px}
     
-    .project{display:flex;gap:18px;padding:12px;border-bottom:1px solid #c7dcff;text-decoration:none;color:inherit;align-items:center;cursor:pointer;transition:0.2s}
+    .project{display:flex;gap:16px;padding:10px 12px;border-bottom:1px solid #d9e8ff;text-decoration:none;color:inherit;align-items:center;cursor:pointer;transition:0.2s}
+    .project:last-child{border-bottom:0}
     .project:hover{background:#f4f9ff;border-radius:12px;transform:translateX(4px)}
-    .project-thumb{width:126px;height:78px;flex:none;border-radius:12px;background:linear-gradient(135deg,#dcefff,#a8d8ff);display:grid;place-items:center;font-size:43px}
-    .project h3{margin:0 0 7px;color:#0059df;font-size:18px}
-    .project p{margin:0;color:#34476e;font-size:14px;line-height:1.4}
+    .project-thumb{width:96px;height:62px;flex:none;border-radius:12px;background:linear-gradient(135deg,#dcefff,#a8d8ff);display:grid;place-items:center;font-size:34px}
+    .project h3{margin:0 0 5px;color:#0059df;font-size:17px}
+    .project p{margin:0;color:#34476e;font-size:14px;line-height:1.35}
     
-    .popular{background:#e6f2ff;border-radius:16px;padding:15px;height:max-content}
-    .popular h3{margin:0 0 12px;font-size:17px;color:#062a82}
-    .chips{display:flex;gap:7px;flex-wrap:wrap}
-    .chips span{background:#cce4ff;color:#0646ad;padding:7px 10px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:0.2s}
-    .chips span:hover{background:#075de8;color:#fff}
-    
-    #empty{padding:22px;color:#5a6d91;text-align:center;display:none;font-size:16px}
-    footer{text-align:center;color:#6c82a5;font-size:12px;padding:15px}
+    #empty{padding:18px;color:#5a6d91;text-align:center;display:none;font-size:15px}
+    footer{text-align:center;color:#6c82a5;font-size:12px;padding:18px}
     
     @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-    @media(max-width:760px){.topbar{height:auto;flex-direction:column;align-items:flex-start;padding:12px 4%}.robot{display:none}.results-content{grid-template-columns:1fr}.popular{order:-1}.project-thumb{width:88px;height:68px;font-size:34px}}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:760px){.topbar{height:auto;flex-direction:column;align-items:flex-start;padding:12px 4%}.robot{display:none}.project-thumb{width:76px;height:56px;font-size:28px}}
   </style>
 </head>
 <body>
@@ -99,37 +93,22 @@
         <input id="searchInput" type="search" placeholder="Search for Arduino Robots, Projects, or Ideas (e.g., Line Following Robot)..." autocomplete="off">
         <button id="searchButton" type="button">Search</button>
       </div>
-      <p class="hint">Start typing a project name. Matching Aaraa Electro projects will appear below.</p>
+      <p class="hint">Start typing a project name. Matching Aaraa Electro projects will appear right below.</p>
+
+      <section class="results-panel" id="resultsPanel">
+        <div class="panel-title">Search Results</div>
+        <div class="results-content">
+          <div id="projectList"></div>
+          <div id="empty">No matching Aaraa Electro projects found. Try another project name.</div>
+        </div>
+      </section>
     </div>
   </div>
 </section>
 
-<main>
-  <section class="results-panel" id="resultsPanel">
-    <div class="panel-title">Search Results</div>
-    <div class="results-content">
-      <div>
-        <div id="projectList"></div>
-        <div id="empty">No matching Aaraa Electro projects found. Try another project name.</div>
-      </div>
-      <aside class="popular">
-        <h3>⭐ Popular Searches</h3>
-        <div class="chips">
-          <span>Arduino Robot</span>
-          <span>Line Following Robot</span>
-          <span>Obstacle Avoiding Robot</span>
-          <span>LED Blinking</span>
-          <span>Home Automation</span>
-        </div>
-      </aside>
-    </div>
-  </section>
-</main>
-
 <footer>© 2026 Aaraa Electro</footer>
 
 <script>
-// உங்கள் ப்ராஜெக்ட் லிஸ்ட் (இங்கே 'project1.html' உடன் சரியாக லிங்க் செய்யப்பட்டுள்ளது)
 const projects = [
   {name:"Arduino Line Following Robot", desc:"Build a smart robot that follows a line using Arduino.", icon:"🤖", keywords:"line follower line following robot arduino", link:"project1.html"},
   {name:"Arduino Obstacle Avoiding Robot", desc:"Create a robot that detects obstacles and moves around them.", icon:"🚗", keywords:"obstacle avoiding robot arduino", link:"project2.html"},
@@ -146,7 +125,6 @@ const empty = document.getElementById("empty");
 function searchProjects(){
   const q = input.value.trim().toLowerCase();
   
-  // சர்ச் பாக்ஸ் காலியாக இருந்தால் ரிசல்ட் பாக்ஸ் உடனே மறைந்துவிடும் (Hidden)
   if(!q){ 
     panel.classList.remove("visible"); 
     return; 
@@ -161,22 +139,12 @@ function searchProjects(){
     </a>`).join("");
     
   empty.style.display = matches.length ? "none" : "block";
-  panel.classList.add("visible"); // தேடும்போது மட்டும் ரிசல்ட் பாக்ஸ் தோன்றும்
+  panel.classList.add("visible");
 }
 
-// நிகழ்நேரத் தேடல் (Live typing search)
 input.addEventListener("input", searchProjects);
 document.getElementById("searchButton").addEventListener("click", searchProjects);
 input.addEventListener("keydown", e => { if(e.key === "Enter") searchProjects(); });
-
-// Popular chips-ஐ கிளிக் செய்தால் ஆட்டோமேட்டிக்காக சர்ச் ஆகும்
-document.querySelectorAll(".chips span").forEach(chip => {
-  chip.addEventListener("click", () => {
-    input.value = chip.textContent; 
-    searchProjects(); 
-    input.focus();
-  });
-});
 </script>
 
 </body>
