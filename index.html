@@ -1,4 +1,3 @@
-</html >
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +16,51 @@
     height: 100vh;
     color: #fff;
     text-align: center;
+    overflow: hidden;
+    position: relative;
   }
+
+  /* Moving Background Components Animation Canvas */
+  .bg-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .floating-icon {
+    position: absolute;
+    stroke: #ffffff;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.35;
+    animation: moveLeft linear infinite;
+  }
+
+  @keyframes moveLeft {
+    0% {
+      transform: translateX(105vw) translateY(0) rotate(0deg);
+    }
+    100% {
+      transform: translateX(-150px) translateY(0) rotate(360deg);
+    }
+  }
+
+  /* Foreground Content */
+  .content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   h1 {
     font-size: clamp(36px, 6vw, 64px);
     margin-bottom: 10px;
@@ -53,10 +96,58 @@
 </style>
 </head>
 <body>
-  <h1>Welcome to Aara Electro</h1>
-  <p>All your Arduino project needs in one place</p>
-  
-  <!-- Next பட்டன் -->
-  <a href="index1.html" class="next-btn">Next</a>
+
+  <!-- Moving Electronic Components Background -->
+  <div class="bg-animation" id="bgAnimation"></div>
+
+  <div class="content">
+    <h1>Welcome to Aara Electro</h1>
+    <p>All your Arduino project needs in one place</p>
+    
+    <!-- Next பட்டன் -->
+    <a href="index1.html" class="next-btn">Next</a>
+  </div>
+
+  <script>
+    // JavaScript to dynamically generate floating electronic component outlines
+    const bgContainer = document.getElementById('bgAnimation');
+    
+    const componentPaths = [
+      // Microcontroller / IC Chip outline
+      '<rect x="10" y="10" width="60" height="40" rx="4"/><line x1="20" y1="10" x2="20" y2="2"/><line x1="40" y1="10" x2="40" y2="2"/><line x1="60" y1="10" x2="60" y2="2"/><line x1="20" y1="50" x2="20" y2="58"/><line x1="40" y1="50" x2="40" y2="58"/><line x1="60" y1="50" x2="60" y2="58"/><circle cx="20" cy="30" r="4"/>',
+      // Resistor / Capacitor zigzag
+      '<polyline points="5,30 15,30 20,20 30,40 40,20 50,40 55,30 65,30"/>',
+      // LED / Diode symbol
+      '<line x1="5" y1="30" x2="25" y2="30"/><polyline points="25,15 25,45 45,30 25,15"/><line x1="45" y1="15" x2="45" y2="45"/><line x1="45" y1="30" x2="65" y2="30"/>',
+      // Small Chip / Transistor
+      '<rect x="15" y="15" width="30" height="30" rx="2"/><line x1="5" y1="20" x2="15" y2="20"/><line x1="5" y1="40" x2="15" y2="40"/><line x1="45" y1="20" x2="55" y2="20"/><line x1="45" y1="40" x2="55" y2="40"/>'
+    ];
+
+    const iconCount = 16;
+
+    for (let i = 0; i < iconCount; i++) {
+      let svgNS = "http://www.w3.org/2000/svg";
+      let svg = document.createElementNS(svgNS, "svg");
+      
+      let randomPath = componentPaths[Math.floor(Math.random() * componentPaths.length)];
+      svg.setAttribute("viewBox", "0 0 70 60");
+      svg.classList.add("floating-icon");
+
+      let size = Math.floor(Math.random() * 40) + 35; 
+      let topPos = Math.random() * 85; 
+      let duration = Math.random() * 12 + 12; // Slow smooth movement
+      let delay = Math.random() * -20; 
+
+      svg.style.width = size + "px";
+      svg.style.height = size + "px";
+      svg.style.top = topPos + "vh";
+      svg.style.animationDuration = duration + "s";
+      svg.style.animationDelay = delay + "s";
+
+      svg.innerHTML = randomPath;
+      bgContainer.appendChild(svg);
+    }
+  </script>
+
 </body>
 </html>
