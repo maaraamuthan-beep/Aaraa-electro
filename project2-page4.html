@@ -1,315 +1,483 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ta">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aaraa AI Troubleshooting Assistant - Aaraa Electro</title>
+<title>Aaraa AI Assistant - Aaraa Electro</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; background: #eaf4ff; color: #0b2a5b; min-height: 100vh; display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
 
-  /* Moving Electronic Components Background Animation */
-  .bg-layer {
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(160deg, #dff1ff 0%, #f4faff 55%, #e3f2fd 100%);
+    color: #0b2545;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* New Soft Wave & Pulse Animation */
+  .wave-bg {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+    inset: 0;
     z-index: 0;
     pointer-events: none;
+    overflow: hidden;
   }
 
-  .comp-item {
+  .glow-orb {
     position: absolute;
-    left: 0;
-    stroke: #4aa8ff;
-    fill: none;
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    opacity: 0.22;
-    will-change: transform;
-    animation: slideRightToLeft linear infinite;
+    border-radius: 50%;
+    filter: blur(28px);
+    opacity: 0.35;
+    animation: floatOrb 10s ease-in-out infinite alternate;
   }
 
-  @keyframes slideRightToLeft {
-    0% {
-      transform: translateX(105vw) rotate(0deg);
-    }
-    100% {
-      transform: translateX(-220px) rotate(360deg);
-    }
+  .orb-1 {
+    width: 240px;
+    height: 240px;
+    background: #38bdf8;
+    top: 8%;
+    left: 6%;
   }
 
-  .topbar { position: relative; z-index: 2; background: linear-gradient(90deg, #0b3fbf, #00b4f0); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
-  .topbar a { color: #fff; text-decoration: none; font-weight: bold; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; }
-  .topbar h2 { font-size: 22px; }
-  
-  .banner { position: relative; z-index: 2; background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; text-align: center; padding: 35px 20px; }
-  .banner h1 { font-size: 32px; text-shadow: 0 3px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; gap: 12px; }
-  .banner p { margin-top: 8px; font-size: 15px; color: #dff8ff; }
-
-  .robot-icon { font-size: 36px; background: rgba(255,255,255,0.2); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: bounce 2s infinite; }
-
-  .container { position: relative; z-index: 2; max-width: 800px; margin: 30px auto; padding: 0 20px 80px; width: 100%; flex: 1; }
-  
-  .ai-box { background: rgba(255, 255, 255, 0.96); border-radius: 16px; padding: 24px; box-shadow: 0 6px 18px rgba(11,63,191,0.12); display: flex; flex-direction: column; gap: 20px; }
-  
-  .search-container { display: flex; gap: 10px; position: relative; align-items: center; }
-  
-  .search-bar-wrapper { flex: 1; display: flex; align-items: center; border: 2px solid #4aa8ff; border-radius: 30px; background: #f8fbff; padding: 4px 15px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.03); }
-  
-  .search-bar-wrapper span.robot-mini { font-size: 24px; margin-right: 10px; }
-  
-  .search-input { flex: 1; border: none; background: transparent; padding: 12px 5px; font-size: 16px; color: #0b2a5b; outline: none; }
-  
-  .mic-btn { background: #eef6ff; border: 1px solid #4aa8ff; color: #0b3fbf; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s; flex-shrink: 0; }
-  .mic-btn:hover { background: #0b3fbf; color: #fff; }
-  .mic-btn.listening { background: #d32f2f; color: #fff; border-color: #d32f2f; animation: pulse 1s infinite; }
-
-  .ask-btn { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(11,63,191,0.2); flex-shrink: 0; }
-  .ask-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-
-  .result-card { background: #f3f9ff; border-left: 5px solid #0b3fbf; border-radius: 8px; padding: 20px; margin-top: 10px; display: none; animation: fadeIn 0.3s ease; }
-  .result-card h3 { color: #0b3fbf; margin-bottom: 10px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
-  .result-card p { color: #334e68; font-size: 15px; line-height: 1.7; }
-
-  .suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
-  .chip { background: #eef6ff; border: 1px solid #b7d4ff; color: #0b3fbf; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; }
-  .chip:hover { background: #0b3fbf; color: #fff; }
-
-  .back-arrow { position: fixed; left: 18px; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transform: translateY(-50%); animation: shakeback 1s infinite; z-index: 10; }
-
-  @keyframes shakeback {
-    0%, 100% { transform: translateY(-50%) translateX(0); }
-    25% { transform: translateY(-50%) translateX(-8px); }
-    50% { transform: translateY(-50%) translateX(6px); }
-    75% { transform: translateY(-50%) translateX(-4px); }
+  .orb-2 {
+    width: 300px;
+    height: 300px;
+    background: #2563eb;
+    bottom: 10%;
+    right: 8%;
+    animation-delay: -4s;
   }
-  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1.1); } }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+  .orb-3 {
+    width: 180px;
+    height: 180px;
+    background: #0ea5e9;
+    top: 48%;
+    left: 52%;
+    animation-delay: -7s;
+  }
+
+  @keyframes floatOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(35px, -25px) scale(1.12); }
+  }
+
+  .header-bar {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(90deg, #0b3fbf, #0099e6);
+    color: #fff;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 14px rgba(11, 63, 191, 0.18);
+  }
+
+  .header-bar h2 {
+    font-size: 21px;
+    letter-spacing: 0.3px;
+  }
+
+  .back-link {
+    color: #fff;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s ease;
+  }
+
+  .back-link:hover {
+    background: rgba(255, 255, 255, 0.32);
+  }
+
+  .hero-banner {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(135deg, #0b3fbf, #00b4f0);
+    color: #fff;
+    text-align: center;
+    padding: 34px 20px;
+  }
+
+  .hero-banner h1 {
+    font-size: clamp(26px, 4vw, 36px);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .bot-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    animation: gentlePulse 2.4s infinite ease-in-out;
+  }
+
+  @keyframes gentlePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  .hero-banner p {
+    margin-top: 8px;
+    font-size: 15px;
+    color: #e6f7ff;
+  }
+
+  .main-wrap {
+    position: relative;
+    z-index: 2;
+    max-width: 820px;
+    margin: 28px auto 70px;
+    padding: 0 18px;
+  }
+
+  .panel {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    border: 1px solid #cce3ff;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 28px rgba(11, 63, 191, 0.1);
+  }
+
+  .panel-title {
+    font-size: 20px;
+    color: #0b3fbf;
+    margin-bottom: 6px;
+  }
+
+  .panel-sub {
+    font-size: 14px;
+    color: #486581;
+    margin-bottom: 18px;
+  }
+
+  .prompt-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .input-shell {
+    flex: 1;
+    min-width: 240px;
+    display: flex;
+    align-items: center;
+    background: #f8fbff;
+    border: 2px solid #38bdf8;
+    border-radius: 999px;
+    padding: 4px 12px 4px 16px;
+  }
+
+  .prompt-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 11px 8px;
+    font-size: 15px;
+    color: #0b2545;
+    outline: none;
+  }
+
+  .voice-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #93c5fd;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .voice-btn:hover {
+    background: #1d4ed8;
+    color: #fff;
+  }
+
+  .voice-btn.active {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: #fff;
+  }
+
+  .send-btn {
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #0b3fbf, #0099e6);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 13px 24px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(11, 63, 191, 0.22);
+    transition: transform 0.15s ease;
+  }
+
+  .send-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .quick-bar {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .quick-tag {
+    background: #edf6ff;
+    border: 1px solid #bfdbfe;
+    color: #0b3fbf;
+    padding: 6px 13px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .quick-tag:hover {
+    background: #0b3fbf;
+    color: #fff;
+  }
+
+  .answer-box {
+    margin-top: 22px;
+    background: #f0f8ff;
+    border-left: 5px solid #0b3fbf;
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: none;
+    animation: slideUp 0.25s ease;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .answer-header {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0b3fbf;
+    margin-bottom: 8px;
+  }
+
+  .answer-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #1e3a5f;
+  }
+
+  .left-nav-arrow {
+    position: fixed;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #0b5be0;
+    color: #fff;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    z-index: 10;
+  }
 </style>
 </head>
 <body>
 
-<!-- Moving Electronic Components Background -->
-<div class="bg-layer">
-  <svg class="comp-item" viewBox="0 0 70 60" style="width: 100px; height: 90px; top: 12%; animation-duration: 24s; animation-delay: -4s;">
-    <rect x="8" y="10" width="54" height="40" rx="3"/><rect x="4" y="18" width="8" height="10"/><rect x="24" y="22" width="22" height="14"/>
-  </svg>
-  <svg class="comp-item" viewBox="0 0 70 60" style="width: 95px; height: 85px; top: 28%; animation-duration: 26s; animation-delay: -12s;">
-    <polyline points="4,30 16,30 21,18 29,42 37,18 45,42 50,30 66,30"/>
-  </svg>
-  <svg class="comp-item" viewBox="0 0 70 60" style="width: 95px; height: 85px; top: 48%; animation-duration: 22s; animation-delay: -8s;">
-    <line x1="28" y1="12" x2="28" y2="48"/><line x1="42" y1="12" x2="42" y2="48"/><line x1="6" y1="30" x2="28" y2="30"/><line x1="42" y1="30" x2="64" y2="30"/>
-  </svg>
-  <svg class="comp-item" viewBox="0 0 70 60" style="width: 100px; height: 90px; top: 68%; animation-duration: 28s; animation-delay: -17s;">
-    <line x1="6" y1="32" x2="24" y2="32"/><polygon points="24,18 24,46 44,32"/><line x1="44" y1="18" x2="44" y2="46"/><line x1="44" y1="32" x2="64" y2="32"/>
-  </svg>
-  <svg class="comp-item" viewBox="0 0 70 60" style="width: 95px; height: 85px; top: 82%; animation-duration: 25s; animation-delay: -21s;">
-    <rect x="14" y="14" width="42" height="32" rx="3"/><line x1="22" y1="14" x2="22" y2="6"/><line x1="35" y1="14" x2="35" y2="6"/><line x1="48" y1="14" x2="48" y2="6"/>
-  </svg>
+<div class="wave-bg">
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+  <div class="glow-orb orb-3"></div>
 </div>
 
-<div class="topbar">
+<header class="header-bar">
   <h2>Aaraa Electro</h2>
-  <a href="project1-page3.html">&larr; Back to Circuit</a>
-</div>
+  <a class="back-link" href="project1-page3.html">&larr; Back to Circuit</a>
+</header>
 
-<div class="banner">
-  <h1><div class="robot-icon">🤖</div> Aaraa AI Assistant</h1>
-  <p>Created by ஆரா அமுதன் | Ask any question, get clear answers in Tamil!</p>
-</div>
+<section class="hero-banner">
+  <h1><span class="bot-badge">🤖</span> Aaraa AI Assistant</h1>
+  <p>Created by ஆரா அமுதன் | எந்தக் கேள்வி கேட்டாலும் தமிழில் தெளிவான பதில்</p>
+</section>
 
-<div class="container">
-  <div class="ai-box">
-    <h3>🔍 Aaraa Smart AI Hub</h3>
-    <p style="color: #4a6b9c; font-size: 14px;">Ask any question — electronics, recipes, science, or general topics — AI answers clearly in Tamil!</p>
+<main class="main-wrap">
+  <div class="panel">
+    <h3 class="panel-title">💬 Aaraa Smart AI Hub</h3>
+    <p class="panel-sub">எந்தக் கேள்வியும் கேளுங்கள் — உடனடியாகத் தமிழில் பதில் கிடைக்கும்.</p>
 
-    <div class="search-container">
-      <div class="search-bar-wrapper">
-        <span class="robot-mini">🤖</span>
-        <input type="text" id="userInput" class="search-input" placeholder="Ask any question (e.g., how to make a cake, how current works)..." onkeydown="if(event.key==='Enter') askAaraAI()">
-        <button id="micBtn" class="mic-btn" title="Speak your question">🎤</button>
+    <div class="prompt-row">
+      <div class="input-shell">
+        <span>🤖</span>
+        <input id="questionField" class="prompt-input" type="text" placeholder="உங்கள் கேள்வியை இங்கே டைப் செய்யவும்..." onkeydown="if(event.key==='Enter') runAaraAI()">
+        <button id="speechTrigger" class="voice-btn" type="button" title="பேசி கேள்வி கேட்க">🎤</button>
       </div>
-      <button class="ask-btn" onclick="askAaraAI()">Ask AI</button>
+      <button class="send-btn" type="button" onclick="runAaraAI()">Ask AI</button>
     </div>
 
-    <div>
-      <p style="font-size: 13px; color: #6c8eb8; margin-bottom: 6px;">Quick Topics (Click or type any question):</p>
-      <div class="suggestions">
-        <div class="chip" onclick="setQuery('how to make a cake')">How to Make a Cake</div>
-        <div class="chip" onclick="setQuery('how does current work')">How Current Works</div>
-        <div class="chip" onclick="setQuery('what is a capacitor')">What is a Capacitor?</div>
-        <div class="chip" onclick="setQuery('how does servo motor work')">Servo Motor Working</div>
-      </div>
+    <div class="quick-bar">
+      <button class="quick-tag" type="button" onclick="askPreset('who are you')">Who are you?</button>
+      <button class="quick-tag" type="button" onclick="askPreset('how to make a cake')">How to make a cake</button>
+      <button class="quick-tag" type="button" onclick="askPreset('how does current work')">How current works</button>
+      <button class="quick-tag" type="button" onclick="askPreset('what is a servo motor')">What is a servo motor</button>
     </div>
 
-    <!-- Result Display Box -->
-    <div id="resultCard" class="result-card">
-      <h3 id="resultTitle">🤖 Aaraa AI Solution</h3>
-      <p id="resultText">Your solution will appear here...</p>
+    <div id="answerCard" class="answer-box">
+      <div id="answerTitle" class="answer-header">🤖 Aaraa AI பதில்</div>
+      <div id="answerContent" class="answer-body"></div>
     </div>
   </div>
-</div>
+</main>
 
-<a class="back-arrow" href="project1-page3.html" title="Back to Circuit">&#10094;</a>
+<a class="left-nav-arrow" href="project1-page3.html" title="Back to Circuit">&#10094;</a>
 
 <script>
-  function setQuery(text) {
-    document.getElementById('userInput').value = text;
-    askAaraAI();
+  function askPreset(text) {
+    document.getElementById('questionField').value = text;
+    runAaraAI();
   }
 
-  function answerAnyQuestion(rawInput, q) {
-    const cleanQ = rawInput.trim();
+  function buildAnswerForAnyQuestion(rawText, lowerText) {
+    const q = rawText.trim();
 
-    // 1. Cake recipe / making cake
-    if (q.includes('cake') || q.includes('கேக்')) {
-      return "<b>கேக் (Cake) எப்படி செய்வது?</b><br>" +
-             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-             "• <b>தேவையான பொருட்கள்:</b> மைதா மாவு (அல்லது கோதுமை மாவு), சர்க்கரை/பொடித்த சர்க்கரை, வெண்ணெய் அல்லது எண்ணெய், முட்டை அல்லது பால்/தயிர், பேக்கிங் பவுடர் மற்றும் வெண்ணிலா எசன்ஸ்.<br>" +
-             "• <b>செய்முறை:</b> சர்க்கரையையும் எண்ணெய்/வெண்ணெயையும் நன்கு கலக்கவும். அதனுடன் பால்/முட்டை மற்றும் எசன்ஸ் சேர்த்து, சலித்த மாவு + பேக்கிங் பவுடரைக் கட்டியில்லாமல் மெதுவாகக் கலக்கவும்.<br>" +
-             "• <b>பேக்கிங் / வேகவைத்தல்:</b> நெய் தடவிய கேக் பாத்திரத்தில் ஊற்றி, ஓவனில் (சுமார் 180°C-ல் 25–35 நிமிடங்கள்) அல்லது குக்கரில்/கடாயில் மிதமான தீயில் வெந்தவுடன் ஆறவைத்து எடுத்துப் பயன்படுத்தலாம்.";
+    // Identity questions ("who are you", "நீ யார்", etc.)
+    if (
+      lowerText.includes('who are you') ||
+      lowerText.includes('who r u') ||
+      lowerText.includes('your name') ||
+      lowerText.includes('நீ யார்') ||
+      lowerText.includes('உன் பெயர்')
+    ) {
+      return "நான் <b>Aaraa AI Assistant</b> (ஆரா அமுதன் உருவாக்கிய ஸ்மார்ட் உதவியாளர்). நீங்கள் கேட்கும் எலக்ட்ரானிக்ஸ், சர்க்யூட், ரோபோடிக்ஸ் மற்றும் பொதுவான கேள்விகளுக்குத் தமிழில் உடனடியாகப் பதில் சொல்லத் தயாராக இருக்கிறேன்.";
     }
 
-    // 2. Current / No current
-    if (q.includes('current') || q.includes('கரண்ட்') || q.includes('மின்சாரம்')) {
-      if (q.includes('no ') || q.includes('without') || q.includes('இல்ல') || q.includes('போனா') || q.includes('cut')) {
-        return "<b>கரண்ட் (மின்சாரம்) இல்லையென்றால் என்ன ஆகும்?</b><br>" +
-               "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-               "• மின்சார ஓட்டம் இல்லாததால் விளக்குகள், மோட்டார்கள், சென்சார்கள் மற்றும் மைக்ரோகண்ட்ரோலர்கள் செயல்படாமல் நின்றுவிடும்.<br>" +
-               "• தற்காலிகமாக இயங்கிக் கொண்டிருக்கும் சிக்னல்கள் நிற்கும்; ஆனால் நிரந்தர சேமிப்பு (Storage/Flash) பாதுகாப்பாக இருக்கும்.";
+    // Cake making questions
+    if (lowerText.includes('cake') || lowerText.includes('கேக்')) {
+      return "<b>கேக் (Cake) எப்படி செய்வது?</b><br><br>" +
+             "• <b>தேவையான பொருட்கள்:</b> மைதா அல்லது கோதுமை மாவு, சர்க்கரை, வெண்ணெய் அல்லது எண்ணெய், பால்/முட்டை, பேக்கிங் பவுடர் மற்றும் வெண்ணிலா எசன்ஸ்.<br>" +
+             "• <b>கலவை:</b> சர்க்கரை மற்றும் வெண்ணெய்/எண்ணெயை நன்கு அடித்துக் கலக்கவும். அதனுடன் பால்/முட்டை மற்றும் எசன்ஸ் சேர்த்து, சலித்த மாவு + பேக்கிங் பவுடரைக் கட்டியில்லாமல் மெதுவாகக் கலக்கவும்.<br>" +
+             "• <b>வேகவைத்தல்:</b> நெய் தடவிய பாத்திரத்தில் மாவை ஊற்றி, ஓவனில் (180°C-ல் சுமார் 25–35 நிமிடம்) அல்லது குக்கரில்/கடாயில் மிதமான தீயில் வெந்தவுடன் ஆறவைத்து எடுக்கவும்.";
+    }
+
+    // Current & electricity questions
+    if (lowerText.includes('current') || lowerText.includes('கரண்ட்') || lowerText.includes('மின்சாரம்')) {
+      if (lowerText.includes('no ') || lowerText.includes('without') || lowerText.includes('இல்ல') || lowerText.includes('போனா')) {
+        return "<b>கரண்ட் (மின்சாரம்) இல்லையென்றால் என்ன ஆகும்?</b><br><br>" +
+               "• மின் ஓட்டம் இல்லாததால் விளக்குகள், மோட்டார்கள், சென்சார்கள் மற்றும் மைக்ரோகண்ட்ரோலர்கள் உடனே நின்றுவிடும்.<br>" +
+               "• தற்காலிகமாக இயங்கும் சிக்னல்கள் நிற்கும்; ஆனால் நிரந்தர மெமரி / சேமிப்பு பாதுகாப்பாக இருக்கும்.";
       }
-      return "<b>கரண்ட் (Electric Current) எப்படி வேலை செய்கிறது?</b><br>" +
-             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-             "• வோல்டேஜ் அழுத்தத்தால் மூடிய சர்க்யூட் வழியாக எலக்ட்ரான்கள் பாய்வதே கரண்ட் ஆகும்.<br>" +
-             "• மூலத்திலிருந்து புறப்பட்டு காம்போனென்ட்களை இயக்கி மீண்டும் எதிர் முனைக்குச் சுற்றி வரும்போது சர்க்யூட் முழுமையடையும்.";
+      return "<b>கரண்ட் (Electric Current) எப்படி வேலை செய்கிறது?</b><br><br>" +
+             "• வோல்டேஜ் அழுத்தத்தால் மூடிய சர்க்யூட்டில் எலக்ட்ரான்கள் பாய்வதுதான் கரண்ட் ஆகும்.<br>" +
+             "• மூலத்திலிருந்து புறப்பட்டு காம்போனென்ட்களை இயக்கி மீண்டும் எதிர் முனைக்குச் செல்லும்போது மின்சுற்று முழுமையடையும்.";
     }
 
-    // 3. Voltage / Battery / Power
-    if (q.includes('voltage') || q.includes('volt') || q.includes('வோல்டேஜ்') || q.includes('battery') || q.includes('பேட்டரி')) {
-      return "<b>வோல்டேஜ் மற்றும் பேட்டரி விளக்கம்</b><br>" +
-             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-             "• வோல்டேஜ் என்பது மின்சாரத்தை நகர்த்தும் மின் அழுத்த வேறுபாடு ஆகும்.<br>" +
-             "• பேட்டரி வேதியியல் ஆற்றலை மின் ஆற்றலாக மாற்றிச் சர்க்யூட்டிற்குத் தேவையான வோல்டேஜை வழங்குகிறது.";
+    // Electronics components & robotics
+    if (lowerText.includes('servo') || lowerText.includes('motor') || lowerText.includes('sensor') || lowerText.includes('arduino') || lowerText.includes('capacitor') || lowerText.includes('resistor') || lowerText.includes('led')) {
+      return "<b>எலக்ட்ரானிக்ஸ் &amp; ரோபோடிக்ஸ் விளக்கம்</b><br><br>" +
+             "• <b>கேள்வி:</b> \"" + q + "\"<br>" +
+             "• இந்தப் பாகம் அல்லது அமைப்பு சரியாக இயங்க <b>சரியான வோல்டேஜ் (Voltage)</b>, <b>பொதுவான GND</b> மற்றும் <b>சரியான பின்/சிக்னல் இணைப்பு</b> அவசியம்.<br>" +
+             "• உள்ளீடு (Sensor/Signal) -> செயலாக்கம் (Controller/Driver) -> வெளியீடு (Motor/LED) என்ற வரிசையில் இது செயல்படும்.";
     }
 
-    // 4. Capacitor
-    if (q.includes('capacitor') || q.includes('கெப்பாசிட்டர்')) {
-      return "<b>கெப்பாசிட்டர் (Capacitor) விளக்கம்</b><br>" +
-             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-             "• மின்சாரத்தைத் தற்காலிகமாகச் சேமித்து வைத்துத் தேவைப்படும்போது உடனடியாக வெளியிடும் பாகம் ஆகும்.<br>" +
-             "• வோல்டேஜ் மாற்றங்களைச் சீராக்கவும் (Filtering) டைமிங் சர்க்யூட்களிலும் பயன்படுகிறது.";
+    // Universal smart handler for ANY other question
+    const cleanedWords = q.replace(/[?!.,]/g, '').trim();
+
+    if (lowerText.startsWith('how') || lowerText.includes('எப்படி')) {
+      return "<b>செய்முறை விளக்கம்</b><br><br>" +
+             "• <b>கேள்வி:</b> \"" + q + "\"<br>" +
+             "• <b>படி 1:</b> " + cleanedWords + " என்பதற்குத் தேவையான அடிப்படைப் பொருட்கள், கருவிகள் அல்லது விதிகளைத் தயார் செய்ய வேண்டும்.<br>" +
+             "• <b>படி 2:</b> ஒவ்வொரு படியையும் சரியான வரிசையில் பின்பற்றி, தேவையான அளவு/அமைப்பைச் சரிபார்த்துச் செயல்படுத்த வேண்டும்.";
     }
 
-    // 5. Resistor
-    if (q.includes('resistor') || q.includes('ரெசிஸ்டர்')) {
-      return "<b>ரெசிஸ்டர் (Resistor) விளக்கம்</b><br>" +
-             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-             "• சர்க்யூட்டில் பாயும் கரண்ட்டின் அளவைக் கட்டுப்படுத்தும் மின்தடைக் கூறு ஆகும்.<br>" +
-             "• LED மற்றும் பிற பாகங்களுக்கு அதிக கரண்ட் சென்று சேதமடைவதைத் தடுக்கும்.";
+    if (lowerText.startsWith('why') || lowerText.includes('ஏன்')) {
+      return "<b>காரண விளக்கம்</b><br><br>" +
+             "• <b>கேள்வி:</b> \"" + q + "\"<br>" +
+             "• \"" + cleanedWords + "\" என்பதற்கான முக்கியக் காரணம் அந்தச் சூழல், இயற்பியல் விதி அல்லது செயல்பாட்டில் ஏற்படும் மாற்றமே ஆகும்.<br>" +
+             "• அடிப்படைக் காரணத்தைக் கண்டறிந்து சரிசெய்தால் சரியான முடிவைப் பெற முடியும்.";
     }
 
-    // 6. LED
-    if (q.includes('led') || q.includes('எல்இடி')) {
-      return "<b>எல்.ஈ.டி (LED) விளக்கம்</b><br>" +
-             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-             "• மின்சாரம் செல்லும்போது ஒளி தரும் செமிகண்டக்டர் டையோடு ஆகும்.<br>" +
-             "• சரியான முனைய இணைப்பு மற்றும் தகுந்த ரெசிஸ்டருடன் பயன்படுத்தினால் நீண்ட நாள் இயங்கும்.";
+    if (lowerText.startsWith('what') || lowerText.includes('என்ன')) {
+      return "<b>விளக்கம்</b><br><br>" +
+             "• <b>கேள்வி:</b> \"" + q + "\"<br>" +
+             "• \"" + cleanedWords + "\" என்பது அதன் செயல்பாடு, தன்மை மற்றும் பயன்பாட்டால் அறியப்படுகிறது.<br>" +
+             "• இது எங்கு, எதற்காகப் பயன்படுகிறது என்பதைப் புரிந்துகொள்வது முக்கியம்.";
     }
 
-    // 7. Servo / Motor / Sensor / Arduino
-    if (q.includes('servo') || q.includes('motor') || q.includes('sensor') || q.includes('arduino') || q.includes('மோட்டார்') || q.includes('சென்சார்') || q.includes('ஆர்டினோ')) {
-      return "<b>ரோபோடிக்ஸ் &amp; எலக்ட்ரானிக்ஸ் பதில்</b><br>" +
-             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-             "• சென்சார்கள் சுற்றுப்புறத் தகவலைச் சேகரித்து மைக்ரோகண்ட்ரோலருக்கு அனுப்பும்; அதன் அடிப்படையில் மோட்டார்/சர்வோ இயங்கும்.<br>" +
-             "• சரியான பின் இணைப்புகள், பொதுவான GND மற்றும் சரியான பவர் சப்ளை இருந்தால் துல்லியமாகச் செயல்படும்.";
-    }
-
-    // 8. General answer for ANY other question in the world
-    const words = cleanQ.replace(/[?.,!]/g, '').split(/\s+/).filter(Boolean);
-    const topicSummary = words.slice(0, 6).join(' ');
-
-    if (q.startsWith('how') || q.includes('எப்படி')) {
-      return "<b>செய்முறை விளக்கம் (" + topicSummary + ")</b><br>" +
-             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-             "• <b>படி 1:</b> " + cleanQ + " என்பதற்குத் தேவையான அடிப்படைப் பொருட்கள், விதிகள் அல்லது கருவிகளைத் தயார் செய்ய வேண்டும்.<br>" +
-             "• <b>படி 2:</b> ஒவ்வொரு படியையும் சரியான வரிசையில் பின்பற்றி, தேவையான அளவு அல்லது அமைப்பைச் சரிபார்த்துச் செயல்படுத்த வேண்டும்.";
-    }
-
-    if (q.startsWith('why') || q.includes('ஏன்')) {
-      return "<b>காரண விளக்கம் (" + topicSummary + ")</b><br>" +
-             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-             "• \"" + cleanQ + "\" என்பதற்கான முக்கியக் காரணம் அந்தச் சூழல், விதி அல்லது செயல்பாட்டில் ஏற்படும் மாற்றமே ஆகும்.<br>" +
-             "• அடிப்படைக் காரணத்தைக் கண்டறிந்து சரிசெய்தால் எதிர்பார்க்கும் விளைவைப் பெற முடியும்.";
-    }
-
-    if (q.startsWith('what') || q.includes('என்ன')) {
-      return "<b>விளக்கம் (" + topicSummary + ")</b><br>" +
-             "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-             "• \"" + cleanQ + "\" என்பது அதன் தனித்துவமான தன்மை, செயல்பாடு மற்றும் பயன்பாட்டால் அறியப்படுகிறது.<br>" +
-             "• அதை எங்கு, எதற்காகப் பயன்படுத்துகிறோம் என்பதைப் புரிந்துகொள்வதே முக்கியம்.";
-    }
-
-    return "<b>மினி AI பதில்</b><br>" +
-           "<span style='color:#0b3fbf;font-size:13px;'>கேள்வி: \"" + cleanQ + "\"</span><br><br>" +
-           "• நீங்கள் கேட்ட \"" + cleanQ + "\" என்ற கேள்விக்கான முக்கியக் கருத்து: அதன் நோக்கம், தேவையான படிகள் மற்றும் சரியான அணுகுமுறை ஆகியவற்றைக் கவனிப்பதே ஆகும்.<br>" +
-           "• இன்னும் கூடுதல் விவரம் தேவைப்பட்டால் அதே கேள்வியை வேறு கோணத்திலும் கேட்கலாம்.";
+    return "<b>Aaraa AI பதில்</b><br><br>" +
+           "• <b>கேள்வி:</b> \"" + q + "\"<br>" +
+           "• நீங்கள் கேட்ட \"" + cleanedWords + "\" என்ற கேள்விக்கு, அதன் அடிப்படைத் தத்துவம், தேவையான படிகள் மற்றும் நடைமுறைப் பயன்பாடு ஆகியவற்றைச் சரியாகப் பின்பற்றுவதே முக்கியத் தீர்வாகும்.";
   }
 
-  function askAaraAI() {
-    let rawInput = document.getElementById('userInput').value.trim();
-    let query = rawInput.toLowerCase();
-    let resultCard = document.getElementById('resultCard');
-    let resultTitle = document.getElementById('resultTitle');
-    let resultText = document.getElementById('resultText');
+  function runAaraAI() {
+    const inputEl = document.getElementById('questionField');
+    const rawText = inputEl.value.trim();
+    const lowerText = rawText.toLowerCase();
 
-    if (!query) {
-      alert("தயவுசெய்து உங்கள் கேள்வியைத் டைப் செய்யவும் அல்லது பேசவும்!");
+    if (!rawText) {
+      alert("தயவுசெய்து ஒரு கேள்வியை டைப் செய்யவும் அல்லது பேசவும்.");
       return;
     }
 
-    resultCard.style.display = "block";
-    resultTitle.innerHTML = "🤖 Aaraa AI Solution (Verified by ஆரா அமுதன்)";
-    resultText.innerHTML = answerAnyQuestion(rawInput, query);
+    const card = document.getElementById('answerCard');
+    const titleEl = document.getElementById('answerTitle');
+    const contentEl = document.getElementById('answerContent');
+
+    card.style.display = 'block';
+    titleEl.innerHTML = '🤖 Aaraa AI Solution';
+    contentEl.innerHTML = buildAnswerForAnyQuestion(rawText, lowerText);
   }
 
-  // Voice Recognition (Speech-to-Text) Setup
-  const micBtn = document.getElementById('micBtn');
-  const userInput = document.getElementById('userInput');
+  const speechBtn = document.getElementById('speechTrigger');
+  const qField = document.getElementById('questionField');
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-  if ('webkitSpeechRecognition' in window || 'speechRecognition' in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
+  if (SpeechRec) {
+    const rec = new SpeechRec();
+    rec.lang = 'en-US';
 
-    micBtn.addEventListener('click', () => {
-      micBtn.classList.add('listening');
-      userInput.placeholder = "Listening... Speak now!";
-      recognition.start();
+    speechBtn.addEventListener('click', () => {
+      speechBtn.classList.add('active');
+      qField.placeholder = 'பேசவும்... கேட்டுக் கொண்டிருக்கிறேன்...';
+      rec.start();
     });
 
-    recognition.onresult = (event) => {
-      const speechToText = event.results[0][0].transcript;
-      userInput.value = speechToText;
-      micBtn.classList.remove('listening');
-      userInput.placeholder = "Type or click mic to ask any question...";
-      askAaraAI();
+    rec.onresult = (e) => {
+      qField.value = e.results[0][0].transcript;
+      speechBtn.classList.remove('active');
+      qField.placeholder = 'உங்கள் கேள்வியை இங்கே டைப் செய்யவும்...';
+      runAaraAI();
     };
 
-    recognition.onerror = () => {
-      micBtn.classList.remove('listening');
-      userInput.placeholder = "Voice error. Try typing.";
+    rec.onerror = () => {
+      speechBtn.classList.remove('active');
+      qField.placeholder = 'உங்கள் கேள்வியை இங்கே டைப் செய்யவும்...';
     };
 
-    recognition.onend = () => {
-      micBtn.classList.remove('listening');
+    rec.onend = () => {
+      speechBtn.classList.remove('active');
     };
   } else {
-    micBtn.style.display = 'none';
+    speechBtn.style.display = 'none';
   }
 </script>
 
