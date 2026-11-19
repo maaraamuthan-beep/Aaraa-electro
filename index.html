@@ -25,8 +25,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
     z-index: 1;
     pointer-events: none;
@@ -34,6 +34,7 @@
 
   .floating-icon {
     position: absolute;
+    left: 105%;
     stroke: #ffffff;
     fill: none;
     stroke-width: 3.5;
@@ -41,15 +42,17 @@
     stroke-linejoin: round;
     opacity: 0.65;
     filter: drop-shadow(0 2px 6px rgba(255, 255, 255, 0.25));
-    animation: moveLeft linear infinite;
+    animation: moveAcrossFullScreen linear infinite;
   }
 
-  @keyframes moveLeft {
+  @keyframes moveAcrossFullScreen {
     0% {
-      transform: translateX(110vw) translateY(0) rotate(0deg);
+      left: 105%;
+      transform: rotate(0deg);
     }
     100% {
-      transform: translateX(-250px) translateY(0) rotate(360deg);
+      left: -220px;
+      transform: rotate(360deg);
     }
   }
 
@@ -73,7 +76,6 @@
     margin-bottom: 30px;
     font-weight: 500;
   }
-  /* ரவுண்ட் ஷேப் பட்டன் மற்றும் அனிமேஷன் டிசைன் */
   .next-btn {
     background: #fff;
     color: #075de8;
@@ -112,45 +114,13 @@
   <script>
     const bgContainer = document.getElementById('bgAnimation');
     
+    // 12 விதமான எலக்ட்ரானிக் காம்போனென்ட்கள் மற்றும் டூல்ஸ்
     const componentPaths = [
-      // Microcontroller / IC Chip outline
-      '<rect x="10" y="10" width="60" height="40" rx="4"/><line x1="20" y1="10" x2="20" y2="2"/><line x1="40" y1="10" x2="40" y2="2"/><line x1="60" y1="10" x2="60" y2="2"/><line x1="20" y1="50" x2="20" y2="58"/><line x1="40" y1="50" x2="40" y2="58"/><line x1="60" y1="50" x2="60" y2="58"/><circle cx="22" cy="30" r="4"/>',
-      // Resistor zigzag
-      '<polyline points="5,30 15,30 20,18 30,42 40,18 50,42 55,30 65,30"/>',
-      // LED / Diode symbol
-      '<line x1="5" y1="30" x2="25" y2="30"/><polyline points="25,14 25,46 45,30 25,14"/><line x1="45" y1="14" x2="45" y2="46"/><line x1="45" y1="30" x2="65" y2="30"/><line x1="36" y1="10" x2="46" y2="2"/><line x1="26" y1="12" x2="36" y2="4"/>',
-      // Small Chip / Transistor
-      '<rect x="15" y="15" width="30" height="30" rx="3"/><line x1="5" y1="20" x2="15" y2="20"/><line x1="5" y1="40" x2="15" y2="40"/><line x1="45" y1="20" x2="55" y2="20"/><line x1="45" y1="40" x2="55" y2="40"/>',
-      // Capacitor plates
-      '<line x1="24" y1="12" x2="24" y2="48"/><line x1="38" y1="12" x2="38" y2="48"/><line x1="5" y1="30" x2="24" y2="30"/><line x1="38" y1="30" x2="65" y2="30"/>'
-    ];
-
-    const iconCount = 22;
-
-    for (let i = 0; i < iconCount; i++) {
-      let svgNS = "http://www.w3.org/2000/svg";
-      let svg = document.createElementNS(svgNS, "svg");
+      // 1. Arduino Microcontroller Board
+      '<rect x="8" y="10" width="54" height="40" rx="3"/><rect x="4" y="18" width="8" height="10"/><rect x="4" y="34" width="8" height="8"/><rect x="24" y="22" width="22" height="14"/><line x1="16" y1="10" x2="16" y2="14"/><line x1="24" y1="10" x2="24" y2="14"/><line x1="32" y1="10" x2="32" y2="14"/><line x1="40" y1="10" x2="40" y2="14"/><line x1="48" y1="10" x2="48" y2="14"/>',
       
-      let randomPath = componentPaths[Math.floor(Math.random() * componentPaths.length)];
-      svg.setAttribute("viewBox", "0 0 70 60");
-      svg.classList.add("floating-icon");
-
-      // Larger component sizes
-      let size = Math.floor(Math.random() * 60) + 75; // 75px to 135px
-      let topPos = Math.random() * 82; // Across full vertical space
-      let duration = Math.random() * 14 + 14; // Smooth slow right-to-left motion
-      let delay = Math.random() * -25;
-
-      svg.style.width = size + "px";
-      svg.style.height = size + "px";
-      svg.style.top = topPos + "vh";
-      svg.style.animationDuration = duration + "s";
-      svg.style.animationDelay = delay + "s";
-
-      svg.innerHTML = randomPath;
-      bgContainer.appendChild(svg);
-    }
-  </script>
-
-</body>
-</html>
+      // 2. Soldering Iron
+      '<path d="M10 48 L24 34"/><rect x="22" y="24" width="22" height="10" rx="3" transform="rotate(-45 33 29)"/><line x1="41" y1="21" x2="54" y2="8"/><polygon points="52,6 62,4 58,12"/>',
+      
+      // 3. Digital Multimeter
+      '<rect x="18" y="6" width="34" height="48" rx="4"/><rect x="23" y="11" width="24" height="12"/><circle cx="35" cy="36" r="8"/><line x1="35" y1="36" x2="40" y2="31
