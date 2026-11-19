@@ -19,7 +19,7 @@ main{max-width:1500px;margin:auto;padding:20px}
 .toolbar h2{margin:0;color:#0756b8;font-size:22px}
 button{font:inherit;cursor:pointer}
 .new-project{border:0;border-radius:24px;background:#0756b8;color:#fff;font-weight:800;padding:12px 20px;box-shadow:0 4px 0 #063d83}
-.workspace{display:grid;grid-template-columns:190px minmax(0,1fr) 235px;gap:14px;align-items:stretch}
+.workspace{display:grid;grid-template-columns:190px minmax(0,1fr) 260px;gap:14px;align-items:stretch}
 .panel{background:#fff;border:1px solid #d7e6f4;border-radius:18px;padding:14px;box-shadow:0 5px 18px #174b7910}
 .panel h3{margin:0 0 12px;color:#0756b8;font-size:17px}
 .part{width:100%;display:flex;align-items:center;gap:10px;border:1px solid #d8e7f5;background:#f8fbff;border-radius:13px;padding:10px;margin:8px 0;text-align:left;font-weight:700;color:var(--ink);transition:.18s}
@@ -43,16 +43,39 @@ button{font:inherit;cursor:pointer}
 .part-actions{display:flex;gap:8px;margin-top:10px}.part-actions button{flex:1;border:0;border-radius:10px;padding:10px 7px;font-size:12px;font-weight:800}.remove-selected{background:#ffe8e8;color:#a32222}.rotate-selected{background:#e8f3ff;color:#0756b8}.selected-note{font-size:12px;color:#47627c;line-height:1.4;margin:8px 2px}
 .wire{position:absolute;z-index:3;pointer-events:none;overflow:visible}
 .wire path{fill:none;stroke-width:5;stroke-linecap:round;filter:drop-shadow(0 2px 1px #0003)}
+
+/* Big Center Check Circuit Button (Hidden until circuit completes) */
+.center-check-wrap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50;pointer-events:none;padding:16px}
+.center-check-wrap.visible{display:flex}
+.check-big{pointer-events:auto;border:3px solid #fff;border-radius:50px;padding:22px 42px;font-size:clamp(22px,3vw,30px);font-weight:900;color:#fff;background:linear-gradient(135deg,#ff5722,#d81b60);box-shadow:0 14px 35px rgba(216,27,96,0.45),0 6px 0 #8e0038;animation:popIn .45s cubic-bezier(.18,.89,.32,1.28),bounceBtn 1.4s ease-in-out infinite;letter-spacing:.5px}
+.check-big.safe{background:linear-gradient(135deg,#0b8a55,#12b872);box-shadow:0 14px 35px rgba(11,138,85,0.45),0 6px 0 #065a37}
+.check-big:hover{filter:brightness(1.08);transform:scale(1.04)}
+@keyframes popIn{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes bounceBtn{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
 .status{margin-top:14px;padding:12px 14px;border-radius:13px;background:#edf6ff;color:#234767;font-size:14px;line-height:1.5}
-.check{width:100%;border:0;border-radius:13px;padding:12px;background:#0b8a55;color:#fff;font-weight:800;margin-top:10px}
-.robot-card{position:relative;min-height:220px;background:linear-gradient(145deg,#f0f8ff,#fff);border:1px solid #cfe4f8;border-radius:16px;padding:12px;overflow:hidden}
+.status.danger{background:#ffebee;color:#a31515;border:1px solid #ffcdd2;font-weight:700}
+.status.success{background:#e8f8f0;color:#0b6b43;border:1px solid #bce8d1;font-weight:700}
+
+.robot-card{position:relative;min-height:240px;background:linear-gradient(145deg,#f0f8ff,#fff);border:1px solid #cfe4f8;border-radius:16px;padding:12px;overflow:hidden}
 .robot{font-size:68px;text-align:center;display:block;transform:translateX(120%);opacity:0}
 .robot.show{animation:robotIn .65s ease forwards}.robot.leave{animation:robotOut .6s ease forwards}
-.speech{font-size:13px;line-height:1.5;background:#fff;border:1px solid #dbe9f5;border-radius:12px;padding:10px;margin-top:7px;min-height:76px}
+.speech{font-size:13px;line-height:1.55;background:#fff;border:1px solid #dbe9f5;border-radius:12px;padding:11px;margin-top:7px;min-height:95px}
 .legend{font-size:12px;color:#62768a;line-height:1.5;margin-top:12px}
 @keyframes robotIn{to{transform:translateX(0);opacity:1}}@keyframes robotOut{to{transform:translateX(130%);opacity:0}}
+
+/* Glowing LED animation */
 .glow{filter:drop-shadow(0 0 8px #ffdf35) drop-shadow(0 0 15px #ffb900)!important;animation:pulse .8s ease-in-out infinite alternate}
 @keyframes pulse{to{filter:drop-shadow(0 0 15px #ffe66d) drop-shadow(0 0 25px #ffb900)}}
+
+/* Busted / Broken LED + Smoke & Sparks */
+.busted-led{animation:shakeBust .35s ease-in-out 2}
+@keyframes shakeBust{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px) rotate(-6deg)}75%{transform:translateX(5px) rotate(6deg)}}
+.smoke-puff{position:absolute;left:50%;top:-10px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#7a828a 20%,rgba(120,130,140,0) 75%);pointer-events:none;animation:smokeRise 1.8s ease-out infinite}
+.smoke-puff.s2{animation-delay:.6s;left:35%;width:22px;height:22px}
+.smoke-puff.s3{animation-delay:1.2s;left:65%;width:16px;height:16px}
+@keyframes smokeRise{0%{transform:translate(-50%,0) scale(.6);opacity:.9}100%{transform:translate(-50%,-52px) scale(2.1);opacity:0}}
+
 footer{text-align:center;color:#60758b;padding:20px;font-size:13px}
 @media(max-width:1000px){.workspace{grid-template-columns:165px minmax(0,1fr)}.right-panel{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px}.right-panel h3{grid-column:1/-1}.robot-card{min-height:150px}}
 @media(max-width:680px){header{justify-content:center;flex-wrap:wrap;padding:12px}nav{justify-content:center;font-size:13px}.workspace{grid-template-columns:1fr}.parts-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.parts-panel h3,.parts-panel .hint{grid-column:1/-1}.part{margin:3px 0}.workbench{min-height:520px}.breadboard{width:88%;height:230px}.holes{gap:7px 2px}.right-panel{display:block}.robot-card{min-height:180px}}
@@ -103,7 +126,7 @@ footer{text-align:center;color:#60758b;padding:20px;font-size:13px}
     <section class="workbench" id="workbench" aria-label="Circuit work area">
       <div class="bench-label">WORK AREA • drag parts here</div>
       <div class="breadboard" aria-label="Illustrated solderless breadboard">
-        <div class="board-top"></div><div class="board-mark"><span>＋</span><span>1　5　10　15　20　25　30</span><span>＋</span></div>
+        <div class="board-top"></div><div class="board-mark"><span>＋</span><span>1 5 10 15 20 25 30</span><span>＋</span></div>
         <div class="rail"></div><div class="rail bottom"></div>
         <div class="holes" id="holes"></div><div class="center-gap"></div>
       </div>
@@ -115,14 +138,19 @@ footer{text-align:center;color:#60758b;padding:20px;font-size:13px}
       <h3>Aara AI • Circuit Guide</h3>
       <div class="robot-card">
         <span class="robot" id="robot">🤖</span>
-        <div class="speech" id="speech" aria-live="polite">Hi! I'm Aara AI. Place an LED, a 1 kΩ resistor and a battery. Then press “Check Circuit” and I'll help you understand what happened.</div>
+        <div class="speech" id="speech" aria-live="polite">Hi! I'm Aara AI. Connect an LED and a 9V battery on the board to see what happens!</div>
       </div>
-      <button class="check" id="checkCircuit">✓ Check Circuit</button>
-      <div class="status" id="status">Ready to build. Remember: an LED needs a current-limiting resistor.</div>
-      <div class="legend"><b>How to use:</b><br>1. Drag the parts into the work area.<br>2. Place the LED and resistor on the breadboard.<br>3. Add the battery and connect the circuit.<br>4. Press Check Circuit.</div>
+      <div class="status" id="status">Ready to build. Add components to complete your circuit.</div>
+      <div class="legend"><b>How to use:</b><br>1. Drag the parts into the work area.<br>2. Connect the LED and 9V battery (try with or without a resistor!).<br>3. Once the circuit completes, click the big <b>Check Circuit</b> button in the middle of the screen to see Aara AI's explanation.</div>
     </aside>
   </section>
 </main>
+
+<!-- Big Center Check Circuit Button (Hidden initially) -->
+<div class="center-check-wrap" id="centerCheckWrap">
+  <button class="check-big" id="checkCircuit">🔍 Check Circuit</button>
+</div>
+
 <nav class="page-pager" aria-label="Page navigation">
   <a href="project2-page5.html" aria-label="Go back to Page 5 Component Learning Hub"><span class="pager-arrow" aria-hidden="true">←</span> Page 5 · Components</a>
   <span class="future-link" aria-label="Page 7 has not been created yet" title="Page 7 will be linked when it is created">Page 7 · Next <span class="pager-arrow" aria-hidden="true">→</span></span>
@@ -136,19 +164,36 @@ const statusBox=document.getElementById('status');
 const speech=document.getElementById('speech');
 const robot=document.getElementById('robot');
 const holes=document.getElementById('holes');
+const centerCheckWrap=document.getElementById('centerCheckWrap');
+const checkCircuitBtn=document.getElementById('checkCircuit');
+
 for(let i=0;i<150;i++){const h=document.createElement('span');h.className='hole';holes.appendChild(h)}
-let items=[],dragType=null,wireMode=false,wireStart=null,selectedItem=null;
+let items=[],dragType=null,selectedItem=null,circuitState='incomplete';
+
 const art={
  led:`<svg viewBox="0 0 42 76"><path d="M16 43v31M26 43v31" stroke="#aeb6bd" stroke-width="2.5"/><path d="M10 39a11 11 0 1 1 22 0v5H10z" fill="#ed3448" stroke="#9d1729" stroke-width="2"/><ellipse cx="21" cy="29" rx="7" ry="5" fill="#ff9aa5" opacity=".65"/><path d="M12 16L5 9m25 7 7-7" stroke="#ffc84a" stroke-width="2" stroke-linecap="round"/></svg>`,
+ ledBusted:`<svg viewBox="0 0 42 76"><path d="M16 43v31M26 43v31" stroke="#6c757d" stroke-width="2.5"/><path d="M10 39a11 11 0 0 1 10-10.9l-2 5 5 3-3 5h12v2H10z" fill="#3a3f44" stroke="#1c1f22" stroke-width="2"/><path d="M23 28.2A11 11 0 0 1 32 39v3h-9l3-5-5-3z" fill="#52585e" stroke="#1c1f22" stroke-width="2"/><path d="M19 25l-4-9m8 8 6-8m-13 13-8-2m26 1 8-3" stroke="#ff6d00" stroke-width="2.2" stroke-linecap="round"/><circle cx="21" cy="36" r="4" fill="#ff9100" opacity=".85"/></svg><span class="smoke-puff"></span><span class="smoke-puff s2"></span><span class="smoke-puff s3"></span>`,
  resistor:`<svg viewBox="0 0 100 38"><path d="M1 19h98" stroke="#aeb6bd" stroke-width="2"/><rect x="20" y="8" width="60" height="22" rx="9" fill="#e8c79a" stroke="#98734b" stroke-width="1.5"/><path d="M32 9v20m10-20v20m17-20v20" stroke="#9b3326" stroke-width="4"/><path d="M70 9v20" stroke="#c49a31" stroke-width="3"/></svg>`,
  battery:`<svg viewBox="0 0 120 90"><path d="M42 7h13v9H42zm25 0h13v9H67z" fill="#aeb5bb" stroke="#737d85"/><rect x="17" y="14" width="86" height="68" rx="9" fill="#202a35" stroke="#101820" stroke-width="2"/><rect x="23" y="20" width="74" height="56" rx="6" fill="#303d4a"/><text x="60" y="48" text-anchor="middle" font-size="20" fill="#fff" font-weight="bold">9V</text><text x="60" y="64" text-anchor="middle" font-size="9" fill="#cfe7ff">BATTERY</text><path d="M55 14v-5m12 5v-5" stroke="#c8d0d6" stroke-width="2"/></svg>`,
  buzzer:`<svg viewBox="0 0 65 65"><circle cx="32" cy="29" r="24" fill="#252b31" stroke="#101820" stroke-width="2"/><circle cx="32" cy="29" r="15" fill="#59616a"/><circle cx="32" cy="29" r="6" fill="#1d252c"/><path d="M23 51v12m18-12v12" stroke="#aeb6bd" stroke-width="2.5"/></svg>`
 };
+
 function addPart(type,x,y){
- const el=document.createElement('div');el.className='placed '+type+'-part';el.dataset.type=type;el.innerHTML=art[type];
- const r=workbench.getBoundingClientRect();const px=Math.max(8,Math.min(x-r.left-30,r.width-125));const py=Math.max(55,Math.min(y-r.top-25,r.height-100));
- el.style.left=px+'px';el.style.top=py+'px';dropzone.appendChild(el);items.push(el);makeMovable(el);
+ const el=document.createElement('div');
+ el.className='placed '+type+'-part';
+ el.dataset.type=type;
+ el.innerHTML=art[type];
+ const r=workbench.getBoundingClientRect();
+ const px=Math.max(8,Math.min(x-r.left-30,r.width-125));
+ const py=Math.max(55,Math.min(y-r.top-25,r.height-100));
+ el.style.left=px+'px';
+ el.style.top=py+'px';
+ dropzone.appendChild(el);
+ items.push(el);
+ makeMovable(el);
+ evaluateCircuit();
 }
+
 function makeMovable(el){
  let sx=0,sy=0,ox=0,oy=0,moved=false;
  el.addEventListener('click',()=>selectItem(el));
@@ -157,42 +202,143 @@ function makeMovable(el){
  el.addEventListener('pointermove',e=>{if(!el.hasPointerCapture(e.pointerId))return;if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>3)moved=true;const maxX=workbench.clientWidth-el.offsetWidth;const maxY=workbench.clientHeight-el.offsetHeight;el.style.left=Math.max(0,Math.min(maxX,ox+e.clientX-sx))+'px';el.style.top=Math.max(45,Math.min(maxY,oy+e.clientY-sy))+'px'});
  el.addEventListener('pointerup',e=>{if(el.hasPointerCapture(e.pointerId))el.releasePointerCapture(e.pointerId);el.style.zIndex=4;if(!moved)selectItem(el)});
 }
-function selectItem(el){if(selectedItem)selectedItem.classList.remove('selected');selectedItem=el;el.classList.add('selected');document.getElementById('selectedNote').textContent=el.dataset.type.toUpperCase()+' selected. Drag to move, Rotate to turn, or Remove selected to take it out.';}
-function removeSelected(){if(!selectedItem){statusBox.textContent='Select a component on the work area first.';return;}const name=selectedItem.dataset.type;items=items.filter(x=>x!==selectedItem);selectedItem.remove();selectedItem=null;document.getElementById('selectedNote').textContent='Component removed. You can add it again from the Components panel.';statusBox.textContent=name+' removed. Add it again or choose another component.';document.querySelectorAll('.placed').forEach(el=>el.classList.remove('selected'));}
+
+function selectItem(el){
+ if(selectedItem)selectedItem.classList.remove('selected');
+ selectedItem=el;
+ el.classList.add('selected');
+ document.getElementById('selectedNote').textContent=el.dataset.type.toUpperCase()+' selected. Drag to move, Rotate to turn, or Remove selected to take it out.';
+}
+
+function removeSelected(){
+ if(!selectedItem){statusBox.textContent='Select a component on the work area first.';return;}
+ const name=selectedItem.dataset.type;
+ items=items.filter(x=>x!==selectedItem);
+ selectedItem.remove();
+ selectedItem=null;
+ document.getElementById('selectedNote').textContent='Component removed. You can add it again from the Components panel.';
+ statusBox.className='status';
+ statusBox.textContent=name+' removed.';
+ document.querySelectorAll('.placed').forEach(el=>el.classList.remove('selected'));
+ evaluateCircuit();
+}
+
 document.getElementById('removeSelected').addEventListener('click',removeSelected);
-document.getElementById('rotateSelected').addEventListener('click',()=>{if(!selectedItem){statusBox.textContent='Select a component first, then press Rotate.';return;}const angle=Number(selectedItem.dataset.angle||0)+90;selectedItem.dataset.angle=angle;selectedItem.style.rotate=angle+'deg';});
+document.getElementById('rotateSelected').addEventListener('click',()=>{
+ if(!selectedItem){statusBox.textContent='Select a component first, then press Rotate.';return;}
+ const angle=Number(selectedItem.dataset.angle||0)+90;
+ selectedItem.dataset.angle=angle;
+ selectedItem.style.rotate=angle+'deg';
+});
 document.addEventListener('keydown',e=>{if((e.key==='Delete'||e.key==='Backspace')&&selectedItem){e.preventDefault();removeSelected();}});
+
 document.querySelectorAll('.part').forEach(btn=>{
  btn.addEventListener('dragstart',e=>{dragType=btn.dataset.part;e.dataTransfer.setData('text/plain',dragType)});
- btn.addEventListener('click',()=>{const r=workbench.getBoundingClientRect();addPart(btn.dataset.part,r.left+r.width/2,r.top+r.height/2);statusBox.textContent=btn.textContent.trim()+' added. Drag it to the position you want.'});
+ btn.addEventListener('click',()=>{const r=workbench.getBoundingClientRect();addPart(btn.dataset.part,r.left+r.width/2,r.top+r.height/2)});
 });
+
 workbench.addEventListener('dragover',e=>e.preventDefault());
 workbench.addEventListener('drop',e=>{e.preventDefault();const type=e.dataTransfer.getData('text/plain')||dragType;if(art[type])addPart(type,e.clientX,e.clientY);dragType=null});
-function robotTalk(message){speech.textContent=message;robot.classList.remove('leave');robot.classList.add('show');setTimeout(()=>{robot.classList.remove('show');robot.classList.add('leave')},5200)}
-function drawDemoWires(){
+
+function drawDemoWires(isBusted){
  const w=workbench.clientWidth,h=workbench.clientHeight;
- wireLayer.setAttribute('viewBox',`0 0 ${w} ${h}`);wireLayer.innerHTML='';
- const paths=[`M ${w*.22} ${h*.68} C ${w*.2} ${h*.83},${w*.42} ${h*.85},${w*.48} ${h*.68}`,`M ${w*.48} ${h*.68} C ${w*.58} ${h*.55},${w*.68} ${h*.72},${w*.75} ${h*.61}`];
- paths.forEach((d,i)=>{const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',d);p.setAttribute('stroke',i?'#277bd2':'#e34b43');wireLayer.appendChild(p)});
+ wireLayer.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ wireLayer.innerHTML='';
+ const paths=[
+   `M ${w*.22} ${h*.68} C ${w*.2} ${h*.83},${w*.42} ${h*.85},${w*.48} ${h*.68}`,
+   `M ${w*.48} ${h*.68} C ${w*.58} ${h*.55},${w*.68} ${h*.72},${w*.75} ${h*.61}`
+ ];
+ paths.forEach((d,i)=>{
+   const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+   p.setAttribute('d',d);
+   p.setAttribute('stroke',isBusted ? (i?'#444':'#ff5722') : (i?'#277bd2':'#e34b43'));
+   wireLayer.appendChild(p);
+ });
 }
-function checkCircuit(){
+
+/* Automatically checks if the circuit is completed (LED + Battery connected) */
+function evaluateCircuit(){
  const types=items.map(el=>el.dataset.type);
- const hasLed=types.includes('led'),hasRes=types.includes('resistor'),hasBattery=types.includes('battery');
- document.querySelectorAll('.led-part').forEach(el=>el.classList.remove('glow'));
- if(hasLed&&hasRes&&hasBattery){
-   const led=items.find(el=>el.dataset.type==='led');led.classList.add('glow');drawDemoWires();
-   statusBox.textContent='Great! Your practice circuit has the key parts: LED, resistor and battery. The LED glow is a learning animation, not a measurement of a real wired circuit.';
-   robotTalk('Excellent work! Your practice circuit has an LED, a resistor and a battery. The resistor limits current and helps protect the LED. In a real circuit, check polarity and calculate the resistor value for the supply voltage. This page is a visual simulator.');
- }else{
-   statusBox.textContent='Not complete yet. Add an LED, a 1 kΩ resistor and a battery. A buzzer is optional for this first LED lesson.';
-   robotTalk('Let’s finish the basics together. I need to see an LED, a resistor and a battery in the workspace. The resistor is important because too much current can damage an LED.');
+ const hasLed=types.includes('led');
+ const hasRes=types.includes('resistor');
+ const hasBattery=types.includes('battery');
+
+ // Reset all LEDs first
+ document.querySelectorAll('.led-part').forEach(el=>{
+   el.classList.remove('glow','busted-led');
+   el.innerHTML=art.led;
+ });
+ wireLayer.innerHTML='';
+
+ if(hasLed && hasBattery && !hasRes){
+   // Circuit completed WITHOUT resistor -> LED BUSTED & SMOKING!
+   circuitState='busted';
+   document.querySelectorAll('.led-part').forEach(el=>{
+     el.classList.add('busted-led');
+     el.innerHTML=art.ledBusted;
+   });
+   drawDemoWires(true);
+   statusBox.className='status danger';
+   statusBox.textContent='💥 Oh no! The circuit completed without a resistor and the LED busted with smoke! Click "Check Circuit" in the middle of the screen to see why.';
+   checkCircuitBtn.classList.remove('safe');
+   checkCircuitBtn.textContent='🔍 Check Circuit';
+   centerCheckWrap.classList.add('visible');
+ } else if(hasLed && hasBattery && hasRes){
+   // Circuit completed WITH resistor -> LED GLOWS SAFELY!
+   circuitState='safe';
+   document.querySelectorAll('.led-part').forEach(el=>{
+     el.classList.add('glow');
+   });
+   drawDemoWires(false);
+   statusBox.className='status success';
+   statusBox.textContent='✨ Circuit completed safely! The LED is glowing properly. Click "Check Circuit" in the middle of the screen so Aara AI can explain how it works.';
+   checkCircuitBtn.classList.add('safe');
+   checkCircuitBtn.textContent='✓ Check Circuit';
+   centerCheckWrap.classList.add('visible');
+ } else {
+   // Circuit is NOT completed yet -> Keep Check Circuit button hidden
+   circuitState='incomplete';
+   centerCheckWrap.classList.remove('visible');
+   statusBox.className='status';
+   statusBox.textContent='Keep building! Add an LED and a 9V battery (with or without a resistor) to complete the circuit.';
  }
 }
-document.getElementById('checkCircuit').addEventListener('click',checkCircuit);
+
+/* When student clicks the big Check Circuit button in the middle */
+function onCheckCircuitClick(){
+ centerCheckWrap.classList.remove('visible');
+ robot.classList.remove('leave');
+ robot.classList.add('show');
+
+ if(circuitState==='busted'){
+   speech.innerHTML=`<b>🤖 Aara AI Diagnosis:</b><br><br>
+   <b>What happened:</b> Your LED busted and made smoke because the <b>9V battery</b> pushed too much voltage and current directly into it!<br><br>
+   <b>Why we need a resistor:</b> A standard LED can only handle around <b>2V to 3V</b>. Without a resistor, excess electrical current rushes through the LED, overheating and burning it out instantly.<br><br>
+   <b>How to fix it:</b> Add a <b>1 kΩ Resistor</b> from the Components panel! The resistor slows down the current and drops the extra voltage so your LED glows safely.`;
+ } else if(circuitState==='safe'){
+   speech.innerHTML=`<b>🤖 Aara AI Diagnosis:</b><br><br>
+   <b>Awesome job!</b> Your LED is glowing brightly without burning out.<br><br>
+   <b>Why this worked:</b> The <b>1 kΩ Resistor</b> reduces the excess voltage and limits the electrical current flowing from the <b>9V battery</b>, protecting the delicate LED inside.`;
+ }
+}
+
+checkCircuitBtn.addEventListener('click',onCheckCircuitClick);
+
 document.getElementById('newProject').addEventListener('click',()=>{
- items.forEach(el=>el.remove());items=[];selectedItem=null;document.getElementById('selectedNote').textContent='No component selected. Click a placed component to select it.';wireLayer.innerHTML='';robot.classList.remove('show','leave');speech.textContent='Fresh workbench! Drag an LED, a 1 kΩ resistor and a battery onto the breadboard to begin again.';statusBox.textContent='Workspace cleared. Start a new circuit whenever you are ready.';
+ items.forEach(el=>el.remove());
+ items=[];
+ selectedItem=null;
+ circuitState='incomplete';
+ centerCheckWrap.classList.remove('visible');
+ document.getElementById('selectedNote').textContent='No component selected. Click a placed component to select it.';
+ wireLayer.innerHTML='';
+ robot.classList.remove('show','leave');
+ speech.textContent='Fresh workbench! Drag an LED and a 9V battery onto the breadboard to see what happens.';
+ statusBox.className='status';
+ statusBox.textContent='Workspace cleared. Start a new circuit whenever you are ready.';
 });
-window.addEventListener('resize',()=>{if(items.length)wireLayer.innerHTML=''});
+
+window.addEventListener('resize',()=>{if(items.length && circuitState!=='incomplete')drawDemoWires(circuitState==='busted')});
 </script>
 </body>
 </html>
