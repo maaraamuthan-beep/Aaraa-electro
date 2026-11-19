@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circuit & Components - Obstacle Avoiding Robot | Aaraa Electro</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #eaf4ff; color: #0b2a5b; min-height: 100vh; }
+  
+  .topbar { background: linear-gradient(90deg, #0b3fbf, #00b4f0); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar a { color: #fff; text-decoration: none; font-weight: bold; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; }
+  .topbar h2 { font-size: 22px; }
+  
+  .banner { background: linear-gradient(135deg, #0b3fbf, #00b4f0); color: #fff; text-align: center; padding: 40px 20px; }
+  .banner h1 { font-size: 36px; text-shadow: 0 3px 8px rgba(0,0,0,0.3); }
+  .banner p { margin-top: 8px; font-size: 16px; color: #dff8ff; }
+  
+  .container { max-width: 1000px; margin: 30px auto; padding: 0 20px 100px; }
+  .card { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 28px; box-shadow: 0 6px 18px rgba(11,63,191,0.12); }
+  .card h2 { color: #0b3fbf; margin-bottom: 16px; }
+  
+  /* Circuit Diagram Box */
+  .circuit-box { width: 100%; height: 560px; border: 3px solid #4aa8ff; border-radius: 14px; background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: auto; padding: 15px; }
+  .circuit-box svg { width: 100%; max-width: 860px; height: auto; }
+
+  /* Components List Grid */
+  .comp-list { display: flex; flex-direction: column; gap: 14px; }
+  .comp-item { display: flex; align-items: center; justify-content: space-between; background: #f8fbff; border: 1px solid #d4e6ff; border-radius: 12px; padding: 12px 18px; transition: 0.2s; gap: 15px; }
+  .comp-item:hover { background: #eef6ff; border-color: #4aa8ff; }
+  
+  .comp-details h3 { color: #0b2a5b; font-size: 18px; margin-bottom: 4px; }
+  .comp-details p { color: #4a6b9c; font-size: 14px; }
+  
+  .mini-photo { width: 78px; height: 78px; flex: none; border: 2px solid #4aa8ff; border-radius: 10px; background: #fff; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; padding: 2px; }
+  .mini-photo img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; background: #f8fbff; }
+
+  /* Back Arrow (Left) to Page 2 */
+  .back-arrow { position: fixed; left: 18px; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b5be0; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transform: translateY(-50%); animation: shakeback 1s infinite; z-index: 10; }
+  
+  /* Next Arrow (Right) to Page 4 */
+  .next-arrow { position: fixed; right: 18px; top: 50%; width: 64px; height: 64px; border-radius: 50%; background: #0b3fbf; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transform: translateY(-50%); animation: shakenext 1s infinite; z-index: 10; }
+
+  @keyframes shakeback {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(-8px); }
+    50% { transform: translateY(-50%) translateX(6px); }
+    75% { transform: translateY(-50%) translateX(-4px); }
+  }
+  @keyframes shakenext {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(8px); }
+    50% { transform: translateY(-50%) translateX(-6px); }
+    75% { transform: translateY(-50%) translateX(4px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h2>Aaraa Electro</h2>
+  <a href="index1.html">&larr; Back to Search</a>
+</div>
+
+<div class="banner">
+  <h1>Circuit Diagram &amp; Components</h1>
+  <p>Wiring connections and required parts for the Obstacle Avoiding Robot with Servo Motor</p>
+</div>
+
+<div class="container">
+
+  <!-- Section 1: Circuit Diagram -->
+  <div class="card">
+    <h2>Circuit Diagram</h2>
+    <div class="circuit-box">
+      <svg viewBox="0 0 860 540" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+        <rect width="860" height="540" fill="#ffffff" rx="10"/>
+        <text x="430" y="26" font-size="16" font-weight="bold" fill="#0b3fbf" text-anchor="middle">Obstacle Avoiding Robot (Servo) - Wiring Diagram (Aaraa Electro)</text>
+
+        <!-- Motors -->
+        <rect x="170" y="55" width="75" height="42" rx="4" fill="#6c757d" stroke="#333" stroke-width="1.5"/>
+        <rect x="245" y="59" width="12" height="34" fill="#ffc107" stroke="#333" stroke-width="1"/>
+        <text x="207" y="80" font-size="10" fill="#fff" font-weight="bold" text-anchor="middle">Left Motor 1</text>
+
+        <rect x="170" y="120" width="75" height="42" rx="4" fill="#6c757d" stroke="#333" stroke-width="1.5"/>
+        <rect x="245" y="124" width="12" height="34" fill="#ffc107" stroke="#333" stroke-width="1"/>
+        <text x="207" y="145" font-size="10" fill="#fff" font-weight="bold" text-anchor="middle">Left Motor 2</text>
+
+        <rect x="615" y="55" width="75" height="42" rx="4" fill="#6c757d" stroke="#333" stroke-width="1.5"/>
+        <rect x="603" y="59" width="12" height="34" fill="#ffc107" stroke="#333" stroke-width="1"/>
+        <text x="652" y="80" font-size="10" fill="#fff" font-weight="bold" text-anchor="middle">Right Motor 1</text>
+
+        <rect x="615" y="120" width="75" height="42" rx="4" fill="#6c757d" stroke="#333" stroke-width="1.5"/>
+        <rect x="603" y="124" width="12" height="34" fill="#ffc107" stroke="#333" stroke-width="1"/>
+        <text x="652" y="145" font-size="10" fill="#fff" font-weight="bold" text-anchor="middle">Right Motor 2</text>
+
+        <!-- Motor Wires -->
+        <polyline points="257,68 310,68 310,115 355,115" fill="none" stroke="#f1c40f" stroke-width="3"/>
+        <polyline points="257,133 310,133 310,115" fill="none" stroke="#f1c40f" stroke-width="3"/>
+        <polyline points="257,84 295,84 295,142 355,142" fill="none" stroke="#2ecc71" stroke-width="3"/>
+        <polyline points="257,149 295,149 295,142" fill="none" stroke="#2ecc71" stroke-width="3"/>
+        <polyline points="603,68 550,68 550,115 505,115" fill="none" stroke="#2ecc71" stroke-width="3"/>
+        <polyline points="603,133 550,133 550,115" fill="none" stroke="#2ecc71" stroke-width="3"/>
+        <polyline points="603,84 565,84 565,142 505,142" fill="none" stroke="#f1c40f" stroke-width="3"/>
+        <polyline points="603,149 565,149 565,142" fill="none" stroke="#f1c40f" stroke-width="3"/>
+
+        <!-- L298N Driver -->
+        <text x="430" y="48" font-size="14" font-weight="bold" fill="#111" text-anchor="middle">L298N Motor Driver</text>
+        <rect x="365" y="58" width="130" height="125" rx="6" fill="#d32f2f" stroke="#7f0000" stroke-width="2"/>
+        <rect x="395" y="64" width="70" height="36" fill="#212529"/>
+        <text x="430" y="114" font-size="10" fill="#fff" font-weight="bold" text-anchor="middle">L298N</text>
+        <rect x="355" y="105" width="16" height="45" fill="#1976d2"/>
+        <rect x="489" y="105" width="16" height="45" fill="#1976d2"/>
+        <rect x="372" y="166" width="48" height="17" fill="#1976d2"/>
+        <rect x="428" y="170" width="60" height="13" fill="#212529"/>
+        <text x="433" y="167" font-size="7" fill="#ffeb3b" font-weight="bold" text-anchor="middle">ENA</text>
+        <text x="443" y="167" font-size="7" fill="#fff" text-anchor="middle">IN1</text>
+        <text x="453" y="167" font-size="7" fill="#fff" text-anchor="middle">IN2</text>
+        <text x="463" y="167" font-size="7" fill="#fff" text-anchor="middle">IN3</text>
+        <text x="473" y="167" font-size="7" fill="#fff" text-anchor="middle">IN4</text>
+        <text x="483" y="167" font-size="7" fill="#ffeb3b" font-weight="bold" text-anchor="middle">ENB</text>
+
+        <!-- Battery & Switch -->
+        <text x="105" y="185" font-size="13" font-weight="bold" fill="#111" text-anchor="middle">Switch</text>
+        <rect x="135" y="175" width="24" height="10" fill="#212529"/>
+        <rect x="65" y="220" width="110" height="165" rx="6" fill="#212529"/>
+        <text x="120" y="408" font-size="14" font-weight="bold" fill="#111" text-anchor="middle">7V to 12V Battery</text>
+        <polyline points="145,220 145,185" fill="none" stroke="#d32f2f" stroke-width="3"/>
+        <polyline points="154,180 380,180 380,183" fill="none" stroke="#d32f2f" stroke-width="3.5" stroke-dasharray="10,4"/>
+
+        <!-- Arduino Uno -->
+        <rect x="330" y="245" width="225" height="145" rx="8" fill="#00878f" stroke="#005f66" stroke-width="2"/>
+        <text x="442" y="305" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">ARDUINO</text>
+        <text x="442" y="323" font-size="14" font-weight="bold" fill="#dff8ff" text-anchor="middle">UNO R3</text>
+
+        <!-- Digital Pins Header -->
+        <rect x="395" y="250" width="142" height="14" fill="#212529"/>
+        <text x="433" y="274" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">10</text>
+        <text x="443" y="274" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">9</text>
+        <text x="453" y="274" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">8</text>
+        <text x="463" y="274" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">7</text>
+        <text x="473" y="274" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">6</text>
+        <text x="483" y="274" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">5</text>
+        <text x="503" y="274" font-size="8" fill="#ffeb3b" font-weight="bold" text-anchor="middle">3</text>
+
+        <!-- Analog Pins Header (A1, A2) -->
+        <rect x="465" y="370" width="60" height="14" fill="#212529"/>
+        <text x="480" y="364" font-size="8" fill="#ffeb3b" font-weight="bold" text-anchor="middle">A1</text>
+        <text x="498" y="364" font-size="8" fill="#ffeb3b" font-weight="bold" text-anchor="middle">A2</text>
+
+        <!-- WIRING: L298N TO ARDUINO -->
+        <polyline points="433,183 433,210 483,210 483,250" fill="none" stroke="#ff6f00" stroke-width="2.5"/>
+        <polyline points="443,183 443,216 473,216 473,250" fill="none" stroke="#1e88e5" stroke-width="2.5"/>
+        <polyline points="453,183 453,222 463,222 463,250" fill="none" stroke="#6d4c41" stroke-width="2.5"/>
+        <polyline points="463,183 463,228 453,228 453,250" fill="none" stroke="#fdd835" stroke-width="2.5"/>
+        <polyline points="473,183 473,234 443,234 443,250" fill="none" stroke="#43a047" stroke-width="2.5"/>
+        <polyline points="483,183 483,240 433,240 433,250" fill="none" stroke="#8e24aa" stroke-width="2.5"/>
+
+        <!-- POWER LINES -->
+        <polyline points="95,220 95,202 396,202 396,183" fill="none" stroke="#111" stroke-width="3"/>
+        <polyline points="412,183 412,226 270,226 270,426 572,426" fill="none" stroke="#d32f2f" stroke-width="3"/>
+
+        <!-- ULTRASONIC SENSOR (HC-SR04) -->
+        <rect x="255" y="438" width="110" height="54" rx="4" fill="#1e88e5" stroke="#0d47a1" stroke-width="1.5"/>
+        <circle cx="282" cy="465" r="14" fill="#cfd8dc" stroke="#37474f" stroke-width="2"/>
+        <circle cx="338" cy="465" r="14" fill="#cfd8dc" stroke="#37474f" stroke-width="2"/>
+        <text x="310" y="508" font-size="13" font-weight="bold" fill="#111" text-anchor="middle">Ultrasonic (Trig=A1, Echo=A2)</text>
+
+        <!-- Trig (A1) & Echo (A2) Wires -->
+        <polyline points="295,438 295,412 480,412 480,384" fill="none" stroke="#00acc1" stroke-width="2.5"/>
+        <polyline points="325,438 325,418 498,418 498,384" fill="none" stroke="#e91e63" stroke-width="2.5"/>
+
+        <!-- SERVO MOTOR (SG90) -->
+        <rect x="550" y="442" width="76" height="46" rx="4" fill="#1565c0" stroke="#0d47a1" stroke-width="1.5"/>
+        <rect x="538" y="454" width="12" height="22" fill="#90caf9" stroke="#0d47a1" stroke-width="1"/>
+        <text x="588" y="470" font-size="11" fill="#fff" font-weight="bold" text-anchor="middle">Servo Motor</text>
+        <text x="588" y="508" font-size="13" font-weight="bold" fill="#111" text-anchor="middle">Servo Signal = Pin 3</text>
+
+        <!-- Servo Signal Wire to Pin 3 -->
+        <polyline points="575,442 575,232 503,232 503,250" fill="none" stroke="#ff9800" stroke-width="2.5"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Section 2: Components List -->
+  <div class="card">
+    <h2>Required Components</h2>
+    <div class="comp-list">
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>1. Arduino Uno (with USB Cable)</h3>
+          <p>The main microcontroller brain that reads distance data, controls the servo, and drives motors.</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Arduino_Uno_-_R3.jpg" alt="Arduino Uno"></div>
+      </div>
+
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>2. Ultrasonic Sensor Module (HC-SR04)</h3>
+          <p>Measures distance to obstacles in front of the robot using ultrasonic sound waves.</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/HC-SR04_ultrasonic_sensor_module.jpg" alt="Ultrasonic Sensor HC-SR04"></div>
+      </div>
+
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>3. Micro Servo Motor (SG90)</h3>
+          <p>Rotates the ultrasonic sensor left and right to scan for clear paths.</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Tower_Pro_SG90_servo_motor.jpg" alt="SG90 Servo Motor"></div>
+      </div>
+
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>4. L298N Motor Driver Module</h3>
+          <p>Controls the speed and direction (forward, backward, left, right) of the DC motors.</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/L298N_Motor_Driver_Module.jpg" alt="L298N Driver"></div>
+      </div>
+
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>5. BO Gear Motors &amp; Wheels (2 or 4 Sets)</h3>
+          <p>Provides smooth drive movement and steering to the robot chassis.</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/9/90/BO_motor_with_wheel.jpg" alt="BO Motor"></div>
+      </div>
+
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>6. Robot Chassis &amp; Caster Wheel</h3>
+          <p>The base frame to mount the Arduino, motor driver, battery, motors, and servo bracket.</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/2WD_Robot_Smart_Car_Chassis.jpg" alt="Robot Chassis"></div>
+      </div>
+
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>7. Li-ion Batteries (2x 3.7V / 7V–12V) &amp; Battery Holder</h3>
+          <p>Powers the L298N motor driver and Arduino Uno.</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/18650_Li-ion_battery.jpg" alt="Battery"></div>
+      </div>
+
+      <div class="comp-item">
+        <div class="comp-details">
+          <h3>8. Jumper Wires &amp; On/Off Switch</h3>
+          <p>Male-to-Female and Male-to-Male jumper wires plus a power switch for easy control.</p>
+        </div>
+        <div class="mini-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Jumper_wires_arduino.jpg" alt="Jumper Wires"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation Arrows -->
+<a class="back-arrow" href="project2-page2.html" title="Previous Page">&#10094;</a>
+<a class="next-arrow" href="project2-page4.html" title="Next to Aaraa AI">&#10095;</a>
+
+</body>
+</html>
