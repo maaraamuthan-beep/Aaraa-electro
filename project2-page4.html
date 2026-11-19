@@ -70,6 +70,11 @@ textarea{min-height:112px;resize:vertical}
 .footer{position:relative;z-index:1;width:max-content;max-width:90%;margin:22px auto 0;background:#fff0c4;border:4px solid #ed9c32;border-radius:40px;padding:13px 25px;text-align:center;font-size:20px;font-weight:1000;box-shadow:0 5px 0 #a95b16}
 .parts{position:absolute;bottom:6px;left:2%;font-size:42px;letter-spacing:12px;animation:float 4s infinite}
 .note{font-size:12px;color:#526987;margin-top:10px}
+.page-pager{position:relative;z-index:3;width:min(1260px,94%);margin:24px auto 8px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.page-pager a{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border-radius:40px;background:linear-gradient(#159bff,#0060d9);color:#fff;text-decoration:none;font-size:17px;font-weight:900;box-shadow:0 5px 0 #0648a4;transition:transform .2s,filter .2s}
+.page-pager a:hover{transform:translateY(-3px);filter:brightness(1.08)}
+.page-pager .pager-arrow{font-size:25px;line-height:1}
+@media(max-width:520px){.page-pager a{padding:10px 14px;font-size:14px}.page-pager .pager-arrow{font-size:21px}}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
 @keyframes signFloat{0%,100%{translate:0 0}50%{translate:0 -6px}}
 @keyframes blink{0%,46%,50%,100%{transform:scaleY(1)}48%{transform:scaleY(.08)}}
@@ -119,38 +124,154 @@ textarea{min-height:112px;resize:vertical}
   </div>
 </section>
 </main>
+<nav class="page-pager" aria-label="Page navigation">
+  <a href="learn.html" aria-label="Go back to the previous page"><span class="pager-arrow" aria-hidden="true">←</span> Back</a>
+  <a href="components.html" aria-label="Go forward to Component Learning Hub">Next <span class="pager-arrow" aria-hidden="true">→</span></a>
+</nav>
 <div class="footer">🏆 Together we can make Aara Electro even better! ❤️</div>
 <div class="parts" aria-hidden="true">🔴　🟨　▰　⚡</div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-let selectedRating=0;
-const starButtons=[...document.querySelectorAll('.star')];
-starButtons.forEach(button=>button.addEventListener('click',()=>{
-  selectedRating=Number(button.dataset.rate);
-  starButtons.forEach((star,index)=>star.textContent=index<selectedRating?'★':'☆');
-}));
-const list=document.getElementById('feedbackList');
-const saved=JSON.parse(localStorage.getItem('aaraFeedbackWall')||'[]');
-saved.forEach(addCard);
-function addCard(item){
-  const card=document.createElement('article');card.className='comment';
-  const avatar=document.createElement('div');avatar.className='avatar';avatar.textContent='🤖';
-  const body=document.createElement('div');
-  const head=document.createElement('div');head.className='comment-head';
-  const name=document.createElement('b');name.textContent=item.name||'Student';
-  const stars=document.createElement('span');stars.className='stars';stars.textContent='★'.repeat(item.rating)+'☆'.repeat(5-item.rating);
-  const date=document.createElement('time');date.className='date';date.textContent=item.date;
-  const message=document.createElement('p');message.textContent=item.message;
-  head.append(name,stars,date);body.append(head,message);card.append(avatar,body);list.prepend(card);
-}
-document.getElementById('feedbackForm').addEventListener('submit',event=>{
-  event.preventDefault();
-  const message=document.getElementById('message').value.trim();
-  if(!message){alert('Please write your feedback first.');return;}
-  const item={name:document.getElementById('studentName').value.trim(),message,rating:selectedRating||5,date:new Date().toLocaleDateString()};
-  saved.unshift(item);localStorage.setItem('aaraFeedbackWall',JSON.stringify(saved));
-  addCard(item);event.target.reset();selectedRating=0;starButtons.forEach(star=>star.textContent='☆');
+/*
+  Aara Electro shared feedback setup:
+  1. Replace the two placeholders below with your Supabase Project URL
+     and the PUBLIC anon key (also called publishable/anon key).
+  2. Never put your service_role / secret key in this file.
+*/
+const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_PUBLIC_ANON_KEY";
+
+let selectedRating = 0;
+const starButtons = [...document.querySelectorAll(".star")];
+const list = document.getElementById("feedbackList");
+const form = document.getElementById("feedbackForm");
+const note = document.querySelector("#feedbackForm .note");
+
+const isConfigured =
+  SUPABASE_URL.startsWith("https://") &&
+  SUPABASE_ANON_KEY !== "YOUR_SUPABASE_PUBLIC_ANON_KEY";
+
+let supabase = null;
+
+starButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    selectedRating = Number(button.dataset.rate);
+    starButtons.forEach((star, index) => {
+      star.textContent = index < selectedRating ? "★" : "☆";
+    });
+  });
 });
+
+function addCard(item) {
+  const card = document.createElement("article");
+  card.className = "comment";
+
+  const avatar = document.createElement("div");
+  avatar.className = "avatar";
+  avatar.textContent = "🤖";
+
+  const body = document.createElement("div");
+  const head = document.createElement("div");
+  head.className = "comment-head";
+
+  const name = document.createElement("b");
+  name.textContent = item.name || "Student";
+
+  const rating = Math.min(5, Math.max(0, Number(item.rating) || 0));
+  const stars = document.createElement("span");
+  stars.className = "stars";
+  stars.textContent = "★".repeat(rating) + "☆".repeat(5 - rating);
+
+  const date = document.createElement("time");
+  date.className = "date";
+  const dateValue = item.created_at || item.date;
+  date.textContent = dateValue
+    ? new Date(dateValue).toLocaleDateString()
+    : "";
+
+  const message = document.createElement("p");
+  message.textContent = item.message || "";
+
+  head.append(name, stars, date);
+  body.append(head, message);
+  card.append(avatar, body);
+  list.appendChild(card);
+}
+
+async function loadFeedback() {
+  const { data, error } = await supabase
+    .from("feedback")
+    .select("id, name, message, rating, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Could not load feedback:", error.message);
+    note.textContent = "Could not load feedback. Please check your Supabase table and access policies.";
+    return;
+  }
+
+  list.replaceChildren();
+  data.forEach(addCard);
+}
+
+if (!isConfigured) {
+  note.textContent = "Shared feedback setup needed: add your Supabase Project URL and public anon key in this file.";
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    alert("Please connect Supabase first. Add your Project URL and public anon key in feedback.html.");
+  });
+} else {
+  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  loadFeedback();
+
+  // Keep the wall updated when another student posts feedback.
+  supabase
+    .channel("public-feedback-wall")
+    .on("postgres_changes",
+      { event: "INSERT", schema: "public", table: "feedback" },
+      payload => addCard(payload.new)
+    )
+    .subscribe();
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const name = document.getElementById("studentName").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    if (!message) {
+      alert("Please write your feedback first.");
+      return;
+    }
+
+    const submitButton = form.querySelector(".post");
+    submitButton.disabled = true;
+    submitButton.textContent = "Posting...";
+
+    const { error } = await supabase.from("feedback").insert({
+      name: name || "Student",
+      message,
+      rating: selectedRating || 5
+    });
+
+    submitButton.disabled = false;
+    submitButton.textContent = "➤ Post Message";
+
+    if (error) {
+      console.error("Could not post feedback:", error.message);
+      alert("Your feedback could not be posted. Please try again.");
+      return;
+    }
+
+    form.reset();
+    selectedRating = 0;
+    starButtons.forEach(star => star.textContent = "☆");
+    note.textContent = "Thank you! Your feedback has been shared.";
+    await loadFeedback();
+  });
+}
 </script>
 </body>
 </html>
