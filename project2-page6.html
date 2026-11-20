@@ -16,13 +16,15 @@ nav{display:flex;gap:14px;flex-wrap:wrap}
 nav a{color:#fff;text-decoration:none;font-weight:700;padding:8px 12px;border-radius:20px}
 nav a:hover{background:#fff;color:#07316f}
 
-.intro{background:linear-gradient(110deg,#0879d8,#11b9ee 55%,#2386e8);color:#fff;text-align:center;padding:22px 16px}
+.back-arrow{position:fixed;left:18px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#1976d2,#005bb5);border:3px solid #fff;color:#fff;font-size:26px;font-weight:900;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 8px 20px rgba(4,42,110,.38);z-index:90;transition:.2s}
+.back-arrow:hover{transform:translateY(-50%) scale(1.1)}
+
+.next-arrow{position:fixed;right:18px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#1976d2,#005bb5);border:3px solid #fff;color:#fff;font-size:26px;font-weight:900;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 8px 20px rgba(4,42,110,.38);z-index:90;transition:.2s}
+.next-arrow:hover{transform:translateY(-50%) scale(1.1)}
+
+.intro{background:linear-gradient(110deg,#0879d8,#11b9ee 55%,#2386e8);color:#fff;text-align:center;padding:22px 90px}
 .intro h1{font-size:clamp(26px,4vw,40px);margin-bottom:8px}
 .intro p{font-size:16px}
-
-.nav-arrows{position:fixed;top:110px;right:18px;display:flex;flex-direction:column;gap:12px;z-index:70}
-.arrow-btn{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#1976d2,#005bb5);border:3px solid #fff;color:#fff;font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 8px 20px rgba(4,42,110,.38);transition:.2s}
-.arrow-btn:hover{transform:scale(1.08);filter:brightness(1.1)}
 
 main{max-width:1400px;margin:auto;padding:18px}
 .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
@@ -31,7 +33,7 @@ button{font:inherit;cursor:pointer}
 .blue-btn{border:0;border-radius:24px;background:#0756b8;color:#fff;font-weight:800;padding:12px 20px;box-shadow:0 4px 0 #063d83}
 .blue-btn:hover{filter:brightness(1.08)}
 
-.workspace{display:grid;grid-template-columns:250px minmax(0,1fr) 280px;gap:14px}
+.workspace{display:grid;grid-template-columns:260px minmax(0,1fr) 280px;gap:14px}
 .panel{background:#fff;border:1px solid #d7e6f4;border-radius:16px;padding:14px;box-shadow:0 5px 18px #174b7910}
 .panel h3{color:#0756b8;margin-bottom:10px}
 
@@ -39,10 +41,10 @@ button{font:inherit;cursor:pointer}
 .part-btn:hover{transform:translateY(-4px) scale(1.02);border-color:#1685ed;background:#eaf6ff;box-shadow:0 8px 18px rgba(8,117,223,.18)}
 .part-btn:active{transform:scale(.98)}
 .part-btn .icon{font-size:22px}
-.part-btn:after{content:"";position:absolute;left:-60%;top:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 2.8s infinite}
+.part-btn:after{content:"";position:absolute;left:-60%;top:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 2.8s infinite;pointer-events:none}
 @keyframes shine{0%{left:-60%}55%{left:130%}100%{left:130%}}
 
-.check-btn{width:100%;margin-top:14px;border:0;border-radius:40px;padding:16px;font-size:17px;font-weight:900;color:#fff;background:linear-gradient(135deg,#ff5722,#d81b60);box-shadow:0 6px 0 #8e0038;animation:pop 1.4s ease-in-out infinite}
+.check-btn{width:100%;margin-top:16px;border:0;border-radius:40px;padding:18px;font-size:18px;font-weight:900;color:#fff;background:linear-gradient(135deg,#ff5722,#d81b60);box-shadow:0 6px 0 #8e0038;animation:pop 1.4s ease-in-out infinite;z-index:10;position:relative}
 .check-btn:hover{filter:brightness(1.08)}
 @keyframes pop{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 
@@ -92,7 +94,7 @@ button{font:inherit;cursor:pointer}
 .wire-handle.active{transform:scale(1.25);outline:3px solid #ffd54d;z-index:9}
 .wire-handle.snapped{box-shadow:0 0 0 4px #00e676,0 3px 8px rgba(0,0,0,.4)}
 
-.actions{display:flex;gap:8px;margin-top:10px}
+.actions{display:flex;gap:8px;margin-top:12px}
 .actions button{flex:1;border:0;border-radius:10px;padding:10px;font-size:12px;font-weight:800}
 .remove-btn{background:#ffe8e8;color:#a32222}
 .rotate-btn{background:#e8f3ff;color:#0756b8}
@@ -101,7 +103,7 @@ button{font:inherit;cursor:pointer}
 .jumper-alert.show{display:flex}
 .jumper-alert button{pointer-events:auto;background:linear-gradient(135deg,#ff9800,#ef6c00);border:3px solid #fff;color:#fff;border-radius:24px;padding:20px 32px;font-size:clamp(18px,2.4vw,25px);font-weight:900;box-shadow:0 16px 38px rgba(239,108,0,.42)}
 
-.robot-modal-backdrop{position:fixed;inset:0;background:rgba(8,24,48,.65);display:none;align-items:center;justify-content:center;z-index:80;padding:18px}
+.robot-modal-backdrop{position:fixed;inset:0;background:rgba(8,24,48,.65);display:none;align-items:center;justify-content:center;z-index:100;padding:18px}
 .robot-modal-backdrop.show{display:flex}
 .robot-modal{width:min(600px,96vw);background:#fff;border:4px solid #0756b8;border-radius:24px;padding:24px;text-align:center}
 .robot-modal.danger{border-color:#d32f2f}
@@ -122,18 +124,23 @@ button{font:inherit;cursor:pointer}
 
 .robot-card{background:#f0f8ff;border:1px solid #cfe4f8;border-radius:14px;padding:12px}
 .robot{font-size:52px;text-align:center;display:block}
-.speech{background:#fff;border:1px solid #dbe9f5;border-radius:12px;padding:10px;margin-top:8px;font-size:13px;line-height:1.5;min-height:100px;font-weight:600}
+.speech{background:#fff;border:1px solid #dbe9f5;border-radius:12px;padding:10px;margin-top:8px;font-size:13px;line-height:1.5;min-height:110px;font-weight:600}
 
 .glow{filter:drop-shadow(0 0 8px #ffdf35) drop-shadow(0 0 15px #ffb900)!important;animation:pulse .8s ease-in-out infinite alternate}
 @keyframes pulse{to{filter:drop-shadow(0 0 15px #ffe66d) drop-shadow(0 0 25px #ffb900)}}
 .busted{animation:shake .35s ease-in-out 2}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px) rotate(-6deg)}75%{transform:translateX(5px) rotate(6deg)}}
-.spark{position:absolute;width:8px;height:8px;border-radius:50%;background:#ffd54d;pointer-events:none;animation:spark .7s ease-out forwards}
-@keyframes spark{0%{transform:scale(1);opacity:1}100%{transform:scale(3);opacity:0}}
+.spark{position:absolute;width:10px;height:10px;border-radius:50%;background:#ffd54d;pointer-events:none;animation:spark .7s ease-out forwards}
+@keyframes spark{0%{transform:scale(1);opacity:1}100%{transform:scale(3.5);opacity:0}}
 .smoke{position:absolute;left:50%;top:-8px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#7a828a 20%,rgba(120,130,140,0) 75%);animation:rise 1.8s ease-out infinite;pointer-events:none}
 .smoke.s2{animation-delay:.6s;left:35%}
 .smoke.s3{animation-delay:1.2s;left:65%}
 @keyframes rise{0%{transform:translate(-50%,0) scale(.6);opacity:.9}100%{transform:translate(-50%,-55px) scale(2.1);opacity:0}}
+
+.music{position:absolute;right:-40px;top:20%;font-size:22px;color:#0875df;animation:musicFloat 1.6s ease-in-out infinite}
+.music.m2{top:55%;animation-delay:.4s}
+.music.m3{top:80%;animation-delay:.8s}
+@keyframes musicFloat{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-14px);opacity:1}}
 
 .sound{position:absolute;right:-34px;top:50%;transform:translateY(-50%);display:flex;gap:4px}
 .wave{border:3px solid #0875df;border-left-color:transparent;border-top-color:transparent;border-bottom-color:transparent;border-radius:50%;transform:rotate(-45deg);animation:wave 1s ease-in-out infinite}
@@ -145,13 +152,13 @@ button{font:inherit;cursor:pointer}
 footer{text-align:center;color:#60758b;padding:18px;font-size:13px}
 
 @media(max-width:1100px){
-.workspace{grid-template-columns:220px minmax(0,1fr)}
+.workspace{grid-template-columns:230px minmax(0,1fr)}
 .right-panel{grid-column:1/-1}
 }
 @media(max-width:700px){
 .workspace{grid-template-columns:1fr}
 .workbench{min-height:560px}
-.nav-arrows{top:130px;right:10px}
+.intro{padding:22px 70px}
 }
 </style>
 </head>
@@ -168,10 +175,8 @@ footer{text-align:center;color:#60758b;padding:18px;font-size:13px}
 </nav>
 </header>
 
-<div class="nav-arrows">
-<a class="arrow-btn" href="project2-page5.html" title="Previous page">←</a>
-<a class="arrow-btn" href="project2-page7.html" title="Next page">→</a>
-</div>
+<a class="back-arrow" href="project2-page5.html" title="Back">←</a>
+<a class="next-arrow" href="project2-page7.html" title="Next">→</a>
 
 <section class="intro">
 <h1>Circuit Builder</h1>
@@ -197,7 +202,7 @@ footer{text-align:center;color:#60758b;padding:18px;font-size:13px}
 <button class="part-btn" data-part="switch"><span class="icon">🔘</span> Switch</button>
 <button class="part-btn" data-part="jumper"><span class="icon">🔌</span> Jumper Wires</button>
 
-<button class="check-btn" id="checkCircuit">🔍 Check Circuit</button>
+<button type="button" class="check-btn" id="checkCircuitBtn" onclick="checkCircuit()">🔍 Check Circuit</button>
 
 <div class="actions">
 <button class="remove-btn" id="removeSelected">✕ Remove selected</button>
@@ -350,6 +355,9 @@ buzzerSound:`<svg viewBox="0 0 76 76">
 </svg>
 <span class="term-pin term-pos" style="left:16px;bottom:-2px">+</span>
 <span class="term-pin term-neg" style="right:16px;bottom:-2px">−</span>
+<div class="music">♪</div>
+<div class="music m2">♫</div>
+<div class="music m3">♪</div>
 <div class="sound"><span class="wave w1"></span><span class="wave w2"></span><span class="wave w3"></span></div>`,
 
 motor:`<svg viewBox="0 0 96 82">
@@ -778,7 +786,7 @@ load.classList.add('glow');
 working=true;
 circuitState='working';
 circuitReason='Congratulations! Your buzzer circuit is complete and working.';
-circuitScience='The resistor limits the current, and the closed circuit allows the buzzer to produce sound.';
+circuitScience='The resistor limits the current, and the closed circuit allows the buzzer to produce musical sound symbols and sound waves.';
 }
 }
 
@@ -819,7 +827,7 @@ return;
 if(working){
 statusBox.className='status success';
 statusBox.textContent=circuitReason;
-speech.innerHTML='<b>🤖 Aara AI:</b><br>Circuit complete! Well done!';
+speech.innerHTML='<b>🤖 Aara AI:</b><br>Congratulations! Your circuit is correct!';
 openModal('success');
 return;
 }
@@ -862,7 +870,7 @@ addPart(btn.dataset.part,r.left+r.width*0.55,r.top+r.height*0.40);
 
 jumperAlertBtn.addEventListener('click',spawnWires);
 
-document.getElementById('checkCircuit').addEventListener('click',checkCircuit);
+document.getElementById('checkCircuitBtn').addEventListener('click',checkCircuit);
 
 document.addEventListener('keydown',e=>{
 if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))return;
