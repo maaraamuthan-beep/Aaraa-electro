@@ -44,17 +44,15 @@ button{font:inherit;cursor:pointer}
 .part-btn:after{content:"";position:absolute;left:-60%;top:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 2.8s infinite;pointer-events:none}
 @keyframes shine{0%{left:-60%}55%{left:130%}100%{left:130%}}
 
-.check-btn{display:none;width:100%;margin-top:16px;border:0;border-radius:40px;padding:18px;font-size:18px;font-weight:900;color:#fff;background:linear-gradient(135deg,#e53935,#b71c1c);box-shadow:0 6px 0 #7f0000;animation:pop 1.4s ease-in-out infinite;z-index:10;position:relative}
-.check-btn.visible{display:block}
-.check-btn.safe{background:linear-gradient(135deg,#0b8a55,#12b872);box-shadow:0 6px 0 #065a37}
-.check-btn:hover{filter:brightness(1.08)}
-@keyframes pop{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-
 .hint{font-size:12px;color:#5b7088;line-height:1.5;margin-top:12px}
 .note{font-size:12px;color:#47627c;line-height:1.4;margin-top:8px}
 
 .workbench{position:relative;min-height:660px;overflow:hidden;border:1px solid #d6e1eb;border-radius:16px;background:#fff;background-image:linear-gradient(#dce6ef 1px,transparent 1px),linear-gradient(90deg,#dce6ef 1px,transparent 1px);background-size:24px 24px}
-.bench-label{position:absolute;top:10px;left:12px;background:#ffffffdf;border-radius:18px;padding:6px 12px;font-size:12px;font-weight:800;color:#64778c;z-index:5}
+.bench-top-bar{position:absolute;top:10px;left:12px;right:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;z-index:20;pointer-events:none}
+.bench-label{background:#ffffffef;border:1px solid #d6e1eb;border-radius:18px;padding:7px 13px;font-size:12px;font-weight:800;color:#64778c;pointer-events:auto}
+.completed-btn{pointer-events:auto;border:2px solid #fff;border-radius:24px;padding:10px 20px;font-size:14px;font-weight:900;color:#fff;background:linear-gradient(135deg,#0875df,#0052a3);box-shadow:0 5px 14px rgba(8,117,223,.38);transition:.18s}
+.completed-btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.completed-btn:active{transform:scale(.97)}
 
 .breadboard{position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);width:min(78%,680px);height:270px;border-radius:16px;background:linear-gradient(145deg,#fff,#e9edf0);border:1px solid #cbd2d8;box-shadow:0 12px 22px #26394a30}
 .board-top{position:absolute;inset:10px;border-radius:10px;background:linear-gradient(145deg,#fdfefe,#e9edef)}
@@ -100,6 +98,15 @@ button{font:inherit;cursor:pointer}
 .actions button{flex:1;border:0;border-radius:10px;padding:10px;font-size:12px;font-weight:800}
 .remove-btn{background:#ffe8e8;color:#a32222}
 .rotate-btn{background:#e8f3ff;color:#0756b8}
+
+/* Center Big Check Circuit Overlay */
+.center-check-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:85;background:rgba(8,24,48,.35);padding:16px}
+.center-check-overlay.show{display:flex}
+.check-btn-center{border:4px solid #fff;border-radius:50px;padding:24px 48px;font-size:clamp(22px,3.2vw,34px);font-weight:900;color:#fff;background:linear-gradient(135deg,#e53935,#b71c1c);box-shadow:0 16px 38px rgba(211,47,47,.5),0 7px 0 #7f0000;animation:popIn .35s ease,pop 1.4s ease-in-out infinite;letter-spacing:.5px}
+.check-btn-center.safe{background:linear-gradient(135deg,#0b8a55,#12b872);box-shadow:0 16px 38px rgba(11,138,85,.5),0 7px 0 #065a37}
+.check-btn-center:hover{filter:brightness(1.08);transform:scale(1.04)}
+@keyframes popIn{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes pop{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
 .jumper-alert{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:60;pointer-events:none}
 .jumper-alert.show{display:flex}
@@ -191,7 +198,7 @@ footer{text-align:center;color:#60758b;padding:18px;font-size:13px}
 
 <section class="intro">
 <h1>Circuit Builder</h1>
-<p>Build a circuit, connect the wires, then press <b>Check Circuit</b> to test it.</p>
+<p>Build a circuit, connect the wires, then press <b>Completed the Circuit</b> to check it.</p>
 </section>
 
 <main>
@@ -216,8 +223,6 @@ footer{text-align:center;color:#60758b;padding:18px;font-size:13px}
 <button class="part-btn" data-part="switch"><span class="icon">🔘</span> Switch</button>
 <button class="part-btn" data-part="jumper"><span class="icon">🔌</span> Jumper Wires</button>
 
-<button type="button" class="check-btn" id="checkCircuitBtn" onclick="openReport()">🔍 Check Circuit</button>
-
 <div class="actions">
 <button class="remove-btn" id="removeSelected">✕ Remove selected</button>
 <button class="rotate-btn" id="rotateSelected">↻ Rotate</button>
@@ -233,7 +238,10 @@ footer{text-align:center;color:#60758b;padding:18px;font-size:13px}
 </aside>
 
 <section class="workbench" id="workbench">
+<div class="bench-top-bar">
 <div class="bench-label">WORK AREA • Connect + (Red) and − (Black)</div>
+<button type="button" class="completed-btn" id="completedCircuitBtn">✅ Completed the Circuit</button>
+</div>
 
 <div class="breadboard">
 <div class="board-top"></div>
@@ -252,15 +260,20 @@ footer{text-align:center;color:#60758b;padding:18px;font-size:13px}
 <div class="robot-card">
 <span class="robot">🤖</span>
 <div class="speech" id="speech">
-Hi! Add a <b>9V Battery</b>, <b>Jumper Wires</b>, and an <b>LED</b>, <b>Buzzer</b>, or <b>DC Motor</b>. Connect the wires to test your circuit!
+Hi! Add a <b>9V Battery</b>, <b>Jumper Wires</b>, and an <b>LED</b>, <b>Buzzer</b>, or <b>DC Motor</b>. When finished, click <b>Completed the Circuit</b> at the top of the work area!
 </div>
 </div>
 
-<div class="status" id="status">Ready! Build your circuit to reveal Check Circuit.</div>
+<div class="status" id="status">Ready! Build your circuit and click "Completed the Circuit".</div>
 </aside>
 
 </section>
 </main>
+
+<!-- Center Check Circuit Button -->
+<div class="center-check-overlay" id="centerCheckOverlay">
+<button type="button" class="check-btn-center" id="checkCircuitBtn">🔍 Check Circuit</button>
+</div>
 
 <div class="jumper-alert" id="jumperAlert">
 <button type="button" id="jumperAlertBtn">🔌 Connect with jumper wire!</button>
@@ -302,6 +315,8 @@ const modalBackdrop=document.getElementById('modalBackdrop');
 const robotModal=document.getElementById('robotModal');
 const modalTitle=document.getElementById('modalTitle');
 const modalBody=document.getElementById('modalBody');
+const completedCircuitBtn=document.getElementById('completedCircuitBtn');
+const centerCheckOverlay=document.getElementById('centerCheckOverlay');
 const checkCircuitBtn=document.getElementById('checkCircuitBtn');
 
 const holes=document.getElementById('holes');
@@ -429,7 +444,7 @@ return pts;
 
 function findSnap(x,y){
 let best=null;
-let bestDist=40;
+let bestDist=45;
 
 items.forEach(el=>{
 getTerminalPoints(el).forEach(pt=>{
@@ -470,7 +485,6 @@ btn.classList.toggle('is-on',!on);
 const knob=el.querySelector('.knob');
 knob.setAttribute('x',!on?'48':'20');
 knob.setAttribute('fill',!on?'#00e676':'#90a4ae');
-evaluateCircuit();
 });
 }else{
 el.innerHTML=art[type];
@@ -490,8 +504,6 @@ selectItem(el);
 if(items.some(i=>i.dataset.type==='battery')&&items.some(i=>['led','buzzer','motor'].includes(i.dataset.type))&&wires.length===0){
 jumperAlert.classList.add('show');
 }
-
-evaluateCircuit();
 }
 
 function makeMovable(el){
@@ -510,9 +522,8 @@ el.setPointerCapture(e.pointerId);
 function move(ev){
 const r=workbench.getBoundingClientRect();
 el.style.left=Math.max(8,Math.min(r.width-el.offsetWidth-8,left+ev.clientX-startX))+'px';
-el.style.top=Math.max(50,Math.min(r.height-el.offsetHeight-12,top+ev.clientY-startY))+'px';
+el.style.top=Math.max(55,Math.min(r.height-el.offsetHeight-12,top+ev.clientY-startY))+'px';
 updateWireSnaps();
-evaluateCircuit();
 }
 
 function up(){
@@ -546,15 +557,16 @@ jumperAlert.classList.remove('show');
 
 const w=workbench.clientWidth;
 const h=workbench.clientHeight;
+const off=wires.length*12;
 
-createWire('red',w*0.25,h*0.30,w*0.45,h*0.30);
-createWire('black',w*0.25,h*0.70,w*0.45,h*0.70);
+createWire('red',w*0.22,h*0.26+off,w*0.42,h*0.26+off);
+createWire('red',w*0.54,h*0.26+off,w*0.74,h*0.26+off);
+createWire('black',w*0.25,h*0.74-off,w*0.55,h*0.74-off);
 
 statusBox.className='status';
-statusBox.textContent='Red (+) and Black (−) wires added. Connect them to complete your circuit.';
+statusBox.textContent='Jumper wires added! Connect the terminals, then click "Completed the Circuit" at the top.';
 
 updateWireSnaps();
-evaluateCircuit();
 }
 
 function createWire(color,x1,y1,x2,y2){
@@ -602,7 +614,6 @@ wire.x2=nx;wire.y2=ny;
 
 drawWire(wire);
 updateWireSnaps();
-evaluateCircuit();
 });
 });
 
@@ -654,15 +665,7 @@ queue.push(next);
 return seen;
 }
 
-function openReport(){
-const mode=circuitState==='working'?'success':(circuitState==='overcurrent'||circuitState==='short')?'danger':'';
-robotModal.className='robot-modal'+(mode?' '+mode:'');
-modalTitle.textContent=mode==='danger'?'Why Did It Burst?':mode==='success'?'Congratulations! You Did It Right':'Aara AI Circuit Report';
-modalBody.innerHTML=`<p><b>Problem / Result:</b> ${circuitReason}</p><p><b>Scientific Explanation:</b> ${circuitScience}</p><div class="solution-box"><b>Solution:</b> ${circuitSolution}</div>`;
-modalBackdrop.classList.add('show');
-}
-
-function evaluateCircuit(){
+function evaluateAndShowCenterCheck(){
 items.forEach(el=>{
 el.classList.remove('glow','busted');
 
@@ -683,17 +686,17 @@ const resistors=items.filter(i=>i.dataset.type==='resistor');
 
 if(!battery||!loads.length){
 circuitState='incomplete';
-checkCircuitBtn.classList.remove('visible','safe');
-statusBox.className='status';
-statusBox.textContent='Add a 9V battery and an LED, buzzer, or DC motor to build your circuit.';
+circuitReason='Add a 9V battery and an LED, buzzer, or DC motor before completing the circuit.';
+circuitSolution='Place a 9V battery, a load (LED, buzzer, or DC motor), and jumper wires on the work area.';
+circuitScience='A circuit needs a power source and at least one component that uses electricity.';
+checkCircuitBtn.classList.remove('safe');
+centerCheckOverlay.classList.add('show');
 return;
 }
 
-const allTerminals=[];
 items.forEach(el=>{
 getTerminalPoints(el).forEach(t=>{
 t.links=[];
-allTerminals.push(t);
 });
 });
 
@@ -737,28 +740,19 @@ circuitState='short';
 circuitReason='The battery positive and negative terminals are connected directly. This is a short circuit.';
 circuitSolution='Remove the direct wire between + and − and route current through a resistor and load.';
 circuitScience='A direct low-resistance path between + and − causes a sudden surge of current.';
-
-checkCircuitBtn.classList.add('visible');
 checkCircuitBtn.classList.remove('safe');
-statusBox.className='status danger';
-statusBox.textContent=circuitReason+' Click Check Circuit!';
-speech.innerHTML='<b>🤖 Aara AI:</b><br>Short circuit detected! Click <b>Check Circuit</b> to see what happened.';
+centerCheckOverlay.classList.add('show');
 return;
 }
 
 const switchOff=switches.some(s=>s.dataset.on!=='true');
-
 if(switchOff){
 circuitState='open';
 circuitReason='The switch is OFF, so the circuit is open.';
 circuitSolution='Click OFF/ON on the switch to turn it ON and close the circuit.';
 circuitScience='An open switch leaves a gap in the loop so current cannot flow.';
-
-checkCircuitBtn.classList.add('visible');
 checkCircuitBtn.classList.remove('safe');
-statusBox.className='status warn';
-statusBox.textContent=circuitReason;
-speech.innerHTML='<b>🤖 Aara AI:</b><br>Switch is <b>OFF</b>. Toggle it to <b>ON</b> to complete the circuit.';
+centerCheckOverlay.classList.add('show');
 return;
 }
 
@@ -790,9 +784,9 @@ load.innerHTML=art.ledBusted;
 load.classList.add('busted');
 danger=true;
 circuitState='overcurrent';
-circuitReason='The LED burst because it received 9V without a resistor to decrease the voltage.';
+circuitReason='The LED burst with spark and smoke because it received 9V without a resistor!';
 circuitSolution='Use a resistor to decrease the voltage and limit current, then connect + and − properly.';
-circuitScience='A standard LED needs around 1V–2V; 9V without a resistor drives too much current and burns it out.';
+circuitScience='A standard LED needs only ~1V–2V; 9V without a resistor drives excessive current and burns it out.';
 }else if(reverse){
 load.innerHTML=art.ledBusted;
 load.classList.add('busted');
@@ -817,7 +811,7 @@ load.innerHTML=art.buzzerBusted;
 load.classList.add('busted');
 danger=true;
 circuitState='overcurrent';
-circuitReason='The buzzer burst because it received 9V directly without a resistor to decrease the voltage.';
+circuitReason='The buzzer burst with spark and smoke because it received 9V directly without a resistor!';
 circuitSolution='Add a resistor to decrease the voltage and protect the buzzer, then connect + and −.';
 circuitScience='Too much current on a 9V supply without a resistor overloads and damages the buzzer.';
 }else if(reverse){
@@ -867,32 +861,44 @@ circuitScience=normal
 });
 
 if(danger){
-checkCircuitBtn.classList.add('visible');
 checkCircuitBtn.classList.remove('safe');
+centerCheckOverlay.classList.add('show');
 statusBox.className='status danger';
-statusBox.textContent=circuitReason+' Click Check Circuit!';
-speech.innerHTML='<b>🤖 Aara AI:</b><br>Component burst! Click <b>Check Circuit</b> to see why and how to fix it.';
+statusBox.textContent=circuitReason;
 return;
 }
 
 if(working){
-checkCircuitBtn.classList.add('visible','safe');
+checkCircuitBtn.classList.add('safe');
+centerCheckOverlay.classList.add('show');
 statusBox.className='status success';
-statusBox.textContent=circuitReason+' Click Check Circuit!';
-speech.innerHTML='<b>🤖 Aara AI:</b><br>Circuit completed! Click the green <b>Check Circuit</b> button.';
+statusBox.textContent=circuitReason;
 return;
 }
 
 circuitState='incomplete';
-checkCircuitBtn.classList.remove('visible','safe');
-statusBox.className='status';
-statusBox.textContent='Connect the red (+) and black (−) wire tips onto the terminals to complete the circuit.';
+circuitReason='Some wire ends are not snapped onto the + and − terminals yet.';
+circuitSolution='Drag each red (+) and black (−) wire tip right onto the + and − pins until they glow green, then try again.';
+circuitScience='Electricity needs an unbroken closed loop from + back to −.';
+checkCircuitBtn.classList.remove('safe');
+centerCheckOverlay.classList.add('show');
 }
+
+completedCircuitBtn.addEventListener('click',evaluateAndShowCenterCheck);
+
+checkCircuitBtn.addEventListener('click',()=>{
+centerCheckOverlay.classList.remove('show');
+const mode=circuitState==='working'?'success':(circuitState==='overcurrent'||circuitState==='short')?'danger':'';
+robotModal.className='robot-modal'+(mode?' '+mode:'');
+modalTitle.textContent=mode==='danger'?'Why Did It Burst?':mode==='success'?'Congratulations! You Did It Right':'Aara AI Circuit Report';
+modalBody.innerHTML=`<p><b>Problem / Result:</b> ${circuitReason}</p><p><b>Scientific Explanation:</b> ${circuitScience}</p><div class="solution-box"><b>Solution:</b> ${circuitSolution}</div>`;
+modalBackdrop.classList.add('show');
+});
 
 document.querySelectorAll('.part-btn').forEach(btn=>{
 btn.addEventListener('click',()=>{
 const r=workbench.getBoundingClientRect();
-addPart(btn.dataset.part,r.left+r.width*0.55,r.top+r.height*0.35);
+addPart(btn.dataset.part,r.left+r.width*0.55,r.top+r.height*0.42);
 });
 });
 
@@ -908,8 +914,9 @@ modalBackdrop.classList.remove('show');
 
 function resetProject(showTip=false){
 modalBackdrop.classList.remove('show');
+centerCheckOverlay.classList.remove('show');
 jumperAlert.classList.remove('show');
-checkCircuitBtn.classList.remove('visible','safe');
+checkCircuitBtn.classList.remove('safe');
 items.forEach(i=>i.remove());
 items=[];
 wires.forEach(w=>{w.path.remove();w.end1.remove();w.end2.remove();});
@@ -921,8 +928,8 @@ circuitReason='';
 circuitSolution='';
 circuitScience='';
 statusBox.className='status';
-statusBox.textContent='Ready! Build your circuit to reveal Check Circuit.';
-speech.innerHTML='Hi! Add a <b>9V Battery</b>, <b>Jumper Wires</b>, and an <b>LED</b>, <b>Buzzer</b>, or <b>DC Motor</b>. Connect the wires to test your circuit!';
+statusBox.textContent='Ready! Build your circuit and click "Completed the Circuit".';
+speech.innerHTML='Hi! Add a <b>9V Battery</b>, <b>Jumper Wires</b>, and an <b>LED</b>, <b>Buzzer</b>, or <b>DC Motor</b>. When finished, click <b>Completed the Circuit</b> at the top of the work area!';
 document.getElementById('selectedNote').textContent='Click a component or wire tip to select it. Use arrow keys to move it.';
 if(showTip){
 resistorTip.classList.add('show');
@@ -946,7 +953,6 @@ wire.end2.remove();
 wires=wires.filter(w=>w!==wire);
 activeWireEnd=null;
 updateWireSnaps();
-evaluateCircuit();
 return;
 }
 if(!selectedItem)return;
@@ -954,7 +960,6 @@ selectedItem.remove();
 items=items.filter(i=>i!==selectedItem);
 selectedItem=null;
 updateWireSnaps();
-evaluateCircuit();
 });
 
 document.getElementById('rotateSelected').addEventListener('click',()=>{
@@ -964,7 +969,6 @@ const next=(cur+90)%360;
 selectedItem.dataset.rot=String(next);
 selectedItem.style.transform=`rotate(${next}deg)`;
 updateWireSnaps();
-evaluateCircuit();
 });
 
 document.addEventListener('keydown',e=>{
@@ -985,7 +989,6 @@ ny=Math.max(55,Math.min(r.height-15,ny));
 if(n===1){wire.x1=nx;wire.y1=ny;}else{wire.x2=nx;wire.y2=ny;}
 drawWire(wire);
 updateWireSnaps();
-evaluateCircuit();
 }else if(selectedItem){
 e.preventDefault();
 let nx=parseFloat(selectedItem.style.left)||0;
@@ -995,9 +998,8 @@ if(e.key==='ArrowDown')ny+=step;
 if(e.key==='ArrowLeft')nx-=step;
 if(e.key==='ArrowRight')nx+=step;
 selectedItem.style.left=Math.max(8,Math.min(r.width-selectedItem.offsetWidth-8,nx))+'px';
-selectedItem.style.top=Math.max(50,Math.min(r.height-selectedItem.offsetHeight-12,ny))+'px';
+selectedItem.style.top=Math.max(55,Math.min(r.height-selectedItem.offsetHeight-12,ny))+'px';
 updateWireSnaps();
-evaluateCircuit();
 }
 });
 </script>
