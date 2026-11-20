@@ -361,8 +361,8 @@ footer{position:relative;z-index:5;text-align:center;color:#9bb0d8;padding:14px;
       <div class="mini-bot" id="hudBot">🤖</div>
       <div>
         <div class="q-label" id="qCategory">LEVEL 1 • BASIC CIRCUIT</div>
-        <div class="q-text" id="qText">Catch components for a Safe 9V LED Circuit!</div>
-        <div class="q-sub" id="qHint">Move the basket below using Mouse, Touch, or Arrow Keys (← / →).</div>
+        <div class="q-text" id="qText">Safe 9V LED Circuit! Catch:</div>
+        <div class="q-sub" id="qHint">Resistor protects the LED on 9V.</div>
       </div>
     </div>
     <div class="needed-chips" id="neededChips"></div>
@@ -467,9 +467,7 @@ function makeMission(stageName, tier, title, hint, needed) {
   };
 }
 
-// Build a rich pool of distinct electronics missions across 6 progressive tiers
 const MISSION_POOL = [
-  // Tier 1: Basic Circuits
   makeMission("BASIC CIRCUIT", 1, "Safe 9V LED Circuit! Catch:", "Resistor protects the LED on 9V.", ["9V Battery", "1kΩ Resistor", "LED"]),
   makeMission("BASIC CIRCUIT", 1, "Safe 9V Buzzer Circuit! Catch:", "Power + resistor + buzzer.", ["9V Battery", "1kΩ Resistor", "Buzzer"]),
   makeMission("BASIC CIRCUIT", 1, "Spin a DC Motor! Catch:", "Battery, DC motor, and jumper wires.", ["9V Battery", "DC Motor", "Jumper Wires"]),
@@ -481,7 +479,6 @@ const MISSION_POOL = [
   makeMission("BASIC CIRCUIT", 1, "RGB Light Setup! Catch:", "Colorful light + resistor + power.", ["9V Battery", "1kΩ Resistor", "RGB LED"]),
   makeMission("BASIC CIRCUIT", 1, "Steady Voltage Circuit! Catch:", "Keep voltage steady with regulator.", ["9V Battery", "Voltage Regulator", "LED"]),
 
-  // Tier 2: Analog & Control
   makeMission("ANALOG & CONTROL", 2, "Dimmer Knob LED! Catch:", "Turn knob to vary resistance.", ["9V Battery", "Potentiometer", "LED"]),
   makeMission("ANALOG & CONTROL", 2, "Night Light Sensor! Catch:", "Detect light level with LDR.", ["9V Battery", "LDR", "LED"]),
   makeMission("ANALOG & CONTROL", 2, "Charge Storage Circuit! Catch:", "Store charge with capacitor.", ["9V Battery", "Capacitor", "LED"]),
@@ -491,7 +488,6 @@ const MISSION_POOL = [
   makeMission("ANALOG & CONTROL", 2, "Sound Input Setup! Catch:", "Detect sound with microphone.", ["Microphone", "Capacitor", "LED"]),
   makeMission("ANALOG & CONTROL", 2, "Manual Switch Motor! Catch:", "Control motor with switch & wires.", ["Switch", "DC Motor", "Jumper Wires"]),
 
-  // Tier 3: Sensors & Actuators
   makeMission("SENSORS & ACTUATORS", 3, "Distance Radar Setup! Catch:", "Measure distance using sound waves.", ["Ultrasonic", "Jumper Wires", "Buzzer"]),
   makeMission("SENSORS & ACTUATORS", 3, "Line Follower Sensor! Catch:", "Detect infrared reflection.", ["IR Sensor", "Jumper Wires", "DC Motor"]),
   makeMission("SENSORS & ACTUATORS", 3, "Motion Alert System! Catch:", "Detect movement with PIR sensor.", ["PIR Sensor", "Buzzer", "Jumper Wires"]),
@@ -502,7 +498,6 @@ const MISSION_POOL = [
   makeMission("SENSORS & ACTUATORS", 3, "Dual Motor Control! Catch:", "Control motor speed & direction.", ["Motor Driver", "DC Motor", "Jumper Wires"]),
   makeMission("SENSORS & ACTUATORS", 3, "2-Axis Joystick Rig! Catch:", "Read X/Y directional movement.", ["Joystick", "Jumper Wires", "Servo Motor"]),
 
-  // Tier 4: Arduino Projects
   makeMission("ARDUINO PROJECTS", 4, "Arduino Blink Project! Catch:", "Microcontroller + wires + LED.", ["Arduino Uno", "Jumper Wires", "LED"]),
   makeMission("ARDUINO PROJECTS", 4, "Arduino Distance Alarm! Catch:", "Arduino + ultrasonic + buzzer.", ["Arduino Uno", "Ultrasonic", "Buzzer"]),
   makeMission("ARDUINO PROJECTS", 4, "Arduino LCD Meter! Catch:", "Arduino + temp sensor + LCD.", ["Arduino Uno", "Temp Sensor", "LCD Display"]),
@@ -512,7 +507,6 @@ const MISSION_POOL = [
   makeMission("ARDUINO PROJECTS", 4, "Arduino Access Lock! Catch:", "Arduino + RFID reader + buzzer.", ["Arduino Uno", "RFID Reader", "Buzzer"]),
   makeMission("ARDUINO PROJECTS", 4, "Arduino Button Counter! Catch:", "Arduino + push button + OLED.", ["Arduino Uno", "Push Button", "OLED Display"]),
 
-  // Tier 5: Home Automation
   makeMission("HOME AUTOMATION", 5, "Smart Room Light! Catch:", "Controller + relay + AC bulb.", ["Arduino Uno", "Relay Module", "AC Bulb"]),
   makeMission("HOME AUTOMATION", 5, "Auto Corridor Light! Catch:", "Motion sensor + relay + AC bulb.", ["PIR Sensor", "Relay Module", "AC Bulb"]),
   makeMission("HOME AUTOMATION", 5, "Smart Garden Pump! Catch:", "Soil moisture + relay + wires.", ["Soil Moisture", "Relay Module", "Jumper Wires"]),
@@ -522,7 +516,6 @@ const MISSION_POOL = [
   makeMission("HOME AUTOMATION", 5, "Auto Fan Trigger! Catch:", "Temp sensor + relay + DC motor.", ["Temp Sensor", "Relay Module", "DC Motor"]),
   makeMission("HOME AUTOMATION", 5, "Smart Doorbell! Catch:", "Push button + ESP32 + speaker.", ["Push Button", "ESP32", "Speaker"]),
 
-  // Tier 6: ESP32 & Raspberry Pi IoT
   makeMission("RASPBERRY PI & IOT", 6, "Pi Smart Vision! Catch:", "Raspberry Pi + camera + wires.", ["Raspberry Pi", "Camera Module", "Jumper Wires"]),
   makeMission("RASPBERRY PI & IOT", 6, "Pi Weather Station! Catch:", "Raspberry Pi + temp sensor + OLED.", ["Raspberry Pi", "Temp Sensor", "OLED Display"]),
   makeMission("RASPBERRY PI & IOT", 6, "ESP32 Cloud Sensor! Catch:", "ESP32 + Wi-Fi module + temp sensor.", ["ESP32", "Wi-Fi Module", "Temp Sensor"]),
@@ -533,7 +526,6 @@ const MISSION_POOL = [
   makeMission("RASPBERRY PI & IOT", 6, "ESP32 Joystick Bot! Catch:", "ESP32 + joystick + servo motor.", ["ESP32", "Joystick", "Servo Motor"])
 ];
 
-// Generate 200 distinct levels with zero repeats
 const TOTAL_LEVELS = 200;
 const LEVELS = [];
 let deck = [];
@@ -543,7 +535,7 @@ for (let lvl = 1; lvl <= TOTAL_LEVELS; lvl++) {
     deck = shuffle(MISSION_POOL);
   }
   const base = deck.pop();
-  const ramp = (lvl - 1) / (TOTAL_LEVELS - 1); // 0.0 -> 1.0
+  const ramp = (lvl - 1) / (TOTAL_LEVELS - 1);
   const speed = +(1.65 + ramp * 2.15).toFixed(2);
   const spawnMs = Math.max(520, Math.round(1150 - ramp * 600));
 
@@ -559,7 +551,6 @@ for (let lvl = 1; lvl <= TOTAL_LEVELS; lvl++) {
   });
 }
 
-// Space & Robot background canvas inside Arena
 const spaceCv = document.getElementById("spaceCv");
 const sctx = spaceCv.getContext("2d");
 const arena = document.getElementById("arena");
