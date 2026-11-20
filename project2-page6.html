@@ -196,4 +196,588 @@ footer{text-align:center;color:#60758b;padding:20px;font-size:13px}
         <svg viewBox="0 0 60 48" aria-hidden="true"><circle cx="30" cy="23" r="18" fill="#252b31" stroke="#111" stroke-width="2"/><circle cx="30" cy="23" r="11" fill="#59616a"/><circle cx="30" cy="23" r="4" fill="#1d252c"/><path d="M22 39v8m16-8v8" stroke="#aaa" stroke-width="2"/></svg>Buzzer (+ / −)
       </button>
       <button class="part" draggable="true" data-part="motor">
-        <svg viewBox="0
+        <svg viewBox="0 0 68 54" aria-hidden="true"><circle cx="34" cy="29" r="18" fill="#37474f" stroke="#102027" stroke-width="2"/><circle cx="34" cy="29" r="10" fill="#90a4ae"/><path d="M20 11h28M34 5v6" stroke="#ffca28" stroke-width="3" stroke-linecap="round"/></svg>DC Motor (+ / −)
+      </button>
+      <button class="part" draggable="true" data-part="switch">
+        <svg viewBox="0 0 70 46" aria-hidden="true"><rect x="12" y="14" width="46" height="22" rx="6" fill="#263238" stroke="#111" stroke-width="2"/><rect x="34" y="17" width="20" height="16" rx="4" fill="#00e676"/><path d="M4 25h8M58 25h8" stroke="#b0bec5" stroke-width="3"/></svg>Switch (ON/OFF)
+      </button>
+      <button class="part" draggable="true" data-part="jumper">
+        <svg viewBox="0 0 76 44" aria-hidden="true"><path d="M8 22 C 24 6, 52 6, 68 22" fill="none" stroke="#e53935" stroke-width="5" stroke-linecap="round"/><path d="M8 34 C 24 18, 52 18, 68 34" fill="none" stroke="#263238" stroke-width="5" stroke-linecap="round"/></svg>Jumper Wires (+ &amp; −)
+      </button>
+      <div class="part-actions"><button class="remove-selected" id="removeSelected" type="button">✕ Remove selected</button><button class="rotate-selected" id="rotateSelected" type="button">↻ Rotate</button></div>
+      <p class="selected-note" id="selectedNote">Click any component or wire tip to select. Use Arrow Keys (↑↓←→) to move a selected wire tip smoothly!</p>
+      <p class="hint">• Add a <b>Switch</b> and click its <b>OFF/ON</b> badge to turn power ON or OFF.<br>• For the <b>DC Motor</b>: + to + spins <b>right</b> (green arrow), + to − spins <b>left</b> (red arrow)!</p>
+    </aside>
+
+    <section class="workbench" id="workbench" aria-label="Circuit work area">
+      <div class="bench-label">WORK AREA • Connect + (Red) and − (Black) terminals</div>
+      <div class="breadboard" id="breadboard" aria-label="Illustrated solderless breadboard">
+        <div class="board-top"></div><div class="board-mark"><span>＋</span><span>1 5 10 15 20 25 30</span><span>＋</span></div>
+        <div class="rail"></div><div class="rail bottom"></div>
+        <div class="holes" id="holes"></div><div class="center-gap"></div>
+      </div>
+      <svg class="jumper-svg" id="jumperSvg" aria-hidden="true"></svg>
+      <div class="dropzone" id="dropzone"></div>
+    </section>
+
+    <aside class="panel right-panel">
+      <h3>Aara AI • Circuit Guide</h3>
+      <div class="robot-card">
+        <span class="robot" id="robot">🤖</span>
+        <div class="speech" id="speech" aria-live="polite">Hi! Add a <b>9V Battery</b>, <b>Jumper Wires</b>, and a <b>DC Motor</b>, <b>LED</b>, or <b>Buzzer</b>. Add a <b>Switch</b> to control ON/OFF!</div>
+      </div>
+      <div class="status" id="status">Ready! + to + spins DC Motor right (green arrow); + to − spins left (red arrow).</div>
+      <div class="legend"><b>Controls:</b><br>• Click <b>OFF / ON</b> on the <b>Switch</b> to toggle power.<br>• Drag wire tips or press <b>Arrow Keys (↑ ↓ ← →)</b> to connect to + and − terminals.</div>
+    </aside>
+  </section>
+</main>
+
+<div class="jumper-alert-wrap" id="jumperAlertWrap">
+  <div class="jumper-alert-box">🔌 Connect with jumper wire!</div>
+</div>
+
+<div class="center-check-wrap" id="centerCheckWrap">
+  <button class="check-big" id="checkCircuit">🔍 Check Circuit</button>
+</div>
+
+<div class="robot-modal-backdrop" id="robotModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="robot-modal" id="robotModal">
+    <span class="modal-robo-avatar" id="modalRoboAvatar">🤖</span>
+    <h2 class="modal-title" id="modalTitle">Aara AI Circuit Report</h2>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-actions">
+      <button class="btn-retry" id="retryProjectBtn">↻ Retry</button>
+      <button class="btn-close-modal" id="closeModalBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<footer>Made for curious learners • Aara Electro</footer>
+<script>
+const workbench=document.getElementById('workbench');
+const breadboard=document.getElementById('breadboard');
+const dropzone=document.getElementById('dropzone');
+const jumperSvg=document.getElementById('jumperSvg');
+const statusBox=document.getElementById('status');
+const speech=document.getElementById('speech');
+const holes=document.getElementById('holes');
+const centerCheckWrap=document.getElementById('centerCheckWrap');
+const checkCircuitBtn=document.getElementById('checkCircuit');
+const jumperAlertWrap=document.getElementById('jumperAlertWrap');
+const robotModalBackdrop=document.getElementById('robotModalBackdrop');
+const robotModal=document.getElementById('robotModal');
+const modalTitle=document.getElementById('modalTitle');
+const modalBody=document.getElementById('modalBody');
+
+for(let i=0;i<150;i++){const h=document.createElement('span');h.className='hole';holes.appendChild(h)}
+
+let items=[];
+let wires=[];
+let dragType=null;
+let selectedItem=null;
+let activeWireEnd=null;
+let circuitState='incomplete';
+let circuitReason='';
+let motorSpinDir=null;
+let jumperAlertTimer=null;
+
+const art={
+ led:`<svg viewBox="0 0 54 86"><path d="M18 46v36" stroke="#e53935" stroke-width="3"/><path d="M36 46v32" stroke="#37474f" stroke-width="3"/><path d="M13 42a14 14 0 1 1 28 0v6H13z" fill="#ed3448" stroke="#9d1729" stroke-width="2"/><ellipse cx="27" cy="31" rx="8" ry="5" fill="#ff9aa5" opacity=".65"/><path d="M15 16L7 8m32 8 8-8" stroke="#ffc84a" stroke-width="2" stroke-linecap="round"/></svg><span class="term-pin term-pos" style="left:9px;bottom:-2px" title="Positive (+)">+</span><span class="term-pin term-neg" style="right:9px;bottom:2px" title="Negative (−)">−</span>`,
+ ledBusted:`<svg viewBox="0 0 54 86"><path d="M18 46v36" stroke="#6c757d" stroke-width="3"/><path d="M36 46v32" stroke="#495057" stroke-width="3"/><path d="M13 42a14 14 0 0 1 13-13.9l-2 6 6 4-4 6h15v3H13z" fill="#3a3f44" stroke="#1c1f22" stroke-width="2"/><path d="M28 28.2A14 14 0 0 1 41 42v4H29l4-6-6-4z" fill="#52585e" stroke="#1c1f22" stroke-width="2"/><path d="M23 26l-5-10m10 9 7-9m-15 15-9-3m31 2 9-4" stroke="#ff6d00" stroke-width="2.4" stroke-linecap="round"/><circle cx="27" cy="39" r="5" fill="#ff9100" opacity=".9"/></svg><span class="term-pin term-pos" style="left:9px;bottom:-2px">+</span><span class="term-pin term-neg" style="right:9px;bottom:2px">−</span><span class="smoke-puff"></span><span class="smoke-puff s2"></span><span class="smoke-puff s3"></span>`,
+ resistor:`<svg viewBox="0 0 110 44"><path d="M4 22h102" stroke="#90a4ae" stroke-width="3"/><rect x="24" y="10" width="62" height="24" rx="10" fill="#e8c79a" stroke="#98734b" stroke-width="1.8"/><path d="M37 11v22m11-22v22m18-22v22" stroke="#9b3326" stroke-width="4.5"/><path d="M76 11v22" stroke="#c49a31" stroke-width="3.5"/></svg><span class="term-pin term-pos" style="left:-4px;top:13px" title="Resistor Terminal">+</span><span class="term-pin term-neg" style="right:-4px;top:13px" title="Resistor Terminal">−</span>`,
+ battery:`<svg viewBox="0 0 130 102"><rect x="36" y="6" width="16" height="12" rx="3" fill="#e53935" stroke="#8e0000" stroke-width="1.5"/><rect x="78" y="6" width="16" height="12" rx="3" fill="#37474f" stroke="#102027" stroke-width="1.5"/><rect x="18" y="17" width="94" height="76" rx="10" fill="#202a35" stroke="#101820" stroke-width="2"/><rect x="24" y="23" width="82" height="64" rx="7" fill="#303d4a"/><text x="65" y="54" text-anchor="middle" font-size="22" fill="#fff" font-weight="bold">9V</text><text x="65" y="72" text-anchor="middle" font-size="10" fill="#cfe7ff">BATTERY</text></svg><span class="term-pin term-pos" style="left:35px;top:-2px" title="Battery Positive (+)">+</span><span class="term-pin term-neg" style="right:35px;top:-2px" title="Battery Negative (−)">−</span>`,
+ buzzer:`<svg viewBox="0 0 76 76"><circle cx="38" cy="33" r="26" fill="#252b31" stroke="#101820" stroke-width="2"/><circle cx="38" cy="33" r="16" fill="#59616a"/><circle cx="38" cy="33" r="6" fill="#1d252c"/><path d="M27 57v15" stroke="#e53935" stroke-width="3"/><path d="M49 57v15" stroke="#37474f" stroke-width="3"/></svg><span class="term-pin term-pos" style="left:18px;bottom:-2px" title="Buzzer Positive (+)">+</span><span class="term-pin term-neg" style="right:18px;bottom:-2px" title="Buzzer Negative (−)">−</span>`,
+ buzzerBusted:`<svg viewBox="0 0 76 76"><circle cx="38" cy="33" r="26" fill="#32373b" stroke="#16181a" stroke-width="2"/><circle cx="38" cy="33" r="16" fill="#474c52"/><path d="M20 17l14 12-6 6 13 12" stroke="#ff5722" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M27 57v15M49 57v15" stroke="#6c757d" stroke-width="3"/></svg><span class="term-pin term-pos" style="left:18px;bottom:-2px">+</span><span class="term-pin term-neg" style="right:18px;bottom:-2px">−</span><span class="smoke-puff"></span><span class="smoke-puff s2"></span>`,
+ buzzerSound:`<svg viewBox="0 0 76 76"><circle cx="38" cy="33" r="26" fill="#252b31" stroke="#101820" stroke-width="2"/><circle cx="38" cy="33" r="16" fill="#59616a"/><circle cx="38" cy="33" r="6" fill="#00e5ff"/><path d="M27 57v15" stroke="#e53935" stroke-width="3"/><path d="M49 57v15" stroke="#37474f" stroke-width="3"/></svg><span class="term-pin term-pos" style="left:18px;bottom:-2px">+</span><span class="term-pin term-neg" style="right:18px;bottom:-2px">−</span><div class="sound-waves" aria-hidden="true"><span class="wave-arc w1"></span><span class="wave-arc w2"></span><span class="wave-arc w3"></span></div>`,
+ motor:`<svg viewBox="0 0 96 82"><rect x="20" y="18" width="56" height="44" rx="10" fill="#37474f" stroke="#102027" stroke-width="2"/><circle cx="48" cy="40" r="15" fill="#607d8b" stroke="#263238" stroke-width="2"/><g class="rotor-blade"><rect x="44" y="27" width="8" height="26" rx="3" fill="#ffca28" stroke="#8d6e00" stroke-width="1.5"/><circle cx="48" cy="40" r="5" fill="#fff"/></g><path d="M30 62v14" stroke="#e53935" stroke-width="3"/><path d="M66 62v14" stroke="#37474f" stroke-width="3"/></svg><span class="term-pin term-pos" style="left:21px;bottom:-2px" title="Motor Positive (+)">+</span><span class="term-pin term-neg" style="right:21px;bottom:-2px" title="Motor Negative (−)">−</span>`,
+ switchPart:`<svg viewBox="0 0 92 56"><rect x="14" y="14" width="64" height="28" rx="8" fill="#263238" stroke="#111" stroke-width="2"/><rect class="sw-knob" x="20" y="18" width="24" height="20" rx="5" fill="#90a4ae"/><path d="M4 28h10M78 28h10" stroke="#b0bec5" stroke-width="3"/></svg><button type="button" class="sw-toggle-btn" title="Toggle Switch ON/OFF">OFF</button>`
+};
+
+function showJumperAlert(){
+ clearTimeout(jumperAlertTimer);
+ jumperAlertWrap.classList.add('visible');
+ speech.innerHTML='<b>🤖 Aara AI:</b><br>After placing the <b>9V Battery</b>, click <b>Jumper Wires (+ &amp; −)</b> and connect the terminals! Direct placement will not connect.';
+ jumperAlertTimer=setTimeout(()=>{
+   jumperAlertWrap.classList.remove('visible');
+ },2400);
+}
+
+function addPart(type,x,y){
+ if(type==='jumper'){
+   spawnDualJumperWires();
+   return;
+ }
+ const el=document.createElement('div');
+ el.className='placed '+type+'-part';
+ el.dataset.type=type;
+ if(type==='switch'){
+   el.dataset.swOn='false';
+   el.innerHTML=art.switchPart;
+   const btn=el.querySelector('.sw-toggle-btn');
+   btn.addEventListener('pointerdown',e=>e.stopPropagation());
+   btn.addEventListener('click',e=>{
+     e.stopPropagation();
+     const isOn=el.dataset.swOn==='true';
+     el.dataset.swOn=String(!isOn);
+     btn.textContent=!isOn?'ON':'OFF';
+     btn.classList.toggle('is-on',!isOn);
+     const knob=el.querySelector('.sw-knob');
+     if(knob){
+       knob.setAttribute('x',!isOn?'48':'20');
+       knob.setAttribute('fill',!isOn?'#00e676':'#90a4ae');
+     }
+     evaluateCircuit();
+   });
+ } else {
+   el.innerHTML=art[type];
+ }
+ const r=workbench.getBoundingClientRect();
+ const px=Math.max(8,Math.min(x-r.left-40,r.width-140));
+ const py=Math.max(65,Math.min(y-r.top-35,r.height-115));
+ el.style.left=px+'px';
+ el.style.top=py+'px';
+ dropzone.appendChild(el);
+ items.push(el);
+ makeMovable(el);
+ evaluateCircuit();
+}
+
+function spawnDualJumperWires(){
+ const w=workbench.clientWidth;
+ const h=workbench.clientHeight;
+ const offset=wires.length*14;
+ createSingleWire('red', w*0.24, h*0.30+offset, w*0.44, h*0.30+offset);
+ createSingleWire('black', w*0.24, h*0.72-offset, w*0.44, h*0.72-offset);
+ statusBox.className='status';
+ statusBox.textContent='Red (+) and Black (−) jumper wires added! Drag or use Arrow Keys (↑↓←→) to connect each end to + and − terminals.';
+ evaluateCircuit();
+}
+
+function createSingleWire(color,x1,y1,x2,y2){
+ const pathEl=document.createElementNS('http://www.w3.org/2000/svg','path');
+ pathEl.setAttribute('fill','none');
+ pathEl.setAttribute('stroke',color==='red'?'#e53935':'#1e262c');
+ pathEl.setAttribute('stroke-width','6');
+ pathEl.setAttribute('stroke-linecap','round');
+ jumperSvg.appendChild(pathEl);
+
+ const wire={color,x1,y1,x2,y2,pathEl,el1:null,el2:null};
+
+ [1,2].forEach(endNum=>{
+   const handle=document.createElement('div');
+   handle.className='wire-handle '+(color==='red'?'red-end':'black-end');
+   handle.textContent=color==='red'?'+':'−';
+   handle.title=(color==='red'?'Red (+)':'Black (−)')+' Jumper End '+endNum+' — Drag or click and move with Arrow Keys';
+   dropzone.appendChild(handle);
+   if(endNum===1)wire.el1=handle; else wire.el2=handle;
+
+   handle.addEventListener('pointerdown',e=>{
+     e.stopPropagation();
+     e.preventDefault();
+     setActiveWireEnd(wire,endNum);
+     handle.setPointerCapture(e.pointerId);
+   });
+   handle.addEventListener('pointermove',e=>{
+     if(!handle.hasPointerCapture(e.pointerId))return;
+     const r=workbench.getBoundingClientRect();
+     const nx=Math.max(12,Math.min(r.width-12,e.clientX-r.left));
+     const ny=Math.max(48,Math.min(r.height-12,e.clientY-r.top));
+     if(endNum===1){wire.x1=nx;wire.y1=ny;}else{wire.x2=nx;wire.y2=ny;}
+     renderWire(wire);
+     evaluateCircuit();
+   });
+   handle.addEventListener('pointerup',e=>{
+     if(handle.hasPointerCapture(e.pointerId))handle.releasePointerCapture(e.pointerId);
+     evaluateCircuit();
+   });
+ });
+
+ wires.push(wire);
+ renderWire(wire);
+ setActiveWireEnd(wire,2);
+}
+
+function setActiveWireEnd(wire,endNum){
+ if(selectedItem){selectedItem.classList.remove('selected');selectedItem=null;}
+ document.querySelectorAll('.wire-handle').forEach(h=>h.classList.remove('active-end'));
+ activeWireEnd={wire,end:endNum};
+ const targetEl=endNum===1?wire.el1:wire.el2;
+ targetEl.classList.add('active-end');
+ document.getElementById('selectedNote').textContent=(wire.color==='red'?'RED (+)':'BLACK (−)')+' wire tip selected. Drag it or use Arrow Keys (↑ ↓ ← →) to move smoothly!';
+}
+
+function renderWire(wire){
+ wire.el1.style.left=wire.x1+'px';
+ wire.el1.style.top=wire.y1+'px';
+ wire.el2.style.left=wire.x2+'px';
+ wire.el2.style.top=wire.y2+'px';
+ const midX=(wire.x1+wire.x2)/2;
+ const curveY=Math.min(wire.y1,wire.y2)-38;
+ wire.pathEl.setAttribute('d',`M ${wire.x1} ${wire.y1} Q ${midX} ${curveY}, ${wire.x2} ${wire.y2}`);
+}
+
+document.addEventListener('keydown',e=>{
+ if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){
+   const step=e.shiftKey?14:6;
+   if(activeWireEnd){
+     e.preventDefault();
+     const {wire,end}=activeWireEnd;
+     const r=workbench.getBoundingClientRect();
+     let nx=end===1?wire.x1:wire.x2;
+     let ny=end===1?wire.y1:wire.y2;
+
+     if(e.key==='ArrowUp')ny-=step;
+     if(e.key==='ArrowDown')ny+=step;
+     if(e.key==='ArrowLeft')nx-=step;
+     if(e.key==='ArrowRight')nx+=step;
+
+     nx=Math.max(12,Math.min(r.width-12,nx));
+     ny=Math.max(48,Math.min(r.height-12,ny));
+
+     if(end===1){wire.x1=nx;wire.y1=ny;}else{wire.x2=nx;wire.y2=ny;}
+     renderWire(wire);
+     evaluateCircuit();
+   } else if(selectedItem){
+     e.preventDefault();
+     const curLeft=parseFloat(selectedItem.style.left)||0;
+     const curTop=parseFloat(selectedItem.style.top)||0;
+     const r=workbench.getBoundingClientRect();
+     let nx=curLeft, ny=curTop;
+     if(e.key==='ArrowUp')ny-=step;
+     if(e.key==='ArrowDown')ny+=step;
+     if(e.key==='ArrowLeft')nx-=step;
+     if(e.key==='ArrowRight')nx+=step;
+
+     selectedItem.style.left=Math.max(8,Math.min(r.width-selectedItem.offsetWidth-8,nx))+'px';
+     selectedItem.style.top=Math.max(48,Math.min(r.height-selectedItem.offsetHeight-12,ny))+'px';
+     evaluateCircuit();
+   }
+ } else if((e.key==='Backspace'||e.key==='Delete')&&selectedItem){
+   removeSelectedPart();
+ }
+});
+
+function selectItem(el){
+ if(selectedItem)selectedItem.classList.remove('selected');
+ document.querySelectorAll('.wire-handle').forEach(h=>h.classList.remove('active-end'));
+ activeWireEnd=null;
+ selectedItem=el;
+ if(selectedItem){
+   selectedItem.classList.add('selected');
+   document.getElementById('selectedNote').textContent=`Selected: ${selectedItem.dataset.type.toUpperCase()}. Drag it, press Arrow Keys, Rotate, or Remove.`;
+ }
+}
+
+function makeMovable(el){
+ selectItem(el);
+ el.addEventListener('pointerdown',e=>{
+   if(e.target.closest('.sw-toggle-btn'))return;
+   e.stopPropagation();
+   selectItem(el);
+   const startX=e.clientX;
+   const startY=e.clientY;
+   const origLeft=parseFloat(el.style.left)||0;
+   const origTop=parseFloat(el.style.top)||0;
+   el.setPointerCapture(e.pointerId);
+
+   const onMove=ev=>{
+     if(!el.hasPointerCapture(ev.pointerId))return;
+     const r=workbench.getBoundingClientRect();
+     const nx=origLeft+(ev.clientX-startX);
+     const ny=origTop+(ev.clientY-startY);
+     el.style.left=Math.max(8,Math.min(r.width-el.offsetWidth-8,nx))+'px';
+     el.style.top=Math.max(48,Math.min(r.height-el.offsetHeight-12,ny))+'px';
+     evaluateCircuit();
+   };
+
+   const onUp=ev=>{
+     if(el.hasPointerCapture(ev.pointerId))el.releasePointerCapture(ev.pointerId);
+     el.removeEventListener('pointermove',onMove);
+     el.removeEventListener('pointerup',onUp);
+   };
+
+   el.addEventListener('pointermove',onMove);
+   el.addEventListener('pointerup',onUp);
+ });
+}
+
+function getTerminalPoints(el){
+ const wr=workbench.getBoundingClientRect();
+ const er=el.getBoundingClientRect();
+ const type=el.dataset.type;
+ const pts=[];
+ const pins=el.querySelectorAll('.term-pin');
+ if(pins.length){
+   pins.forEach(pin=>{
+     const pr=pin.getBoundingClientRect();
+     pts.push({
+       x:pr.left+pr.width/2-wr.left,
+       y:pr.top+pr.height/2-wr.top,
+       pol:pin.classList.contains('term-pos')?'pos':'neg',
+       type
+     });
+   });
+ } else {
+   pts.push({x:er.left-wr.left,y:er.top+er.height/2-wr.top,pol:'any',type});
+   pts.push({x:er.right-wr.left,y:er.top+er.height/2-wr.top,pol:'any',type});
+ }
+ return pts;
+}
+
+function findSnappedTerminal(x,y,threshold=26){
+ let best=null;
+ let bestDist=threshold;
+ items.forEach(el=>{
+   getTerminalPoints(el).forEach(pt=>{
+     const d=Math.hypot(pt.x-x,pt.y-y);
+     if(d<bestDist){bestDist=d;best={...pt,el};}
+   });
+ });
+ return best;
+}
+
+function evaluateCircuit(){
+ const snapRadius=26;
+ const allTerminals=[];
+ items.forEach(el=>{
+   el.classList.remove('glow','busted-part');
+   const badge=el.querySelector('.spin-badge');
+   if(badge)badge.remove();
+   const blade=el.querySelector('.rotor-blade');
+   if(blade)blade.classList.remove('spin-right-anim','spin-left-anim');
+   if(el.dataset.type==='led'&&!el.dataset.busted)el.innerHTML=art.led;
+   if(el.dataset.type==='buzzer'&&!el.dataset.busted)el.innerHTML=art.buzzer;
+   getTerminalPoints(el).forEach(t=>allTerminals.push(t));
+ });
+
+ const adj=new Map();
+ const addEdge=(a,b)=>{
+   if(!adj.has(a))adj.set(a,new Set());
+   if(!adj.has(b))adj.set(b,new Set());
+   adj.get(a).add(b);
+   adj.get(b).add(a);
+ };
+
+ items.filter(i=>i.dataset.type==='resistor').forEach(rEl=>{
+   const rPins=getTerminalPoints(rEl);
+   if(rPins.length>=2)addEdge(rPins[0],rPins[1]);
+ });
+
+ items.filter(i=>i.dataset.type==='switch').forEach(sEl=>{
+   const sPins=getTerminalPoints(sEl);
+   if(sEl.dataset.swOn==='true'&&sPins.length>=2)addEdge(sPins[0],sPins[1]);
+ });
+
+ wires.forEach(w=>{
+   [w.el1,w.el2].forEach(h=>h.classList.remove('snapped'));
+   const t1=findSnappedTerminal(w.x1,w.y1,snapRadius);
+   const t2=findSnappedTerminal(w.x2,w.y2,snapRadius);
+   if(t1)w.el1.classList.add('snapped');
+   if(t2)w.el2.classList.add('snapped');
+   if(t1&&t2&&t1.el!==t2.el){
+     addEdge(t1,t2);
+   }
+ });
+
+ const batteries=items.filter(i=>i.dataset.type==='battery');
+ const loads=items.filter(i=>['led','motor','buzzer'].includes(i.dataset.type));
+ const switches=items.filter(i=>i.dataset.type==='switch');
+
+ circuitState='incomplete';
+ circuitReason='';
+ motorSpinDir=null;
+
+ if(!batteries.length||!loads.length){
+   centerCheckWrap.classList.remove('visible');
+   statusBox.className='status';
+   statusBox.textContent='Add a 9V Battery, Jumper Wires, and a load (DC Motor, LED, or Buzzer) to test your circuit.';
+   return;
+ }
+
+ const anySwitchOff=switches.length>0&&switches.some(s=>s.dataset.swOn!=='true');
+ const batPins=getTerminalPoints(batteries[0]);
+ const batPos=batPins.find(p=>p.pol==='pos');
+ const batNeg=batPins.find(p=>p.pol==='neg');
+
+ const reachable=start=>{
+   const seen=new Set([start]);
+   const q=[start];
+   while(q.length){
+     const curr=q.shift();
+     for(const nxt of (adj.get(curr)||[])){
+       if(!seen.has(nxt)){seen.add(nxt);q.push(nxt);}
+     }
+   }
+   return seen;
+ };
+
+ const fromPos=batPos?reachable(batPos):new Set();
+ const fromNeg=batNeg?reachable(batNeg):new Set();
+
+ if(batPos&&fromPos.has(batNeg)){
+   circuitState='short';
+   circuitReason='Direct short circuit detected between Battery (+) and Battery (−)! Always route current through a load or switch.';
+ } else if(anySwitchOff){
+   circuitState='switch_off';
+   circuitReason='Your Switch is currently OFF—power is open. Click OFF/ON on the Switch to close the circuit!';
+ } else {
+   let poweredCount=0;
+   loads.forEach(load=>{
+     const lPins=getTerminalPoints(load);
+     const lPos=lPins.find(p=>p.pol==='pos');
+     const lNeg=lPins.find(p=>p.pol==='neg');
+     const hasResistorPath=items.some(i=>i.dataset.type==='resistor');
+
+     const normalBias=lPos&&lNeg&&fromPos.has(lPos)&&fromNeg.has(lNeg);
+     const reverseBias=lPos&&lNeg&&fromPos.has(lNeg)&&fromNeg.has(lPos);
+
+     if(normalBias||reverseBias){
+       poweredCount++;
+       if(load.dataset.type==='led'){
+         if(!hasResistorPath){
+           load.dataset.busted='true';
+           load.innerHTML=art.ledBusted;
+           load.classList.add('busted-part');
+           circuitState='overcurrent';
+           circuitReason='LED connected to 9V without a 1 kΩ resistor—too much current burned it out!';
+         } else if(normalBias){
+           load.classList.add('glow');
+         }
+       } else if(load.dataset.type==='buzzer'){
+         if(!hasResistorPath){
+           load.dataset.busted='true';
+           load.innerHTML=art.buzzerBusted;
+           load.classList.add('busted-part');
+           circuitState='overcurrent';
+           circuitReason='Buzzer connected directly to 9V without protection—it overloaded!';
+         } else {
+           load.innerHTML=art.buzzerSound;
+           load.classList.add('glow');
+         }
+       } else if(load.dataset.type==='motor'){
+         const dir=normalBias?'right':'left';
+         motorSpinDir=dir;
+         const blade=load.querySelector('.rotor-blade');
+         if(blade)blade.classList.add(dir==='right'?'spin-right-anim':'spin-left-anim');
+         const badge=document.createElement('div');
+         badge.className='spin-badge '+(dir==='right'?'right':'left');
+         badge.textContent=dir==='right'?'↻ Spinning Right (+→+)':'↺ Spinning Left (+→−)';
+         load.appendChild(badge);
+       }
+     }
+   });
+
+   if(circuitState!=='overcurrent'&&poweredCount>0){
+     circuitState='working';
+     circuitReason='Closed loop complete! Current flows cleanly through your components.';
+   } else if(circuitState!=='overcurrent'){
+     circuitState='incomplete';
+     circuitReason='Connect both the (+) and (−) terminals using Jumper Wires so current can complete a loop.';
+   }
+ }
+
+ centerCheckWrap.classList.toggle('visible',circuitState!=='incomplete');
+ checkCircuitBtn.classList.toggle('safe',circuitState==='working');
+
+ if(circuitState==='working'){
+   statusBox.className='status success';
+   statusBox.textContent=circuitReason+' Click "Check Circuit" for Aara AI\'s report.';
+   speech.innerHTML='<b>🤖 Aara AI:</b><br>Nice work! Your circuit loop is complete. Click <b>Check Circuit</b> to inspect how it behaves.';
+ } else if(circuitState==='switch_off'){
+   statusBox.className='status warn';
+   statusBox.textContent=circuitReason;
+   speech.innerHTML='<b>🤖 Aara AI:</b><br>The switch is <b>OFF</b>, so the circuit is open. Toggle it to <b>ON</b> to let current flow!';
+ } else if(circuitState==='short'||circuitState==='overcurrent'){
+   statusBox.className='status danger';
+   statusBox.textContent=circuitReason;
+   speech.innerHTML='<b>🤖 Aara AI:</b><br>Uh oh! Something overloaded or shorted. Click <b>Check Circuit</b> to see what went wrong and how to fix it.';
+ } else {
+   statusBox.className='status';
+   statusBox.textContent=circuitReason;
+ }
+}
+
+document.querySelectorAll('.part').forEach(btn=>{
+ btn.addEventListener('dragstart',e=>{
+   dragType=btn.dataset.part;
+   e.dataTransfer.setData('text/plain',dragType);
+ });
+ btn.addEventListener('click',e=>{
+   if(btn.dataset.part==='jumper'){
+     spawnDualJumperWires();
+     return;
+   }
+   const r=workbench.getBoundingClientRect();
+   addPart(btn.dataset.part,r.left+r.width*0.55,r.top+r.height*0.35);
+ });
+});
+
+workbench.addEventListener('dragover',e=>e.preventDefault());
+workbench.addEventListener('drop',e=>{
+ e.preventDefault();
+ const type=e.dataTransfer.getData('text/plain')||dragType;
+ if(type)addPart(type,e.clientX,e.clientY);
+ dragType=null;
+});
+
+function removeSelectedPart(){
+ if(activeWireEnd){
+   const {wire}=activeWireEnd;
+   wire.pathEl.remove();
+   wire.el1.remove();
+   wire.el2.remove();
+   wires=wires.filter(w=>w!==wire);
+   activeWireEnd=null;
+   document.getElementById('selectedNote').textContent='Wire removed.';
+   evaluateCircuit();
+   return;
+ }
+ if(!selectedItem)return;
+ selectedItem.remove();
+ items=items.filter(i=>i!==selectedItem);
+ selectedItem=null;
+ document.getElementById('selectedNote').textContent='Component removed.';
+ evaluateCircuit();
+}
+
+document.getElementById('removeSelected').addEventListener('click',removeSelectedPart);
+
+document.getElementById('rotateSelected').addEventListener('click',()=>{
+ if(!selectedItem)return;
+ const cur=Number(selectedItem.dataset.rot||0);
+ const next=(cur+90)%360;
+ selectedItem.dataset.rot=String(next);
+ selectedItem.style.transform=`rotate(${next}deg)`;
+ evaluateCircuit();
+});
+
+function openReportModal(){
+ const isDanger=circuitState==='short'||circuitState==='overcurrent';
+ const isSuccess=circuitState==='working';
+ robotModal.className='robot-modal'+(isDanger?' danger-modal':isSuccess?' success-modal':'');
+ modalTitle.textContent=isDanger?'Circuit Alert!':isSuccess?'Circuit Working!':'Circuit Check';
+ modalBody.innerHTML=`<p>${circuitReason}</p>`;
+ robotModalBackdrop.classList.add('visible');
+}
+
+checkCircuitBtn.addEventListener('click',openReportModal);
+document.getElementById('closeModalBtn').addEventListener('click',()=>robotModalBackdrop.classList.remove('visible'));
+
+function resetProject(){
+ robotModalBackdrop.classList.remove('visible');
+ centerCheckWrap.classList.remove('visible');
+ items.forEach(i=>i.remove());
+ items=[];
+ wires.forEach(w=>{w.pathEl.remove();w.el1.remove();w.el2.remove();});
+ wires=[];
+ selectedItem=null;
+ activeWireEnd=null;
+ circuitState='incomplete';
+ evaluateCircuit();
+}
+
+document.getElementById('newProject').addEventListener('click',resetProject);
+document.getElementById('retryProjectBtn').addEventListener('click',resetProject);
+</script>
+</body>
+</html>
