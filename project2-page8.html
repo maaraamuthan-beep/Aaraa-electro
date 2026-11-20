@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aara Electro | Component Catcher</title>
+<title>Aara Electro | Component Catcher (200 Levels)</title>
 <style>
 :root{
   --navy:#082b68;
   --blue:#0875df;
   --cyan:#11b9ee;
-  --ink:#10233f;
-  --green:#0b8a55;
-  --red:#d32f2f;
+  --ink:#ffffff;
+  --green:#12b872;
+  --red:#ff4d4d;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f4f8fc;
+  font-family:system-ui,Arial,Helvetica,sans-serif;
+  background:#060318;
   color:var(--ink);
   min-height:100vh;
   overflow-x:hidden;
@@ -31,6 +31,9 @@ header{
   justify-content:space-between;
   gap:16px;
   flex-wrap:wrap;
+  position:relative;
+  z-index:10;
+  border-bottom:1px solid rgba(125,224,255,.25);
 }
 .brand{font-size:26px;font-weight:800;color:#7de0ff}
 .brand span{color:#ffd54d}
@@ -38,31 +41,29 @@ nav{display:flex;gap:14px;flex-wrap:wrap}
 nav a{color:#fff;text-decoration:none;font-weight:700;padding:8px 12px;border-radius:20px}
 nav a:hover{background:#fff;color:#07316f}
 
-.back-arrow, .next-arrow{
+.back-arrow{
   position:fixed;
+  left:14px;
   top:50%;
   transform:translateY(-50%);
   width:52px;
   height:52px;
   border-radius:50%;
-  background:linear-gradient(135deg,#1976d2,#005bb5);
-  border:3px solid #fff;
+  background:#1b2a6b;
+  border:2px solid #4fc3ff;
   color:#fff;
-  font-size:24px;
-  font-weight:900;
+  font-size:26px;
   display:flex;
   align-items:center;
   justify-content:center;
   text-decoration:none;
-  box-shadow:0 8px 20px rgba(4,42,110,.35);
-  z-index:80;
+  z-index:85;
+  box-shadow:0 0 18px rgba(79,195,255,.45);
   transition:.2s;
 }
-.back-arrow{left:14px}
-.next-arrow{right:14px}
-.back-arrow:hover, .next-arrow:hover{transform:translateY(-50%) scale(1.08)}
+.back-arrow:hover{background:#2b3f9c;transform:translateY(-50%) scale(1.08)}
 
-main{max-width:1280px;margin:auto;padding:16px}
+main{position:relative;z-index:5;max-width:1280px;margin:auto;padding:14px 18px 18px 74px}
 
 .top-hud{
   display:flex;
@@ -70,30 +71,31 @@ main{max-width:1280px;margin:auto;padding:16px}
   justify-content:space-between;
   gap:12px;
   flex-wrap:wrap;
-  background:#fff;
-  border:1px solid #d7e6f4;
+  background:rgba(14,18,54,.82);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(125,224,255,.28);
   border-radius:16px;
-  padding:12px 18px;
-  box-shadow:0 5px 16px rgba(23,75,121,.08);
-  margin-bottom:14px;
+  padding:11px 18px;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+  margin-bottom:12px;
 }
 .hud-group{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .pill{
-  background:#edf6ff;
-  color:#07316f;
-  border:1px solid #c6e0f8;
+  background:rgba(8,117,223,.25);
+  color:#bfeaff;
+  border:1px solid rgba(125,224,255,.35);
   border-radius:20px;
   padding:6px 14px;
   font-size:14px;
   font-weight:800;
 }
-.pill.score{background:#e8f8f0;color:#086c42;border-color:#bce8d1}
-.pill.lives{background:#ffebee;color:#b71c1c;border-color:#ffcdd2}
+.pill.score{background:rgba(18,184,114,.22);color:#8ef5c6;border-color:rgba(142,245,198,.4)}
+.pill.lives{background:rgba(255,77,77,.2);color:#ffb3b3;border-color:rgba(255,179,179,.4)}
 
 button{font:inherit;cursor:pointer}
 .btn{
-  border:0;
-  border-radius:22px;
+  border:none;
+  border-radius:12px;
   padding:10px 18px;
   font-size:14px;
   font-weight:800;
@@ -102,109 +104,114 @@ button{font:inherit;cursor:pointer}
   box-shadow:0 4px 0 #03376b;
   transition:.15s;
 }
-.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
 .btn:active{transform:translateY(2px)}
-.btn.green{background:linear-gradient(135deg,#0b8a55,#12b872);box-shadow:0 4px 0 #065a37}
-.btn.orange{background:linear-gradient(135deg,#ff8f00,#ef6c00);box-shadow:0 4px 0 #9c4400}
+.btn.green{background:linear-gradient(135deg,#2ecc71,#12b872);box-shadow:0 4px 0 #0b7a45}
+.btn.orange{background:linear-gradient(135deg,#ff9800,#ef6c00);box-shadow:0 4px 0 #9c4400}
 
-/* Question Banner like Shooter */
 .question-box{
-  background:linear-gradient(110deg,#082b68,#0875df 65%,#11b9ee);
+  background:linear-gradient(115deg,rgba(22,29,88,.92),rgba(8,117,223,.78) 65%,rgba(17,185,238,.72));
+  border:1px solid rgba(125,224,255,.4);
   color:#fff;
   border-radius:18px;
-  padding:16px 22px;
-  margin-bottom:14px;
-  box-shadow:0 8px 22px rgba(8,117,223,.25);
+  padding:14px 20px;
+  margin-bottom:12px;
+  box-shadow:0 10px 26px rgba(0,0,0,.35);
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:16px;
   flex-wrap:wrap;
 }
+.q-left{display:flex;align-items:center;gap:14px;flex:1;min-width:260px}
+.mini-bot{
+  font-size:44px;
+  line-height:1;
+  filter:drop-shadow(0 0 12px rgba(125,224,255,.7));
+  animation:botFloat 2.2s ease-in-out infinite;
+}
+@keyframes botFloat{
+  0%,100%{transform:translateY(0) rotate(-3deg)}
+  50%{transform:translateY(-6px) rotate(3deg)}
+}
 .q-label{
   display:inline-block;
-  background:rgba(255,255,255,.18);
-  border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,213,77,.2);
+  border:1px solid rgba(255,213,77,.55);
+  color:#ffe57f;
   border-radius:12px;
-  padding:4px 10px;
-  font-size:12px;
+  padding:3px 10px;
+  font-size:11px;
   font-weight:900;
-  letter-spacing:.4px;
-  margin-bottom:6px;
+  letter-spacing:.5px;
+  margin-bottom:5px;
 }
-.q-text{font-size:clamp(18px,2.5vw,26px);font-weight:900;line-height:1.3}
-.q-sub{font-size:13px;opacity:.92;margin-top:4px;font-weight:600}
+.q-text{font-size:clamp(17px,2.2vw,24px);font-weight:900;line-height:1.25}
+.q-sub{font-size:12.5px;color:#dff4ff;margin-top:4px;font-weight:600}
 
 .needed-chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .chip{
-  background:#ffffff24;
+  background:rgba(8,3,26,.55);
   border:2px dashed #ffd54d;
   color:#fff;
   border-radius:14px;
-  padding:7px 13px;
-  font-size:13px;
+  padding:6px 12px;
+  font-size:12.5px;
   font-weight:800;
   transition:.2s;
 }
 .chip.caught{
-  background:#0b8a55;
-  border:2px solid #9ef0c8;
+  background:linear-gradient(135deg,#12b872,#0b8a55);
+  border:2px solid #a7f3d0;
   color:#fff;
   transform:scale(1.04);
+  box-shadow:0 0 14px rgba(18,184,114,.55);
 }
 
-/* Arena */
 .arena{
   position:relative;
   width:100%;
-  height:560px;
+  height:540px;
   border-radius:20px;
-  border:2px solid #c9dcef;
-  background:
-    radial-gradient(circle at 50% 18%, rgba(17,185,238,.12), transparent 55%),
-    linear-gradient(#e3eef8 1px, transparent 1px),
-    linear-gradient(90deg, #e3eef8 1px, transparent 1px),
-    #f9fcff;
-  background-size:auto, 28px 28px, 28px 28px, auto;
+  border:2px solid rgba(79,195,255,.45);
+  background:#070319;
   overflow:hidden;
   user-select:none;
   touch-action:none;
-  box-shadow:inset 0 0 30px rgba(8,43,104,.05);
+  box-shadow:0 14px 36px rgba(0,0,0,.55), inset 0 0 40px rgba(79,195,255,.12);
 }
+.arena.flash-good{box-shadow:0 0 32px rgba(46,204,113,.65), inset 0 0 45px rgba(46,204,113,.25)}
+.arena.flash-bad{box-shadow:0 0 32px rgba(255,77,77,.75), inset 0 0 50px rgba(255,77,77,.3)}
+
+#spaceCv{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
 
 .falling-item{
   position:absolute;
-  top:-80px;
-  min-width:96px;
+  top:-85px;
+  min-width:98px;
   padding:10px 12px;
   border-radius:16px;
-  background:#fff;
-  border:2px solid #b9d5ee;
-  box-shadow:0 8px 18px rgba(16,35,63,.14);
+  background:linear-gradient(160deg,rgba(24,20,66,.92),rgba(12,10,40,.95));
+  border:2px solid rgba(79,195,255,.65);
+  box-shadow:0 8px 20px rgba(0,0,0,.45), 0 0 12px rgba(79,195,255,.22);
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   gap:4px;
-  z-index:5;
+  z-index:6;
   will-change:transform;
-  animation:itemFloat 1.8s ease-in-out infinite alternate;
 }
-@keyframes itemFloat{
-  from{box-shadow:0 8px 18px rgba(16,35,63,.14)}
-  to{box-shadow:0 12px 24px rgba(8,117,223,.26)}
-}
-.falling-item .f-icon{font-size:30px;line-height:1}
-.falling-item .f-name{font-size:12px;font-weight:900;color:#082b68;text-align:center;white-space:nowrap}
+.falling-item .f-icon{font-size:30px;line-height:1;filter:drop-shadow(0 0 8px rgba(255,255,255,.35))}
+.falling-item .f-name{font-size:12px;font-weight:900;color:#ffffff;text-align:center;white-space:nowrap}
 
-/* Catcher Basket at Bottom */
 .basket{
   position:absolute;
   bottom:16px;
   left:50%;
   transform:translateX(-50%);
-  width:154px;
-  height:68px;
+  width:162px;
+  height:70px;
   z-index:12;
   cursor:grab;
   display:flex;
@@ -215,11 +222,11 @@ button{font:inherit;cursor:pointer}
 .basket:active{cursor:grabbing}
 .basket-tray{
   width:100%;
-  height:46px;
+  height:48px;
   border-radius:12px 12px 24px 24px;
   background:linear-gradient(135deg,#ff9800,#ef6c00);
   border:3px solid #fff;
-  box-shadow:0 10px 22px rgba(239,108,0,.38), 0 4px 0 #9c4400;
+  box-shadow:0 0 20px rgba(255,152,0,.55), 0 4px 0 #9c4400;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -238,20 +245,20 @@ button{font:inherit;cursor:pointer}
   width:12px;
   height:12px;
   border-radius:50%;
-  background:#082b68;
-  border:2px solid #fff;
+  background:#7de0ff;
+  border:2px solid #082b68;
+  box-shadow:0 0 8px #7de0ff;
 }
 .basket.pulse{animation:basketPop .25s ease}
 @keyframes basketPop{
   0%{transform:translateX(-50%) scale(1)}
-  50%{transform:translateX(-50%) scale(1.12)}
+  50%{transform:translateX(-50%) scale(1.13)}
   100%{transform:translateX(-50%) scale(1)}
 }
 
-/* Floating feedback popups inside arena */
 .pop-toast{
   position:absolute;
-  z-index:20;
+  z-index:25;
   padding:6px 12px;
   border-radius:14px;
   font-size:13px;
@@ -261,18 +268,17 @@ button{font:inherit;cursor:pointer}
   animation:toastUp .85s ease-out forwards;
   white-space:nowrap;
 }
-.pop-toast.good{background:#0b8a55;box-shadow:0 4px 12px rgba(11,138,85,.35)}
-.pop-toast.bad{background:#d32f2f;box-shadow:0 4px 12px rgba(211,47,47,.35)}
+.pop-toast.good{background:linear-gradient(135deg,#2ecc71,#0b8a55);box-shadow:0 0 14px rgba(46,204,113,.65)}
+.pop-toast.bad{background:linear-gradient(135deg,#ff5252,#c62828);box-shadow:0 0 14px rgba(255,82,82,.65)}
 @keyframes toastUp{
   0%{opacity:1;transform:translate(-50%,0) scale(.9)}
-  100%{opacity:0;transform:translate(-50%,-46px) scale(1.08)}
+  100%{opacity:0;transform:translate(-50%,-48px) scale(1.1)}
 }
 
-/* Modal overlay for Level Up / Game Over / Start */
 .overlay{
   position:fixed;
   inset:0;
-  background:rgba(8,24,48,.68);
+  background:radial-gradient(circle at 30% 70%,rgba(58,16,96,.65),rgba(8,3,26,.9) 75%);
   display:none;
   align-items:center;
   justify-content:center;
@@ -282,25 +288,43 @@ button{font:inherit;cursor:pointer}
 .overlay.show{display:flex}
 .modal{
   width:min(540px,95vw);
-  background:#fff;
-  border:4px solid var(--blue);
+  background:linear-gradient(160deg,#141342,#0b0926);
+  border:3px solid #4fc3ff;
   border-radius:24px;
-  padding:24px;
+  padding:26px;
   text-align:center;
-  box-shadow:0 20px 46px rgba(0,0,0,.35);
+  color:#fff;
+  box-shadow:0 0 38px rgba(79,195,255,.35);
 }
-.modal.win{border-color:var(--green)}
-.modal.lose{border-color:var(--red)}
-.modal .bot{font-size:58px;display:block;margin-bottom:8px}
-.modal h2{font-size:clamp(22px,3vw,30px);color:#082b68;margin-bottom:10px}
-.modal p{font-size:15px;line-height:1.6;color:#27405e;margin-bottom:16px;font-weight:600}
+.modal.win{border-color:#2ecc71;box-shadow:0 0 38px rgba(46,204,113,.38)}
+.modal.lose{border-color:#ff5252;box-shadow:0 0 38px rgba(255,82,82,.38)}
+.modal .bot{
+  font-size:64px;
+  display:block;
+  margin-bottom:8px;
+  animation:botFloat 1.8s ease-in-out infinite;
+}
+.modal h2{
+  font-size:clamp(22px,3vw,32px);
+  color:#fff;
+  text-shadow:0 0 16px rgba(125,224,255,.55);
+  margin-bottom:10px;
+}
+.modal p{
+  font-size:15px;
+  line-height:1.6;
+  color:#d8e4ff;
+  margin-bottom:18px;
+  font-weight:600;
+}
 .modal-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
-footer{text-align:center;color:#60758b;padding:16px;font-size:13px}
+footer{position:relative;z-index:5;text-align:center;color:#9bb0d8;padding:14px;font-size:13px}
 
 @media(max-width:700px){
-  .arena{height:480px}
-  .basket{width:132px;height:60px}
+  main{padding:12px 12px 16px 68px}
+  .arena{height:470px}
+  .basket{width:136px;height:62px}
 }
 </style>
 </head>
@@ -317,13 +341,12 @@ footer{text-align:center;color:#60758b;padding:16px;font-size:13px}
   </nav>
 </header>
 
-<a class="back-arrow" href="project2-page7.html" title="Back to Shooter Game">←</a>
-<a class="next-arrow" href="index.html" title="Home">→</a>
+<a class="back-arrow" href="page2-page7.html" aria-label="Back to page 7" title="Back to Page 7">&#8592;</a>
 
 <main>
   <div class="top-hud">
     <div class="hud-group">
-      <span class="pill" id="levelPill">Level 1 / 6</span>
+      <span class="pill" id="levelPill">Level 1 / 200</span>
       <span class="pill score" id="scorePill">Score: 0</span>
       <span class="pill lives" id="livesPill">❤️❤️❤️</span>
     </div>
@@ -334,15 +357,19 @@ footer{text-align:center;color:#60758b;padding:16px;font-size:13px}
   </div>
 
   <section class="question-box">
-    <div>
-      <div class="q-label" id="qCategory">BASIC CIRCUIT</div>
-      <div class="q-text" id="qText">Catch components for a Safe 9V LED Circuit!</div>
-      <div class="q-sub" id="qHint">Move the basket below using Mouse, Touch, or Arrow Keys (← / →).</div>
+    <div class="q-left">
+      <div class="mini-bot" id="hudBot">🤖</div>
+      <div>
+        <div class="q-label" id="qCategory">LEVEL 1 • BASIC CIRCUIT</div>
+        <div class="q-text" id="qText">Catch components for a Safe 9V LED Circuit!</div>
+        <div class="q-sub" id="qHint">Move the basket below using Mouse, Touch, or Arrow Keys (← / →).</div>
+      </div>
     </div>
     <div class="needed-chips" id="neededChips"></div>
   </section>
 
   <section class="arena" id="arena">
+    <canvas id="spaceCv"></canvas>
     <div class="basket" id="basket">
       <div class="basket-tray">🧺 Basket</div>
       <div class="basket-wheels"><span></span><span></span></div>
@@ -353,12 +380,12 @@ footer{text-align:center;color:#60758b;padding:16px;font-size:13px}
 <div class="overlay show" id="overlay">
   <div class="modal" id="modalCard">
     <span class="bot">🤖</span>
-    <h2 id="modalTitle">Component Catcher!</h2>
+    <h2 id="modalTitle">Component Catcher</h2>
     <p id="modalDesc">
-      Read the question at the top, watch the components falling from above, and catch only the right components in your basket! Start with simple circuits and level up to Arduino, Home Automation, and Raspberry Pi!
+      200 non-repeating levels await! Read the mission at the top and catch only the right electronics components in your basket—from basic LEDs to Arduino, Home Automation, and Raspberry Pi!
     </p>
     <div class="modal-btns">
-      <button class="btn green" id="modalPrimaryBtn">▶ Start Game</button>
+      <button class="btn green" id="modalPrimaryBtn">▶ Start play</button>
     </div>
   </div>
 </div>
@@ -366,61 +393,14 @@ footer{text-align:center;color:#60758b;padding:16px;font-size:13px}
 <footer>Made for curious learners • Aara Electro</footer>
 
 <script>
-const LEVELS = [
-  {
-    category: "LEVEL 1 • BASIC LED",
-    question: "Build a Safe 9V LED Circuit! Catch the right parts:",
-    hint: "Tip: On 9V, an LED needs a resistor so it doesn't burst!",
-    needed: ["9V Battery", "1kΩ Resistor", "LED"],
-    distractors: ["Buzzer", "DC Motor", "Relay Module", "Raspberry Pi"],
-    speed: 1.75,
-    spawnMs: 1150
-  },
-  {
-    category: "LEVEL 2 • SOUND CIRCUIT",
-    question: "Make a Safe 9V Buzzer Circuit! Catch the right parts:",
-    hint: "Tip: Pick the power source, current limiter, and sound component.",
-    needed: ["9V Battery", "1kΩ Resistor", "Buzzer"],
-    distractors: ["LED", "DC Motor", "Ultrasonic", "Arduino Uno"],
-    speed: 2.0,
-    spawnMs: 1050
-  },
-  {
-    category: "LEVEL 3 • MOTOR MOTION",
-    question: "Spin a DC Motor with Jumper Wires! Catch the right parts:",
-    hint: "Tip: DC Motors spin with battery power and jumper wires.",
-    needed: ["9V Battery", "DC Motor", "Jumper Wires"],
-    distractors: ["Relay Module", "Raspberry Pi", "IR Sensor", "LED"],
-    speed: 2.2,
-    spawnMs: 980
-  },
-  {
-    category: "LEVEL 4 • ARDUINO STARTER",
-    question: "Blink an LED with Arduino! Catch the core parts:",
-    hint: "Tip: Microcontroller + wires + LED + resistor.",
-    needed: ["Arduino Uno", "Jumper Wires", "LED", "1kΩ Resistor"],
-    distractors: ["9V Battery", "Relay Module", "Raspberry Pi", "Buzzer"],
-    speed: 2.45,
-    spawnMs: 920
-  },
-  {
-    category: "LEVEL 5 • HOME AUTOMATION",
-    question: "Control a Home Bulb / Load safely! Catch the automation parts:",
-    hint: "Tip: Automation uses a controller, relay switch, sensor, and load.",
-    needed: ["Arduino Uno", "Relay Module", "PIR Sensor", "AC Bulb"],
-    distractors: ["1kΩ Resistor", "Buzzer", "Raspberry Pi", "DC Motor"],
-    speed: 2.7,
-    spawnMs: 860
-  },
-  {
-    category: "LEVEL 6 • RASPBERRY PI SMART",
-    question: "Build a Smart Raspberry Pi Camera / IoT Setup! Catch the right parts:",
-    hint: "Tip: Mini computer + camera/sensor + jumper wires.",
-    needed: ["Raspberry Pi", "Camera Module", "Jumper Wires", "Temp Sensor"],
-    distractors: ["9V Battery", "AC Bulb", "DC Motor", "Buzzer"],
-    speed: 2.95,
-    spawnMs: 800
-  }
+const ALL_PARTS = [
+  "9V Battery", "1kΩ Resistor", "LED", "Buzzer", "DC Motor", "Jumper Wires",
+  "Switch", "Capacitor", "Diode", "Breadboard", "Push Button", "Potentiometer",
+  "LDR", "IR Sensor", "Ultrasonic", "PIR Sensor", "Temp Sensor", "Gas Sensor",
+  "Soil Moisture", "Servo Motor", "Motor Driver", "Transistor", "Relay Module",
+  "AC Bulb", "Arduino Uno", "ESP32", "Raspberry Pi", "Camera Module", "OLED Display",
+  "LCD Display", "Wi-Fi Module", "Bluetooth Module", "Solar Panel", "Voltage Regulator",
+  "Fuse", "Speaker", "Microphone", "RGB LED", "Joystick", "RFID Reader"
 ];
 
 const PART_ICONS = {
@@ -430,19 +410,161 @@ const PART_ICONS = {
   "Buzzer": "🔔",
   "DC Motor": "⚙️",
   "Jumper Wires": "🔌",
-  "Arduino Uno": "🟦",
-  "Relay Module": "🔀",
+  "Switch": "🔘",
+  "Capacitor": "🛢️",
+  "Diode": "➡️",
+  "Breadboard": "🧱",
+  "Push Button": "🔴",
+  "Potentiometer": "🎛️",
+  "LDR": "☀️",
+  "IR Sensor": "👁️",
+  "Ultrasonic": "🦇",
   "PIR Sensor": "📡",
+  "Temp Sensor": "🌡️",
+  "Gas Sensor": "🌫️",
+  "Soil Moisture": "🌱",
+  "Servo Motor": "🦾",
+  "Motor Driver": "🎛️",
+  "Transistor": "🔺",
+  "Relay Module": "🔀",
   "AC Bulb": "💡",
+  "Arduino Uno": "🟦",
+  "ESP32": "📶",
   "Raspberry Pi": "🍓",
   "Camera Module": "📷",
-  "Temp Sensor": "🌡️",
-  "Ultrasonic": "🦇",
-  "IR Sensor": "👁️"
+  "OLED Display": "🖥️",
+  "LCD Display": "📟",
+  "Wi-Fi Module": "🌐",
+  "Bluetooth Module": "🔵",
+  "Solar Panel": "🔆",
+  "Voltage Regulator": "⚡",
+  "Fuse": "🛡️",
+  "Speaker": "🔊",
+  "Microphone": "🎙️",
+  "RGB LED": "🌈",
+  "Joystick": "🕹️",
+  "RFID Reader": "💳"
 };
 
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function makeMission(stageName, tier, title, hint, needed) {
+  const distractors = shuffle(ALL_PARTS.filter(p => !needed.includes(p))).slice(0, 4);
+  return {
+    stageName,
+    tier,
+    question: title,
+    hint,
+    needed,
+    distractors
+  };
+}
+
+// Build a rich pool of distinct electronics missions across 6 progressive tiers
+const MISSION_POOL = [
+  // Tier 1: Basic Circuits
+  makeMission("BASIC CIRCUIT", 1, "Safe 9V LED Circuit! Catch:", "Resistor protects the LED on 9V.", ["9V Battery", "1kΩ Resistor", "LED"]),
+  makeMission("BASIC CIRCUIT", 1, "Safe 9V Buzzer Circuit! Catch:", "Power + resistor + buzzer.", ["9V Battery", "1kΩ Resistor", "Buzzer"]),
+  makeMission("BASIC CIRCUIT", 1, "Spin a DC Motor! Catch:", "Battery, DC motor, and jumper wires.", ["9V Battery", "DC Motor", "Jumper Wires"]),
+  makeMission("BASIC CIRCUIT", 1, "Switched LED Circuit! Catch:", "Add a switch to turn light ON/OFF.", ["9V Battery", "Switch", "LED"]),
+  makeMission("BASIC CIRCUIT", 1, "Breadboard LED Setup! Catch:", "Build without soldering on breadboard.", ["Breadboard", "Jumper Wires", "LED"]),
+  makeMission("BASIC CIRCUIT", 1, "Push Button Buzzer! Catch:", "Press button to sound buzzer.", ["9V Battery", "Push Button", "Buzzer"]),
+  makeMission("BASIC CIRCUIT", 1, "Solar Power LED! Catch:", "Generate power from sunlight.", ["Solar Panel", "1kΩ Resistor", "LED"]),
+  makeMission("BASIC CIRCUIT", 1, "Fuse Protected Circuit! Catch:", "Protect circuit from excess current.", ["9V Battery", "Fuse", "DC Motor"]),
+  makeMission("BASIC CIRCUIT", 1, "RGB Light Setup! Catch:", "Colorful light + resistor + power.", ["9V Battery", "1kΩ Resistor", "RGB LED"]),
+  makeMission("BASIC CIRCUIT", 1, "Steady Voltage Circuit! Catch:", "Keep voltage steady with regulator.", ["9V Battery", "Voltage Regulator", "LED"]),
+
+  // Tier 2: Analog & Control
+  makeMission("ANALOG & CONTROL", 2, "Dimmer Knob LED! Catch:", "Turn knob to vary resistance.", ["9V Battery", "Potentiometer", "LED"]),
+  makeMission("ANALOG & CONTROL", 2, "Night Light Sensor! Catch:", "Detect light level with LDR.", ["9V Battery", "LDR", "LED"]),
+  makeMission("ANALOG & CONTROL", 2, "Charge Storage Circuit! Catch:", "Store charge with capacitor.", ["9V Battery", "Capacitor", "LED"]),
+  makeMission("ANALOG & CONTROL", 2, "One-Way Current Path! Catch:", "Diode allows current one way.", ["9V Battery", "Diode", "Buzzer"]),
+  makeMission("ANALOG & CONTROL", 2, "Transistor Switch! Catch:", "Switch signal with transistor.", ["Transistor", "1kΩ Resistor", "LED"]),
+  makeMission("ANALOG & CONTROL", 2, "Audio Sound Output! Catch:", "Play sound through speaker.", ["9V Battery", "Capacitor", "Speaker"]),
+  makeMission("ANALOG & CONTROL", 2, "Sound Input Setup! Catch:", "Detect sound with microphone.", ["Microphone", "Capacitor", "LED"]),
+  makeMission("ANALOG & CONTROL", 2, "Manual Switch Motor! Catch:", "Control motor with switch & wires.", ["Switch", "DC Motor", "Jumper Wires"]),
+
+  // Tier 3: Sensors & Actuators
+  makeMission("SENSORS & ACTUATORS", 3, "Distance Radar Setup! Catch:", "Measure distance using sound waves.", ["Ultrasonic", "Jumper Wires", "Buzzer"]),
+  makeMission("SENSORS & ACTUATORS", 3, "Line Follower Sensor! Catch:", "Detect infrared reflection.", ["IR Sensor", "Jumper Wires", "DC Motor"]),
+  makeMission("SENSORS & ACTUATORS", 3, "Motion Alert System! Catch:", "Detect movement with PIR sensor.", ["PIR Sensor", "Buzzer", "Jumper Wires"]),
+  makeMission("SENSORS & ACTUATORS", 3, "Heat Monitor Setup! Catch:", "Measure temperature accurately.", ["Temp Sensor", "Jumper Wires", "OLED Display"]),
+  makeMission("SENSORS & ACTUATORS", 3, "Air Quality Detector! Catch:", "Detect gases in the air.", ["Gas Sensor", "Buzzer", "Jumper Wires"]),
+  makeMission("SENSORS & ACTUATORS", 3, "Garden Soil Check! Catch:", "Measure soil wetness.", ["Soil Moisture", "Jumper Wires", "1kΩ Resistor"]),
+  makeMission("SENSORS & ACTUATORS", 3, "Angle Servo Control! Catch:", "Move motor to exact angle.", ["Servo Motor", "Jumper Wires", "Potentiometer"]),
+  makeMission("SENSORS & ACTUATORS", 3, "Dual Motor Control! Catch:", "Control motor speed & direction.", ["Motor Driver", "DC Motor", "Jumper Wires"]),
+  makeMission("SENSORS & ACTUATORS", 3, "2-Axis Joystick Rig! Catch:", "Read X/Y directional movement.", ["Joystick", "Jumper Wires", "Servo Motor"]),
+
+  // Tier 4: Arduino Projects
+  makeMission("ARDUINO PROJECTS", 4, "Arduino Blink Project! Catch:", "Microcontroller + wires + LED.", ["Arduino Uno", "Jumper Wires", "LED"]),
+  makeMission("ARDUINO PROJECTS", 4, "Arduino Distance Alarm! Catch:", "Arduino + ultrasonic + buzzer.", ["Arduino Uno", "Ultrasonic", "Buzzer"]),
+  makeMission("ARDUINO PROJECTS", 4, "Arduino LCD Meter! Catch:", "Arduino + temp sensor + LCD.", ["Arduino Uno", "Temp Sensor", "LCD Display"]),
+  makeMission("ARDUINO PROJECTS", 4, "Arduino Smart Gate! Catch:", "Arduino + IR sensor + servo.", ["Arduino Uno", "IR Sensor", "Servo Motor"]),
+  makeMission("ARDUINO PROJECTS", 4, "Arduino Auto Lamp! Catch:", "Arduino + LDR + LED.", ["Arduino Uno", "LDR", "LED"]),
+  makeMission("ARDUINO PROJECTS", 4, "Arduino Robot Rover! Catch:", "Arduino + motor driver + DC motor.", ["Arduino Uno", "Motor Driver", "DC Motor"]),
+  makeMission("ARDUINO PROJECTS", 4, "Arduino Access Lock! Catch:", "Arduino + RFID reader + buzzer.", ["Arduino Uno", "RFID Reader", "Buzzer"]),
+  makeMission("ARDUINO PROJECTS", 4, "Arduino Button Counter! Catch:", "Arduino + push button + OLED.", ["Arduino Uno", "Push Button", "OLED Display"]),
+
+  // Tier 5: Home Automation
+  makeMission("HOME AUTOMATION", 5, "Smart Room Light! Catch:", "Controller + relay + AC bulb.", ["Arduino Uno", "Relay Module", "AC Bulb"]),
+  makeMission("HOME AUTOMATION", 5, "Auto Corridor Light! Catch:", "Motion sensor + relay + AC bulb.", ["PIR Sensor", "Relay Module", "AC Bulb"]),
+  makeMission("HOME AUTOMATION", 5, "Smart Garden Pump! Catch:", "Soil moisture + relay + wires.", ["Soil Moisture", "Relay Module", "Jumper Wires"]),
+  makeMission("HOME AUTOMATION", 5, "Kitchen Gas Alarm! Catch:", "Gas sensor + relay + buzzer.", ["Gas Sensor", "Relay Module", "Buzzer"]),
+  makeMission("HOME AUTOMATION", 5, "Wi-Fi Home Switch! Catch:", "Wi-Fi module + relay + AC bulb.", ["Wi-Fi Module", "Relay Module", "AC Bulb"]),
+  makeMission("HOME AUTOMATION", 5, "Phone BT Lamp! Catch:", "Bluetooth module + relay + AC bulb.", ["Bluetooth Module", "Relay Module", "AC Bulb"]),
+  makeMission("HOME AUTOMATION", 5, "Auto Fan Trigger! Catch:", "Temp sensor + relay + DC motor.", ["Temp Sensor", "Relay Module", "DC Motor"]),
+  makeMission("HOME AUTOMATION", 5, "Smart Doorbell! Catch:", "Push button + ESP32 + speaker.", ["Push Button", "ESP32", "Speaker"]),
+
+  // Tier 6: ESP32 & Raspberry Pi IoT
+  makeMission("RASPBERRY PI & IOT", 6, "Pi Smart Vision! Catch:", "Raspberry Pi + camera + wires.", ["Raspberry Pi", "Camera Module", "Jumper Wires"]),
+  makeMission("RASPBERRY PI & IOT", 6, "Pi Weather Station! Catch:", "Raspberry Pi + temp sensor + OLED.", ["Raspberry Pi", "Temp Sensor", "OLED Display"]),
+  makeMission("RASPBERRY PI & IOT", 6, "ESP32 Cloud Sensor! Catch:", "ESP32 + Wi-Fi module + temp sensor.", ["ESP32", "Wi-Fi Module", "Temp Sensor"]),
+  makeMission("RASPBERRY PI & IOT", 6, "Pi Security Cam! Catch:", "Raspberry Pi + PIR sensor + camera.", ["Raspberry Pi", "PIR Sensor", "Camera Module"]),
+  makeMission("RASPBERRY PI & IOT", 6, "Pi Voice Recorder! Catch:", "Raspberry Pi + microphone + speaker.", ["Raspberry Pi", "Microphone", "Speaker"]),
+  makeMission("RASPBERRY PI & IOT", 6, "ESP32 Smart Relay! Catch:", "ESP32 + Wi-Fi module + relay.", ["ESP32", "Wi-Fi Module", "Relay Module"]),
+  makeMission("RASPBERRY PI & IOT", 6, "Pi Tag Scanner! Catch:", "Raspberry Pi + RFID reader + OLED.", ["Raspberry Pi", "RFID Reader", "OLED Display"]),
+  makeMission("RASPBERRY PI & IOT", 6, "ESP32 Joystick Bot! Catch:", "ESP32 + joystick + servo motor.", ["ESP32", "Joystick", "Servo Motor"])
+];
+
+// Generate 200 distinct levels with zero repeats
+const TOTAL_LEVELS = 200;
+const LEVELS = [];
+let deck = [];
+
+for (let lvl = 1; lvl <= TOTAL_LEVELS; lvl++) {
+  if (deck.length === 0) {
+    deck = shuffle(MISSION_POOL);
+  }
+  const base = deck.pop();
+  const ramp = (lvl - 1) / (TOTAL_LEVELS - 1); // 0.0 -> 1.0
+  const speed = +(1.65 + ramp * 2.15).toFixed(2);
+  const spawnMs = Math.max(520, Math.round(1150 - ramp * 600));
+
+  LEVELS.push({
+    levelNum: lvl,
+    category: `LEVEL ${lvl} / ${TOTAL_LEVELS} • ${base.stageName}`,
+    question: base.question,
+    hint: `${base.hint} (Speed ${speed}x)`,
+    needed: base.needed,
+    distractors: base.distractors,
+    speed,
+    spawnMs
+  });
+}
+
+// Space & Robot background canvas inside Arena
+const spaceCv = document.getElementById("spaceCv");
+const sctx = spaceCv.getContext("2d");
 const arena = document.getElementById("arena");
 const basket = document.getElementById("basket");
+const hudBot = document.getElementById("hudBot");
 const levelPill = document.getElementById("levelPill");
 const scorePill = document.getElementById("scorePill");
 const livesPill = document.getElementById("livesPill");
@@ -458,6 +580,107 @@ const modalPrimaryBtn = document.getElementById("modalPrimaryBtn");
 const pauseBtn = document.getElementById("pauseBtn");
 const restartBtn = document.getElementById("restartBtn");
 
+let stars = [];
+let bgBots = [];
+let particles = [];
+let sw = 0, sh = 0;
+
+function resizeSpace() {
+  sw = spaceCv.width = arena.clientWidth;
+  sh = spaceCv.height = arena.clientHeight;
+  if (stars.length === 0) {
+    for (let i = 0; i < 95; i++) {
+      stars.push({
+        x: Math.random() * sw,
+        y: Math.random() * sh,
+        r: Math.random() * 1.8 + 0.4,
+        sp: Math.random() * 45 + 15,
+        a: Math.random() * 0.7 + 0.3
+      });
+    }
+    bgBots = [
+      { x: sw * 0.14, y: sh * 0.28, vx: 22, phase: 0, icon: "🤖" },
+      { x: sw * 0.85, y: sh * 0.42, vx: -18, phase: 2.1, icon: "🛸" }
+    ];
+  }
+}
+
+function burstParticles(x, y, color, count) {
+  for (let i = 0; i < count; i++) {
+    const ang = Math.random() * Math.PI * 2;
+    const spd = 60 + Math.random() * 190;
+    particles.push({
+      x, y,
+      vx: Math.cos(ang) * spd,
+      vy: Math.sin(ang) * spd,
+      r: 2 + Math.random() * 3.5,
+      a: 1,
+      color
+    });
+  }
+}
+
+function drawSpace(now, dt) {
+  const t = now / 1000;
+  sctx.clearRect(0, 0, sw, sh);
+
+  const g1 = sctx.createRadialGradient(sw * 0.2, sh * 0.75, 10, sw * 0.2, sh * 0.75, Math.max(sw, sh) * 0.45);
+  g1.addColorStop(0, "rgba(120,30,170,0.34)");
+  g1.addColorStop(1, "rgba(120,30,170,0)");
+  sctx.fillStyle = g1;
+  sctx.fillRect(0, 0, sw, sh);
+
+  const g2 = sctx.createRadialGradient(sw * 0.85, sh * 0.25, 10, sw * 0.85, sh * 0.25, Math.max(sw, sh) * 0.42);
+  g2.addColorStop(0, "rgba(17,185,238,0.22)");
+  g2.addColorStop(1, "rgba(17,185,238,0)");
+  sctx.fillStyle = g2;
+  sctx.fillRect(0, 0, sw, sh);
+
+  stars.forEach(st => {
+    st.y += st.sp * dt;
+    if (st.y > sh) {
+      st.y = -4;
+      st.x = Math.random() * sw;
+    }
+    sctx.fillStyle = `rgba(255,255,255,${st.a})`;
+    sctx.beginPath();
+    sctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+    sctx.fill();
+  });
+
+  bgBots.forEach(b => {
+    b.x += b.vx * dt;
+    if (b.x < 40 || b.x > sw - 40) b.vx *= -1;
+    const fy = b.y + Math.sin(t * 2.2 + b.phase) * 14;
+    sctx.save();
+    sctx.globalAlpha = 0.28;
+    sctx.font = "34px system-ui, sans-serif";
+    sctx.textAlign = "center";
+    sctx.fillText(b.icon, b.x, fy);
+    sctx.restore();
+  });
+
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    p.a -= 1.8 * dt;
+    if (p.a <= 0) {
+      particles.splice(i, 1);
+      continue;
+    }
+    sctx.save();
+    sctx.globalAlpha = Math.max(0, p.a);
+    sctx.fillStyle = p.color;
+    sctx.shadowColor = p.color;
+    sctx.shadowBlur = 10;
+    sctx.beginPath();
+    sctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    sctx.fill();
+    sctx.restore();
+  }
+}
+
 let levelIndex = 0;
 let score = 0;
 let lives = 3;
@@ -472,16 +695,23 @@ let spawnTimer = null;
 let rafId = null;
 let lastFrameTime = 0;
 
+function flashArena(type) {
+  arena.classList.remove("flash-good", "flash-bad");
+  void arena.offsetWidth;
+  arena.classList.add(type === "good" ? "flash-good" : "flash-bad");
+  setTimeout(() => arena.classList.remove("flash-good", "flash-bad"), 380);
+}
+
 function centerBasket() {
   const w = arena.clientWidth;
-  const bw = basket.offsetWidth || 154;
+  const bw = basket.offsetWidth || 162;
   basketX = Math.max(10, (w - bw) / 2);
   basket.style.left = basketX + "px";
 }
 
 function renderHUD() {
   const lvl = LEVELS[levelIndex];
-  levelPill.textContent = `Level ${levelIndex + 1} / ${LEVELS.length}`;
+  levelPill.textContent = `Level ${lvl.levelNum} / ${TOTAL_LEVELS}`;
   scorePill.textContent = `Score: ${score}`;
   livesPill.textContent = "❤️".repeat(Math.max(0, lives)) || "💔";
 
@@ -507,7 +737,7 @@ function spawnPopup(x, y, text, type) {
   const p = document.createElement("div");
   p.className = `pop-toast ${type}`;
   p.textContent = text;
-  p.style.left = Math.max(50, Math.min(arena.clientWidth - 50, x)) + "px";
+  p.style.left = Math.max(60, Math.min(arena.clientWidth - 60, x)) + "px";
   p.style.top = Math.max(30, y) + "px";
   arena.appendChild(p);
   setTimeout(() => p.remove(), 850);
@@ -516,8 +746,7 @@ function spawnPopup(x, y, text, type) {
 function pickPartForLevel() {
   const lvl = LEVELS[levelIndex];
   const remainingNeeded = lvl.needed.filter(n => !caughtSet.has(n));
-  // Bias toward needed parts so levels feel fair and fun
-  if (remainingNeeded.length > 0 && Math.random() < 0.62) {
+  if (remainingNeeded.length > 0 && Math.random() < 0.65) {
     return remainingNeeded[Math.floor(Math.random() * remainingNeeded.length)];
   }
   const pool = [...lvl.needed, ...lvl.distractors];
@@ -535,9 +764,9 @@ function spawnFallingItem() {
   const itemW = el.offsetWidth || 104;
   const maxX = Math.max(12, arena.clientWidth - itemW - 12);
   const x = 12 + Math.random() * maxX;
-  const y = -75;
+  const y = -80;
   const lvl = LEVELS[levelIndex];
-  const vy = (lvl.speed + Math.random() * 0.55) * 60; // px per second
+  const vy = (lvl.speed + Math.random() * 0.45) * 65;
 
   el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
   fallingList.push({ name, el, x, y, vy });
@@ -545,8 +774,7 @@ function spawnFallingItem() {
 
 function startSpawner() {
   clearInterval(spawnTimer);
-  const ms = LEVELS[levelIndex].spawnMs;
-  spawnTimer = setInterval(spawnFallingItem, ms);
+  spawnTimer = setInterval(spawnFallingItem, LEVELS[levelIndex].spawnMs);
 }
 
 function openModal(mode, title, desc, btnText, onBtnClick) {
@@ -561,18 +789,23 @@ function openModal(mode, title, desc, btnText, onBtnClick) {
 }
 
 function handleLevelComplete() {
-  score += 50;
+  score += 50 + levelIndex * 2;
+  hudBot.textContent = "🎉";
+  burstParticles(basketX + 80, arena.clientHeight - 50, "#2ecc71", 28);
   renderHUD();
+
   if (levelIndex + 1 < LEVELS.length) {
+    const nextLvl = LEVELS[levelIndex + 1];
     openModal(
       "win",
-      `Level ${levelIndex + 1} Complete! 🎉`,
-      `Awesome catch! Ready for Level ${levelIndex + 2}: ${LEVELS[levelIndex + 1].category}?`,
+      `Level ${levelIndex + 1} Cleared!`,
+      `Great job! Next up: ${nextLvl.category} — ${nextLvl.question} ${nextLvl.needed.join(", ")}`,
       "Next Level →",
       () => {
         levelIndex++;
         caughtSet.clear();
         clearFallingItems();
+        hudBot.textContent = "🤖";
         overlay.classList.remove("show");
         renderHUD();
         startGameLoop();
@@ -581,8 +814,8 @@ function handleLevelComplete() {
   } else {
     openModal(
       "win",
-      "You Mastered All 6 Levels! 🏆",
-      `Final Score: ${score}! From basic LED circuits to Arduino, Home Automation, and Raspberry Pi, you caught them all!`,
+      "All 200 Levels Conquered! 🏆",
+      `Incredible! Final Score: ${score}. You completed every single mission across all 200 levels!`,
       "Play Again ↻",
       () => resetFullGame()
     );
@@ -591,14 +824,19 @@ function handleLevelComplete() {
 
 function loseLife(reasonText, x, y) {
   lives--;
+  hudBot.textContent = "⚡";
+  flashArena("bad");
+  burstParticles(x, y, "#ff5252", 22);
   spawnPopup(x, y, reasonText, "bad");
   renderHUD();
+  setTimeout(() => { if (gameRunning) hudBot.textContent = "🤖"; }, 700);
+
   if (lives <= 0) {
     openModal(
       "lose",
-      "Game Over!",
-      `Your final score is ${score}. Check the question at the top carefully and try again!`,
-      "Try Again ↻",
+      "Game Over",
+      `Reached Level ${levelIndex + 1} with Score ${score}. Check the required components at the top and try again!`,
+      "Retry ↻",
       () => resetFullGame()
     );
   }
@@ -631,9 +869,12 @@ function checkCatch(item) {
     if (!caughtSet.has(item.name)) {
       caughtSet.add(item.name);
       score += 20;
+      flashArena("good");
+      burstParticles(centerX, bTop, "#ffd54d", 18);
       spawnPopup(centerX, bTop - 10, `+20 ${item.name}!`, "good");
     } else {
       score += 5;
+      burstParticles(centerX, bTop, "#7de0ff", 10);
       spawnPopup(centerX, bTop - 10, `+5 Bonus!`, "good");
     }
     basket.classList.remove("pulse");
@@ -655,13 +896,17 @@ function updateFrame(timestamp) {
   const dt = Math.min(0.05, (timestamp - lastFrameTime) / 1000);
   lastFrameTime = timestamp;
 
+  if (!isPaused) {
+    drawSpace(timestamp, dt);
+  }
+
   if (gameRunning && !isPaused) {
     const arenaW = arena.clientWidth;
     const arenaH = arena.clientHeight;
-    const bw = basket.offsetWidth || 154;
+    const bw = basket.offsetWidth || 162;
 
-    if (keysPressed.left) basketX -= 460 * dt;
-    if (keysPressed.right) basketX += 460 * dt;
+    if (keysPressed.left) basketX -= 500 * dt;
+    if (keysPressed.right) basketX += 500 * dt;
     basketX = Math.max(8, Math.min(arenaW - bw - 8, basketX));
     basket.style.left = basketX + "px";
 
@@ -687,6 +932,7 @@ function updateFrame(timestamp) {
 }
 
 function startGameLoop() {
+  resizeSpace();
   centerBasket();
   gameRunning = true;
   isPaused = false;
@@ -701,7 +947,9 @@ function resetFullGame() {
   score = 0;
   lives = 3;
   caughtSet.clear();
+  particles = [];
   clearFallingItems();
+  hudBot.textContent = "🤖";
   overlay.classList.remove("show");
   renderHUD();
   startGameLoop();
@@ -721,10 +969,9 @@ pauseBtn.addEventListener("click", () => {
 
 restartBtn.addEventListener("click", resetFullGame);
 
-// Pointer / Touch dragging for Basket
 function moveBasketToClientX(clientX) {
   const rect = arena.getBoundingClientRect();
-  const bw = basket.offsetWidth || 154;
+  const bw = basket.offsetWidth || 162;
   const target = clientX - rect.left - bw / 2;
   basketX = Math.max(8, Math.min(rect.width - bw - 8, target));
   basket.style.left = basketX + "px";
@@ -755,8 +1002,12 @@ window.addEventListener("keyup", e => {
   if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") keysPressed.right = false;
 });
 
-window.addEventListener("resize", centerBasket);
+window.addEventListener("resize", () => {
+  resizeSpace();
+  centerBasket();
+});
 
+resizeSpace();
 renderHUD();
 centerBasket();
 rafId = requestAnimationFrame(updateFrame);
