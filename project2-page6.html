@@ -13,7 +13,6 @@ header{min-height:70px;background:linear-gradient(100deg,#07316f,#061e50);color:
 nav{display:flex;gap:clamp(8px,2vw,24px);flex-wrap:wrap}nav a{color:#fff;text-decoration:none;font-weight:700;padding:9px 12px;border-radius:22px}nav a:hover,nav a.active{background:#fff;color:#07316f}
 .robot-mini{font-size:30px}
 
-/* Intro banner with left-corner animated round back arrow & centered title */
 .intro{position:relative;text-align:center;padding:24px 76px 18px;background:linear-gradient(110deg,#0879d8,#11b9ee 55%,#2386e8);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:110px}
 .intro h1{margin:0 0 8px;font-size:clamp(27px,4vw,42px);text-align:center}
 .intro p{margin:0;font-size:16px;text-align:center}
@@ -47,7 +46,8 @@ main{max-width:1500px;margin:auto;padding:20px}
 .toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .toolbar h2{margin:0;color:#0756b8;font-size:22px}
 button{font:inherit;cursor:pointer}
-.new-project{border:0;border-radius:24px;background:#0756b8;color:#fff;font-weight:800;padding:12px 20px;box-shadow:0 4px 0 #063d83}
+.new-project{border:0;border-radius:24px;background:#0756b8;color:#fff;font-weight:800;padding:12px 20px;box-shadow:0 4px 0 #063d83;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.new-project:hover{filter:brightness(1.08)}
 .workspace{display:grid;grid-template-columns:210px minmax(0,1fr) 270px;gap:14px;align-items:stretch}
 .panel{background:#fff;border:1px solid #d7e6f4;border-radius:18px;padding:14px;box-shadow:0 5px 18px #174b7910}
 .panel h3{margin:0 0 12px;color:#0756b8;font-size:17px}
@@ -73,13 +73,12 @@ button{font:inherit;cursor:pointer}
 .term-pin{position:absolute;width:18px;height:18px;border-radius:50%;font-size:12px;font-weight:900;line-height:16px;text-align:center;color:#fff;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.35);pointer-events:none;z-index:6}
 .term-pos{background:#e53935}
 .term-neg{background:#1c242b}
+.term-res{background:#0288d1}
 
 .sw-toggle-btn{position:absolute;right:-8px;top:-10px;z-index:8;border:2px solid #fff;border-radius:12px;padding:2px 8px;font-size:11px;font-weight:900;color:#fff;background:#78909c;box-shadow:0 2px 6px rgba(0,0,0,.28)}
 .sw-toggle-btn.is-on{background:#0b8a55}
 
-.spin-badge{position:absolute;left:50%;top:-34px;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:900;white-space:nowrap;pointer-events:none;z-index:8;box-shadow:0 2px 6px rgba(0,0,0,.2)}
-.spin-badge.right{background:#e8f8f0;color:#087f4b;border:2px solid #16a364}
-.spin-badge.left{background:#ffebee;color:#c62828;border:2px solid #e53935}
+.spin-badge{position:absolute;left:50%;top:-34px;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:12px;font-size:11px;font-weight:900;white-space:nowrap;pointer-events:none;z-index:8;box-shadow:0 2px 6px rgba(0,0,0,.2);background:#e8f8f0;color:#087f4b;border:2px solid #16a364}
 .spin-right-anim{animation:spinCW .75s linear infinite;transform-origin:center}
 .spin-left-anim{animation:spinCCW .75s linear infinite;transform-origin:center}
 @keyframes spinCW{to{transform:rotate(360deg)}}
@@ -97,7 +96,8 @@ button{font:inherit;cursor:pointer}
 
 .jumper-alert-wrap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:55;pointer-events:none;padding:16px}
 .jumper-alert-wrap.visible{display:flex}
-.jumper-alert-box{pointer-events:auto;background:linear-gradient(135deg,#fff8e1,#ffe082);border:3px solid #ff8f00;color:#3e1f00;border-radius:24px;padding:24px 34px;font-size:clamp(20px,2.6vw,28px);font-weight:900;box-shadow:0 16px 38px rgba(0,0,0,0.28);animation:popIn .35s ease;text-align:center}
+.jumper-alert-btn{pointer-events:auto;background:linear-gradient(135deg,#ff9800,#ef6c00);border:3px solid #fff;color:#fff;border-radius:24px;padding:22px 34px;font-size:clamp(19px,2.4vw,26px);font-weight:900;box-shadow:0 16px 38px rgba(239,108,0,0.42);animation:popIn .35s ease;text-align:center}
+.jumper-alert-btn:hover{filter:brightness(1.07);transform:scale(1.03)}
 
 .center-check-wrap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50;pointer-events:none;padding:16px}
 .center-check-wrap.visible{display:flex}
@@ -112,10 +112,12 @@ button{font:inherit;cursor:pointer}
 .robot-modal{width:min(580px,96vw);background:#ffffff;border:4px solid #0756b8;border-radius:28px;padding:26px 28px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.42);animation:popIn .4s cubic-bezier(.18,.89,.32,1.28)}
 .robot-modal.danger-modal{border-color:#d32f2f}
 .robot-modal.success-modal{border-color:#0b8a55}
-.modal-robo-avatar{font-size:86px;line-height:1.05;display:block;margin:0 auto 10px;animation:roboBob 1.3s ease-in-out infinite alternate}
+.modal-logo-badge{display:inline-flex;align-items:center;gap:8px;background:#eaf6ff;border:2px solid #0875df;color:#082b68;border-radius:20px;padding:6px 14px;font-weight:900;font-size:14px;margin-bottom:8px}
+.modal-logo-badge span{color:#ff8f00}
+.modal-robo-avatar{font-size:80px;line-height:1.05;display:block;margin:0 auto 10px;animation:roboBob 1.3s ease-in-out infinite alternate}
 @keyframes roboBob{from{transform:translateY(0)}to{transform:translateY(-8px)}}
 .modal-title{margin:0 0 12px;font-size:clamp(22px,3vw,29px);font-weight:900;color:#0a192f}
-.modal-body{text-align:left;background:#f4f8fc;border:2px solid #cbd9e8;border-radius:18px;padding:18px 20px;font-size:17px;line-height:1.6;color:#0b1320;font-weight:700}
+.modal-body{text-align:left;background:#f4f8fc;border:2px solid #cbd9e8;border-radius:18px;padding:18px 20px;font-size:16px;line-height:1.6;color:#0b1320;font-weight:700}
 .modal-body p{margin:0 0 12px}
 .modal-body p:last-child{margin-bottom:0}
 .modal-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
@@ -178,9 +180,9 @@ footer{text-align:center;color:#60758b;padding:20px;font-size:13px}
 <main>
 <div class="toolbar">
 <h2>Build your circuit with Switch &amp; DC Motor</h2>
-<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:relative;z-index:90">
 <button class="new-project" id="newProject">↻ New Project</button>
-<a href="project2-page7.html" class="new-project" style="text-decoration:none">Next →</a>
+<a href="project2-page7.html" class="new-project" id="nextPageBtn">Next →</a>
 </div>
 </div>
 <section class="workspace">
@@ -236,21 +238,22 @@ footer{text-align:center;color:#60758b;padding:20px;font-size:13px}
 </main>
 
 <div class="jumper-alert-wrap" id="jumperAlertWrap">
-<div class="jumper-alert-box">🔌 Connect with jumper wire!</div>
+<button type="button" class="jumper-alert-btn" id="jumperAlertBtn">🔌 Connect with jumper wire!</button>
 </div>
 
 <div class="center-check-wrap" id="centerCheckWrap">
-<button class="check-big" id="checkCircuit">🔍 Check Circuit</button>
+<button type="button" class="check-big" id="checkCircuit">🔍 Check Circuit</button>
 </div>
 
 <div class="robot-modal-backdrop" id="robotModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
 <div class="robot-modal" id="robotModal">
+<div class="modal-logo-badge"><span>⚡</span> Aara Electro</div>
 <span class="modal-robo-avatar" id="modalRoboAvatar">🤖</span>
 <h2 class="modal-title" id="modalTitle">Aara AI Circuit Report</h2>
 <div class="modal-body" id="modalBody"></div>
 <div class="modal-actions">
-<button class="btn-retry" id="retryProjectBtn">↻ Retry</button>
-<button class="btn-close-modal" id="closeModalBtn">Close</button>
+<button type="button" class="btn-retry" id="retryProjectBtn">↻ Retry</button>
+<button type="button" class="btn-close-modal" id="closeModalBtn">Close</button>
 </div>
 </div>
 </div>
@@ -267,6 +270,7 @@ const holes=document.getElementById('holes');
 const centerCheckWrap=document.getElementById('centerCheckWrap');
 const checkCircuitBtn=document.getElementById('checkCircuit');
 const jumperAlertWrap=document.getElementById('jumperAlertWrap');
+const jumperAlertBtn=document.getElementById('jumperAlertBtn');
 const robotModalBackdrop=document.getElementById('robotModalBackdrop');
 const robotModal=document.getElementById('robotModal');
 const modalTitle=document.getElementById('modalTitle');
@@ -281,13 +285,14 @@ let selectedItem=null;
 let activeWireEnd=null;
 let circuitState='incomplete';
 let circuitReason='';
-let motorSpinDir=null;
+let circuitScience='';
+let jumperPromptShownForLoad=false;
 let jumperAlertTimer=null;
 
 const art={
 led:`<svg viewBox="0 0 54 86"><path d="M18 46v36" stroke="#e53935" stroke-width="3"/><path d="M36 46v32" stroke="#37474f" stroke-width="3"/><path d="M13 42a14 14 0 1 1 28 0v6H13z" fill="#ed3448" stroke="#9d1729" stroke-width="2"/><ellipse cx="27" cy="31" rx="8" ry="5" fill="#ff9aa5" opacity=".65"/><path d="M15 16L7 8m32 8 8-8" stroke="#ffc84a" stroke-width="2" stroke-linecap="round"/></svg><span class="term-pin term-pos" style="left:9px;bottom:-2px" title="Positive (+)">+</span><span class="term-pin term-neg" style="right:9px;bottom:2px" title="Negative (−)">−</span>`,
 ledBusted:`<svg viewBox="0 0 54 86"><path d="M18 46v36" stroke="#6c757d" stroke-width="3"/><path d="M36 46v32" stroke="#495057" stroke-width="3"/><path d="M13 42a14 14 0 0 1 13-13.9l-2 6 6 4-4 6h15v3H13z" fill="#3a3f44" stroke="#1c1f22" stroke-width="2"/><path d="M28 28.2A14 14 0 0 1 41 42v4H29l4-6-6-4z" fill="#52585e" stroke="#1c1f22" stroke-width="2"/><path d="M23 26l-5-10m10 9 7-9m-15 15-9-3m31 2 9-4" stroke="#ff6d00" stroke-width="2.4" stroke-linecap="round"/><circle cx="27" cy="39" r="5" fill="#ff9100" opacity=".9"/></svg><span class="term-pin term-pos" style="left:9px;bottom:-2px">+</span><span class="term-pin term-neg" style="right:9px;bottom:2px">−</span><span class="smoke-puff"></span><span class="smoke-puff s2"></span><span class="smoke-puff s3"></span>`,
-resistor:`<svg viewBox="0 0 110 44"><path d="M4 22h102" stroke="#90a4ae" stroke-width="3"/><rect x="24" y="10" width="62" height="24" rx="10" fill="#e8c79a" stroke="#98734b" stroke-width="1.8"/><path d="M37 11v22m11-22v22m18-22v22" stroke="#9b3326" stroke-width="4.5"/><path d="M76 11v22" stroke="#c49a31" stroke-width="3.5"/></svg><span class="term-pin term-pos" style="left:-4px;top:13px" title="Resistor Terminal">+</span><span class="term-pin term-neg" style="right:-4px;top:13px" title="Resistor Terminal">−</span>`,
+resistor:`<svg viewBox="0 0 110 44"><path d="M4 22h102" stroke="#90a4ae" stroke-width="3"/><rect x="24" y="10" width="62" height="24" rx="10" fill="#e8c79a" stroke="#98734b" stroke-width="1.8"/><path d="M37 11v22m11-22v22m18-22v22" stroke="#9b3326" stroke-width="4.5"/><path d="M76 11v22" stroke="#c49a31" stroke-width="3.5"/></svg><span class="term-pin term-res" style="left:-4px;top:13px" title="Resistor Terminal">R</span><span class="term-pin term-res" style="right:-4px;top:13px" title="Resistor Terminal">R</span>`,
 battery:`<svg viewBox="0 0 130 102"><rect x="36" y="6" width="16" height="12" rx="3" fill="#e53935" stroke="#8e0000" stroke-width="1.5"/><rect x="78" y="6" width="16" height="12" rx="3" fill="#37474f" stroke="#102027" stroke-width="1.5"/><rect x="18" y="17" width="94" height="76" rx="10" fill="#202a35" stroke="#101820" stroke-width="2"/><rect x="24" y="23" width="82" height="64" rx="7" fill="#303d4a"/><text x="65" y="54" text-anchor="middle" font-size="22" fill="#fff" font-weight="bold">9V</text><text x="65" y="72" text-anchor="middle" font-size="10" fill="#cfe7ff">BATTERY</text></svg><span class="term-pin term-pos" style="left:35px;top:-2px" title="Battery Positive (+)">+</span><span class="term-pin term-neg" style="right:35px;top:-2px" title="Battery Negative (−)">−</span>`,
 buzzer:`<svg viewBox="0 0 76 76"><circle cx="38" cy="33" r="26" fill="#252b31" stroke="#101820" stroke-width="2"/><circle cx="38" cy="33" r="16" fill="#59616a"/><circle cx="38" cy="33" r="6" fill="#1d252c"/><path d="M27 57v15" stroke="#e53935" stroke-width="3"/><path d="M49 57v15" stroke="#37474f" stroke-width="3"/></svg><span class="term-pin term-pos" style="left:18px;bottom:-2px" title="Buzzer Positive (+)">+</span><span class="term-pin term-neg" style="right:18px;bottom:-2px" title="Buzzer Negative (−)">−</span>`,
 buzzerBusted:`<svg viewBox="0 0 76 76"><circle cx="38" cy="33" r="26" fill="#32373b" stroke="#16181a" stroke-width="2"/><circle cx="38" cy="33" r="16" fill="#474c52"/><path d="M20 17l14 12-6 6 13 12" stroke="#ff5722" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M27 57v15M49 57v15" stroke="#6c757d" stroke-width="3"/></svg><span class="term-pin term-pos" style="left:18px;bottom:-2px">+</span><span class="term-pin term-neg" style="right:18px;bottom:-2px">−</span><span class="smoke-puff"></span><span class="smoke-puff s2"></span>`,
@@ -296,17 +301,26 @@ motor:`<svg viewBox="0 0 96 82"><rect x="20" y="18" width="56" height="44" rx="1
 switchPart:`<svg viewBox="0 0 92 56"><rect x="14" y="14" width="64" height="28" rx="8" fill="#263238" stroke="#111" stroke-width="2"/><rect class="sw-knob" x="20" y="18" width="24" height="20" rx="5" fill="#90a4ae"/><path d="M4 28h10M78 28h10" stroke="#b0bec5" stroke-width="3"/></svg><button type="button" class="sw-toggle-btn" title="Toggle Switch ON/OFF">OFF</button>`
 };
 
+function hideJumperAlert(){
+clearTimeout(jumperAlertTimer);
+jumperAlertWrap.classList.remove('visible');
+}
+
 function showJumperAlert(){
 clearTimeout(jumperAlertTimer);
 jumperAlertWrap.classList.add('visible');
-speech.innerHTML='<b>🤖 Aara AI:</b><br>After placing the <b>9V Battery</b>, click <b>Jumper Wires (+ &amp; −)</b> and connect the terminals! Direct placement will not connect.';
-jumperAlertTimer=setTimeout(()=>{
-jumperAlertWrap.classList.remove('visible');
-},2400);
+speech.innerHTML='<b>🤖 Aara AI:</b><br>Click <b>🔌 Connect with jumper wire!</b> or select <b>Jumper Wires (+ &amp; −)</b> to place Red (+) and Black (−) jumper wires.';
+jumperAlertTimer=setTimeout(()=>hideJumperAlert(),4000);
 }
+
+jumperAlertBtn.addEventListener('click',()=>{
+hideJumperAlert();
+spawnDualJumperWires();
+});
 
 function addPart(type,x,y){
 if(type==='jumper'){
+hideJumperAlert();
 spawnDualJumperWires();
 return;
 }
@@ -342,17 +356,25 @@ el.style.top=py+'px';
 dropzone.appendChild(el);
 items.push(el);
 makeMovable(el);
+
+const hasBattery=items.some(i=>i.dataset.type==='battery');
+const hasLoad=items.some(i=>['led','motor','buzzer'].includes(i.dataset.type));
+if(hasBattery&&hasLoad&&!jumperPromptShownForLoad&&wires.length===0){
+jumperPromptShownForLoad=true;
+showJumperAlert();
+}
 evaluateCircuit();
 }
 
 function spawnDualJumperWires(){
+hideJumperAlert();
 const w=workbench.clientWidth;
 const h=workbench.clientHeight;
 const offset=wires.length*14;
 createSingleWire('red', w*0.24, h*0.30+offset, w*0.44, h*0.30+offset);
 createSingleWire('black', w*0.24, h*0.72-offset, w*0.44, h*0.72-offset);
 statusBox.className='status';
-statusBox.textContent='Red (+) and Black (−) jumper wires added! Drag or use Arrow Keys (↑↓←→) to connect each end to + and − terminals.';
+statusBox.textContent='Red (+) and Black (−) jumper wires added! Drag or use Arrow Keys (↑↓←→) to connect terminals.';
 evaluateCircuit();
 }
 
@@ -512,7 +534,7 @@ const pr=pin.getBoundingClientRect();
 pts.push({
 x:pr.left+pr.width/2-wr.left,
 y:pr.top+pr.height/2-wr.top,
-pol:pin.classList.contains('term-pos')?'pos':'neg',
+pol:pin.classList.contains('term-pos')?'pos':pin.classList.contains('term-neg')?'neg':'res',
 type
 });
 });
@@ -523,7 +545,7 @@ pts.push({x:er.right-wr.left,y:er.top+er.height/2-wr.top,pol:'any',type});
 return pts;
 }
 
-function findSnappedTerminal(x,y,threshold=26){
+function findSnappedTerminal(x,y,threshold=28){
 let best=null;
 let bestDist=threshold;
 items.forEach(el=>{
@@ -536,15 +558,15 @@ return best;
 }
 
 function evaluateCircuit(){
-const snapRadius=26;
+const snapRadius=28;
 items.forEach(el=>{
 el.classList.remove('glow','busted-part');
 const badge=el.querySelector('.spin-badge');
 if(badge)badge.remove();
 const blade=el.querySelector('.rotor-blade');
 if(blade)blade.classList.remove('spin-right-anim','spin-left-anim');
-if(el.dataset.type==='led'&&!el.dataset.busted)el.innerHTML=art.led;
-if(el.dataset.type==='buzzer'&&!el.dataset.busted)el.innerHTML=art.buzzer;
+if(el.dataset.type==='led')el.innerHTML=art.led;
+if(el.dataset.type==='buzzer')el.innerHTML=art.buzzer;
 });
 
 const adj=new Map();
@@ -579,15 +601,16 @@ addEdge(t1,t2);
 const batteries=items.filter(i=>i.dataset.type==='battery');
 const loads=items.filter(i=>['led','motor','buzzer'].includes(i.dataset.type));
 const switches=items.filter(i=>i.dataset.type==='switch');
+const resistors=items.filter(i=>i.dataset.type==='resistor');
 
 circuitState='incomplete';
 circuitReason='';
-motorSpinDir=null;
+circuitScience='';
 
 if(!batteries.length||!loads.length){
 centerCheckWrap.classList.remove('visible');
 statusBox.className='status';
-statusBox.textContent='Add a 9V Battery, Jumper Wires, and a load (DC Motor, LED, or Buzzer) to test your circuit.';
+statusBox.textContent='Add a 9V Battery and a load (LED, Buzzer, or DC Motor) to test your circuit.';
 return;
 }
 
@@ -596,13 +619,13 @@ const batPins=getTerminalPoints(batteries[0]);
 const batPos=batPins.find(p=>p.pol==='pos');
 const batNeg=batPins.find(p=>p.pol==='neg');
 
-const reachable=start=>{
+const reachable=(start,blockedTypes=new Set())=>{
 const seen=new Set([start]);
 const q=[start];
 while(q.length){
 const curr=q.shift();
 for(const nxt of (adj.get(curr)||[])){
-if(!seen.has(nxt)){seen.add(nxt);q.push(nxt);}
+if(!seen.has(nxt)&&!blockedTypes.has(nxt.type)){seen.add(nxt);q.push(nxt);}
 }
 }
 return seen;
@@ -610,66 +633,80 @@ return seen;
 
 const fromPos=batPos?reachable(batPos):new Set();
 const fromNeg=batNeg?reachable(batNeg):new Set();
+const fromPosNoRes=batPos?reachable(batPos,new Set(['resistor'])):new Set();
+const fromNegNoRes=batNeg?reachable(batNeg,new Set(['resistor'])):new Set();
 
 if(batPos&&fromPos.has(batNeg)){
 circuitState='short';
-circuitReason='Direct short circuit detected between Battery (+) and Battery (−)! Always route current through a load or switch.';
+circuitReason='Battery (+) and Battery (−) are shorted directly together!';
+circuitScience='A direct wire between + and − creates a very low-resistance path, causing a short circuit.';
 } else if(anySwitchOff){
 circuitState='switch_off';
-circuitReason='Your Switch is currently OFF—power is open. Click OFF/ON on the Switch to close the circuit!';
+circuitReason='Your Switch is currently OFF—the circuit is open.';
+circuitScience='An open switch breaks the current path so charges cannot flow in a complete loop.';
 } else {
 let poweredCount=0;
 loads.forEach(load=>{
 const lPins=getTerminalPoints(load);
 const lPos=lPins.find(p=>p.pol==='pos');
 const lNeg=lPins.find(p=>p.pol==='neg');
-const hasResistorPath=items.some(i=>i.dataset.type==='resistor');
 
 const normalBias=lPos&&lNeg&&fromPos.has(lPos)&&fromNeg.has(lNeg);
 const reverseBias=lPos&&lNeg&&fromPos.has(lNeg)&&fromNeg.has(lPos);
+const directUnprotected=lPos&&lNeg&&((fromPosNoRes.has(lPos)&&fromNegNoRes.has(lNeg))||(fromPosNoRes.has(lNeg)&&fromNegNoRes.has(lPos)));
+const goesThroughResistor=resistors.some(rEl=>{
+const rPins=getTerminalPoints(rEl);
+return rPins.some(rp=>fromPos.has(rp)||fromNeg.has(rp));
+});
 
 if(normalBias||reverseBias){
 poweredCount++;
 if(load.dataset.type==='led'){
-if(!hasResistorPath){
-load.dataset.busted='true';
+if(directUnprotected||!goesThroughResistor){
 load.innerHTML=art.ledBusted;
 load.classList.add('busted-part');
 circuitState='overcurrent';
-circuitReason='LED connected to 9V without a 1 kΩ resistor—too much current burned it out!';
+circuitReason='LED burst with spark and smoke! The battery is 9V, while a standard LED needs around 1V–2V with a resistor.';
+circuitScience='Without a resistor to drop excess voltage and limit current ($I = V / R$), high current heats the LED junction rapidly and burns it out. Next time, place a Resistor in the path and complete both + and − connections so it glows safely.';
 } else if(normalBias){
 load.classList.add('glow');
+circuitScience='The Resistor limits current to a safe level while the complete + and − loop lets electrons flow forward through the LED to emit bright light.';
+} else {
+circuitScience='Both + and − wires are connected through the resistor, though LED polarity is reversed.';
 }
 } else if(load.dataset.type==='buzzer'){
-if(!hasResistorPath){
-load.dataset.busted='true';
+if(directUnprotected||!goesThroughResistor){
 load.innerHTML=art.buzzerBusted;
 load.classList.add('busted-part');
 circuitState='overcurrent';
-circuitReason='Buzzer connected directly to 9V without protection—it overloaded!';
+circuitReason='Buzzer overloaded with spark and smoke! The 9V battery pushed too much current without a resistor.';
+circuitScience='Without a resistor limiting current on a 9V supply, excessive current overheats the buzzer coil/driver and damages it. Add a Resistor in the loop and connect both + and − terminals.';
 } else {
 load.innerHTML=art.buzzerSound;
 load.classList.add('glow');
+circuitScience='The Resistor regulates current safely while the closed + and − circuit drives the buzzer diaphragm to produce sound waves.';
 }
 } else if(load.dataset.type==='motor'){
 const dir=normalBias?'right':'left';
-motorSpinDir=dir;
 const blade=load.querySelector('.rotor-blade');
 if(blade)blade.classList.add(dir==='right'?'spin-right-anim':'spin-left-anim');
 const badge=document.createElement('div');
-badge.className='spin-badge '+(dir==='right'?'right':'left');
-badge.textContent=dir==='right'?'↻ Spinning Right (+→+)':'↺ Spinning Left (+→−)';
+badge.className='spin-badge';
+badge.textContent=dir==='right'?'↻ Spinning Right (Green)':'↺ Spinning Left (Green)';
 load.appendChild(badge);
+circuitScience=dir==='right'
+?'Matching + to + and − to − sends current in the forward direction, spinning the DC motor right (↻) without needing a resistor.'
+:'Reversing + and − reverses current direction through the DC motor armature windings, flipping the spin direction left (↺).';
 }
 }
 });
 
 if(circuitState!=='overcurrent'&&poweredCount>0){
 circuitState='working';
-circuitReason='Closed loop complete! Current flows cleanly through your components.';
+circuitReason='Congratulations! You built the circuit correctly and completed the loop.';
 } else if(circuitState!=='overcurrent'){
 circuitState='incomplete';
-circuitReason='Connect both the (+) and (−) terminals using Jumper Wires so current can complete a loop.';
+circuitReason='Connect jumper wires to both + and − terminals so current completes a full loop.';
 }
 }
 
@@ -678,16 +715,16 @@ checkCircuitBtn.classList.toggle('safe',circuitState==='working');
 
 if(circuitState==='working'){
 statusBox.className='status success';
-statusBox.textContent=circuitReason+' Click "Check Circuit" for Aara AI\'s report.';
-speech.innerHTML='<b>🤖 Aara AI:</b><br>Nice work! Your circuit loop is complete. Click <b>Check Circuit</b> to inspect how it behaves.';
+statusBox.textContent=circuitReason+' Click "Check Circuit" in the center!';
+speech.innerHTML='<b>🤖 Aara AI:</b><br>Circuit complete! Click the big <b>Check Circuit</b> button in the center to view your report.';
 } else if(circuitState==='switch_off'){
 statusBox.className='status warn';
 statusBox.textContent=circuitReason;
-speech.innerHTML='<b>🤖 Aara AI:</b><br>The switch is <b>OFF</b>, so the circuit is open. Toggle it to <b>ON</b> to let current flow!';
+speech.innerHTML='<b>🤖 Aara AI:</b><br>Switch is <b>OFF</b>. Toggle it to <b>ON</b> and click <b>Check Circuit</b> when ready.';
 } else if(circuitState==='short'||circuitState==='overcurrent'){
 statusBox.className='status danger';
-statusBox.textContent=circuitReason;
-speech.innerHTML='<b>🤖 Aara AI:</b><br>Uh oh! Something overloaded or shorted. Click <b>Check Circuit</b> to see what went wrong and how to fix it.';
+statusBox.textContent=circuitReason+' Click "Check Circuit" in the center!';
+speech.innerHTML='<b>🤖 Aara AI:</b><br>Alert! Click <b>Check Circuit</b> in the center to see why it happened and how to fix it.';
 } else {
 statusBox.className='status';
 statusBox.textContent=circuitReason;
@@ -752,8 +789,8 @@ function openReportModal(){
 const isDanger=circuitState==='short'||circuitState==='overcurrent';
 const isSuccess=circuitState==='working';
 robotModal.className='robot-modal'+(isDanger?' danger-modal':isSuccess?' success-modal':'');
-modalTitle.textContent=isDanger?'Circuit Alert!':isSuccess?'Circuit Working!':'Circuit Check';
-modalBody.innerHTML=`<p>${circuitReason}</p>`;
+modalTitle.textContent=isDanger?'Why Did It Burst / Overload?':isSuccess?'Congratulations! Correct Circuit':'Circuit Check Report';
+modalBody.innerHTML=`<p><b>Result:</b> ${circuitReason}</p><p><b>Scientific Reason:</b> ${circuitScience}</p>`;
 robotModalBackdrop.classList.add('visible');
 }
 
@@ -761,6 +798,7 @@ checkCircuitBtn.addEventListener('click',openReportModal);
 document.getElementById('closeModalBtn').addEventListener('click',()=>robotModalBackdrop.classList.remove('visible'));
 
 function resetProject(){
+hideJumperAlert();
 robotModalBackdrop.classList.remove('visible');
 centerCheckWrap.classList.remove('visible');
 items.forEach(i=>i.remove());
@@ -770,6 +808,10 @@ wires=[];
 selectedItem=null;
 activeWireEnd=null;
 circuitState='incomplete';
+circuitReason='';
+circuitScience='';
+jumperPromptShownForLoad=false;
+document.getElementById('selectedNote').textContent='Click any component or wire tip to select. Use Arrow Keys (↑↓←→) to move a selected wire tip smoothly!';
 evaluateCircuit();
 }
 
