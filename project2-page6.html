@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aara Electro | Circuit Builder</title>
 <style>
+:root{--navy:#082b68;--blue:#0875df;--ink:#10233f}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,Helvetica,sans-serif;background:#f4f8fc;color:#10233f}
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f8fc;color:var(--ink)}
 
 header{background:linear-gradient(100deg,#07316f,#061e50);color:#fff;padding:14px 5%;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .brand{font-size:26px;font-weight:800;color:#7de0ff}
@@ -19,6 +20,10 @@ nav a:hover{background:#fff;color:#07316f}
 .intro h1{font-size:clamp(26px,4vw,40px);margin-bottom:8px}
 .intro p{font-size:16px}
 
+.nav-arrows{position:fixed;top:110px;right:18px;display:flex;flex-direction:column;gap:12px;z-index:70}
+.arrow-btn{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#1976d2,#005bb5);border:3px solid #fff;color:#fff;font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 8px 20px rgba(4,42,110,.38);transition:.2s}
+.arrow-btn:hover{transform:scale(1.08);filter:brightness(1.1)}
+
 main{max-width:1400px;margin:auto;padding:18px}
 .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .toolbar h2{color:#0756b8;font-size:22px}
@@ -26,15 +31,25 @@ button{font:inherit;cursor:pointer}
 .blue-btn{border:0;border-radius:24px;background:#0756b8;color:#fff;font-weight:800;padding:12px 20px;box-shadow:0 4px 0 #063d83}
 .blue-btn:hover{filter:brightness(1.08)}
 
-.workspace{display:grid;grid-template-columns:220px minmax(0,1fr) 280px;gap:14px}
+.workspace{display:grid;grid-template-columns:250px minmax(0,1fr) 280px;gap:14px}
 .panel{background:#fff;border:1px solid #d7e6f4;border-radius:16px;padding:14px;box-shadow:0 5px 18px #174b7910}
 .panel h3{color:#0756b8;margin-bottom:10px}
 
-.part-btn{width:100%;display:flex;align-items:center;gap:10px;border:1px solid #d8e7f5;background:#f8fbff;border-radius:12px;padding:8px 10px;margin:6px 0;font-weight:700;text-align:left}
-.part-btn:hover{border-color:#1685ed;background:#eef7ff}
-.hint{font-size:12px;color:#5b7088;line-height:1.5;margin-top:10px}
+.part-btn{width:100%;display:flex;align-items:center;gap:10px;border:1px solid #d8e7f5;background:#f8fbff;border-radius:14px;padding:10px 12px;margin:8px 0;font-weight:800;text-align:left;font-size:14px;transition:all .22s ease;position:relative;overflow:hidden}
+.part-btn:hover{transform:translateY(-4px) scale(1.02);border-color:#1685ed;background:#eaf6ff;box-shadow:0 8px 18px rgba(8,117,223,.18)}
+.part-btn:active{transform:scale(.98)}
+.part-btn .icon{font-size:22px}
+.part-btn:after{content:"";position:absolute;left:-60%;top:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 2.8s infinite}
+@keyframes shine{0%{left:-60%}55%{left:130%}100%{left:130%}}
 
-.workbench{position:relative;min-height:640px;overflow:hidden;border:1px solid #d6e1eb;border-radius:16px;background:#fff;background-image:linear-gradient(#dce6ef 1px,transparent 1px),linear-gradient(90deg,#dce6ef 1px,transparent 1px);background-size:24px 24px}
+.check-btn{width:100%;margin-top:14px;border:0;border-radius:40px;padding:16px;font-size:17px;font-weight:900;color:#fff;background:linear-gradient(135deg,#ff5722,#d81b60);box-shadow:0 6px 0 #8e0038;animation:pop 1.4s ease-in-out infinite}
+.check-btn:hover{filter:brightness(1.08)}
+@keyframes pop{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+.hint{font-size:12px;color:#5b7088;line-height:1.5;margin-top:12px}
+.note{font-size:12px;color:#47627c;line-height:1.4;margin-top:8px}
+
+.workbench{position:relative;min-height:660px;overflow:hidden;border:1px solid #d6e1eb;border-radius:16px;background:#fff;background-image:linear-gradient(#dce6ef 1px,transparent 1px),linear-gradient(90deg,#dce6ef 1px,transparent 1px);background-size:24px 24px}
 .bench-label{position:absolute;top:10px;left:12px;background:#ffffffdf;border-radius:18px;padding:6px 12px;font-size:12px;font-weight:800;color:#64778c;z-index:5}
 
 .breadboard{position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);width:min(78%,680px);height:270px;border-radius:16px;background:linear-gradient(145deg,#fff,#e9edf0);border:1px solid #cbd2d8;box-shadow:0 12px 22px #26394a30}
@@ -81,7 +96,6 @@ button{font:inherit;cursor:pointer}
 .actions button{flex:1;border:0;border-radius:10px;padding:10px;font-size:12px;font-weight:800}
 .remove-btn{background:#ffe8e8;color:#a32222}
 .rotate-btn{background:#e8f3ff;color:#0756b8}
-.note{font-size:12px;color:#47627c;line-height:1.4;margin-top:8px}
 
 .jumper-alert{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:60;pointer-events:none}
 .jumper-alert.show{display:flex}
@@ -92,7 +106,8 @@ button{font:inherit;cursor:pointer}
 .robot-modal{width:min(600px,96vw);background:#fff;border:4px solid #0756b8;border-radius:24px;padding:24px;text-align:center}
 .robot-modal.danger{border-color:#d32f2f}
 .robot-modal.success{border-color:#0b8a55}
-.robot-avatar{font-size:74px;display:block;margin-bottom:8px}
+.robot-avatar{font-size:74px;display:block;margin-bottom:8px;animation:bob 1.3s ease-in-out infinite alternate}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-8px)}}
 .modal-title{font-size:clamp(20px,3vw,28px);font-weight:900;color:#0a192f;margin-bottom:12px}
 .modal-body{text-align:left;background:#f4f8fc;border:2px solid #cbd9e8;border-radius:16px;padding:16px;font-size:15px;line-height:1.6;font-weight:700}
 .modal-body p{margin-bottom:10px}
@@ -107,12 +122,14 @@ button{font:inherit;cursor:pointer}
 
 .robot-card{background:#f0f8ff;border:1px solid #cfe4f8;border-radius:14px;padding:12px}
 .robot{font-size:52px;text-align:center;display:block}
-.speech{background:#fff;border:1px solid #dbe9f5;border-radius:12px;padding:10px;margin-top:8px;font-size:13px;line-height:1.5;min-height:90px;font-weight:600}
+.speech{background:#fff;border:1px solid #dbe9f5;border-radius:12px;padding:10px;margin-top:8px;font-size:13px;line-height:1.5;min-height:100px;font-weight:600}
 
 .glow{filter:drop-shadow(0 0 8px #ffdf35) drop-shadow(0 0 15px #ffb900)!important;animation:pulse .8s ease-in-out infinite alternate}
 @keyframes pulse{to{filter:drop-shadow(0 0 15px #ffe66d) drop-shadow(0 0 25px #ffb900)}}
 .busted{animation:shake .35s ease-in-out 2}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px) rotate(-6deg)}75%{transform:translateX(5px) rotate(6deg)}}
+.spark{position:absolute;width:8px;height:8px;border-radius:50%;background:#ffd54d;pointer-events:none;animation:spark .7s ease-out forwards}
+@keyframes spark{0%{transform:scale(1);opacity:1}100%{transform:scale(3);opacity:0}}
 .smoke{position:absolute;left:50%;top:-8px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#7a828a 20%,rgba(120,130,140,0) 75%);animation:rise 1.8s ease-out infinite;pointer-events:none}
 .smoke.s2{animation-delay:.6s;left:35%}
 .smoke.s3{animation-delay:1.2s;left:65%}
@@ -127,13 +144,14 @@ button{font:inherit;cursor:pointer}
 
 footer{text-align:center;color:#60758b;padding:18px;font-size:13px}
 
-@media(max-width:1000px){
-.workspace{grid-template-columns:180px minmax(0,1fr)}
+@media(max-width:1100px){
+.workspace{grid-template-columns:220px minmax(0,1fr)}
 .right-panel{grid-column:1/-1}
 }
-@media(max-width:680px){
+@media(max-width:700px){
 .workspace{grid-template-columns:1fr}
 .workbench{min-height:560px}
+.nav-arrows{top:130px;right:10px}
 }
 </style>
 </head>
@@ -150,9 +168,14 @@ footer{text-align:center;color:#60758b;padding:18px;font-size:13px}
 </nav>
 </header>
 
+<div class="nav-arrows">
+<a class="arrow-btn" href="project2-page5.html" title="Previous page">←</a>
+<a class="arrow-btn" href="project2-page7.html" title="Next page">→</a>
+</div>
+
 <section class="intro">
 <h1>Circuit Builder</h1>
-<p>Build a safe circuit with a battery, resistor, LED, buzzer, motor, switch, and jumper wires.</p>
+<p>Build a circuit, connect the wires, then press <b>Check Circuit</b> to test it.</p>
 </section>
 
 <main>
@@ -166,13 +189,15 @@ footer{text-align:center;color:#60758b;padding:18px;font-size:13px}
 <aside class="panel">
 <h3>Components</h3>
 
-<button class="part-btn" data-part="battery">🔋 9V Battery (+ / −)</button>
-<button class="part-btn" data-part="led">💡 LED (+ / −)</button>
-<button class="part-btn" data-part="resistor">🟫 1 kΩ Resistor</button>
-<button class="part-btn" data-part="buzzer">🔔 Buzzer (+ / −)</button>
-<button class="part-btn" data-part="motor">⚙️ DC Motor (+ / −)</button>
-<button class="part-btn" data-part="switch">🔘 Switch (ON/OFF)</button>
-<button class="part-btn" data-part="jumper">🔌 Jumper Wires (+ & −)</button>
+<button class="part-btn" data-part="battery"><span class="icon">🔋</span> 9V Battery</button>
+<button class="part-btn" data-part="led"><span class="icon">💡</span> LED</button>
+<button class="part-btn" data-part="resistor"><span class="icon">🟫</span> 1 kΩ Resistor</button>
+<button class="part-btn" data-part="buzzer"><span class="icon">🔔</span> Buzzer</button>
+<button class="part-btn" data-part="motor"><span class="icon">⚙️</span> DC Motor</button>
+<button class="part-btn" data-part="switch"><span class="icon">🔘</span> Switch</button>
+<button class="part-btn" data-part="jumper"><span class="icon">🔌</span> Jumper Wires</button>
+
+<button class="check-btn" id="checkCircuit">🔍 Check Circuit</button>
 
 <div class="actions">
 <button class="remove-btn" id="removeSelected">✕ Remove selected</button>
@@ -182,9 +207,9 @@ footer{text-align:center;color:#60758b;padding:18px;font-size:13px}
 <p class="note" id="selectedNote">Click a component or wire tip to select it. Use arrow keys to move it.</p>
 
 <p class="hint">
-• LED and buzzer need a <b>resistor</b> with the 9V battery.<br>
-• Wrong LED or buzzer polarity makes it burst.<br>
-• Motor reversed polarity makes it spin left.
+• LED and buzzer need a <b>resistor</b>.<br>
+• Wrong +/− terminal makes LED or buzzer burst.<br>
+• Motor spins right or left; it does not burst.
 </p>
 </aside>
 
@@ -208,11 +233,11 @@ footer{text-align:center;color:#60758b;padding:18px;font-size:13px}
 <div class="robot-card">
 <span class="robot">🤖</span>
 <div class="speech" id="speech">
-Hi! Add a <b>9V Battery</b>, <b>Jumper Wires</b>, and an <b>LED</b>, <b>Buzzer</b>, or <b>DC Motor</b>.
+Hi! Add a <b>9V Battery</b>, <b>Jumper Wires</b>, and an <b>LED</b>, <b>Buzzer</b>, or <b>DC Motor</b>. Then press <b>Check Circuit</b>.
 </div>
 </div>
 
-<div class="status" id="status">Ready! Add a battery and a component to begin.</div>
+<div class="status" id="status">Ready! Build your circuit and press Check Circuit.</div>
 </aside>
 
 </section>
@@ -289,6 +314,8 @@ ledBusted:`<svg viewBox="0 0 54 86">
 </svg>
 <span class="term-pin term-pos" style="left:8px;bottom:-2px">+</span>
 <span class="term-pin term-neg" style="right:8px;bottom:-2px">−</span>
+<span class="spark" style="left:20px;top:30px"></span>
+<span class="spark" style="left:30px;top:40px"></span>
 <span class="smoke"></span><span class="smoke s2"></span><span class="smoke s3"></span>`,
 
 resistor:`<svg viewBox="0 0 110 44">
@@ -313,6 +340,7 @@ buzzerBusted:`<svg viewBox="0 0 76 76">
 </svg>
 <span class="term-pin term-pos" style="left:16px;bottom:-2px">+</span>
 <span class="term-pin term-neg" style="right:16px;bottom:-2px">−</span>
+<span class="spark" style="left:25px;top:20px"></span>
 <span class="smoke"></span><span class="smoke s2"></span>`,
 
 buzzerSound:`<svg viewBox="0 0 76 76">
@@ -344,7 +372,6 @@ switchPart:`<svg viewBox="0 0 92 56">
 
 function getTerminalPoints(el){
 const wr=workbench.getBoundingClientRect();
-const er=el.getBoundingClientRect();
 const pins=el.querySelectorAll('.term-pin');
 const pts=[];
 
@@ -364,7 +391,7 @@ return pts;
 
 function findSnap(x,y){
 let best=null;
-let bestDist=38;
+let bestDist=40;
 
 items.forEach(el=>{
 getTerminalPoints(el).forEach(pt=>{
@@ -405,8 +432,6 @@ btn.classList.toggle('is-on',!on);
 const knob=el.querySelector('.knob');
 knob.setAttribute('x',!on?'48':'20');
 knob.setAttribute('fill',!on?'#00e676':'#90a4ae');
-
-evaluate();
 });
 }else{
 el.innerHTML=art[type];
@@ -422,7 +447,10 @@ items.push(el);
 
 makeMovable(el);
 selectItem(el);
-evaluate();
+
+if(items.some(i=>i.dataset.type==='battery')&&items.some(i=>['led','buzzer','motor'].includes(i.dataset.type))&&wires.length===0){
+jumperAlert.classList.add('show');
+}
 }
 
 function makeMovable(el){
@@ -442,7 +470,7 @@ function move(ev){
 const r=workbench.getBoundingClientRect();
 el.style.left=Math.max(8,Math.min(r.width-el.offsetWidth-8,left+ev.clientX-startX))+'px';
 el.style.top=Math.max(50,Math.min(r.height-el.offsetHeight-12,top+ev.clientY-startY))+'px';
-evaluate();
+updateWireSnaps();
 }
 
 function up(){
@@ -481,9 +509,9 @@ createWire('red',w*0.25,h*0.30,w*0.45,h*0.30);
 createWire('black',w*0.25,h*0.70,w*0.45,h*0.70);
 
 statusBox.className='status';
-statusBox.textContent='Red (+) and Black (−) wires added. Drag the wire ends to the component terminals.';
+statusBox.textContent='Red (+) and Black (−) wires added. Drag the wire ends to the component terminals, then press Check Circuit.';
 
-evaluate();
+updateWireSnaps();
 }
 
 function createWire(color,x1,y1,x2,y2){
@@ -529,7 +557,7 @@ wire.x2=nx;wire.y2=ny;
 }
 
 drawWire(wire);
-evaluate();
+updateWireSnaps();
 });
 });
 
@@ -547,6 +575,19 @@ const mx=(w.x1+w.x2)/2;
 const my=Math.min(w.y1,w.y2)-40;
 
 w.path.setAttribute('d',`M ${w.x1} ${w.y1} Q ${mx} ${my}, ${w.x2} ${w.y2}`);
+}
+
+function updateWireSnaps(){
+wires.forEach(w=>{
+w.end1.classList.remove('snapped');
+w.end2.classList.remove('snapped');
+
+const t1=findSnap(w.x1,w.y1);
+const t2=findSnap(w.x2,w.y2);
+
+if(t1)w.end1.classList.add('snapped');
+if(t2)w.end2.classList.add('snapped');
+});
 }
 
 function reachable(start,blockResistor){
@@ -568,7 +609,7 @@ queue.push(next);
 return seen;
 }
 
-function evaluate(){
+function checkCircuit(){
 items.forEach(el=>{
 el.classList.remove('glow','busted');
 
@@ -582,21 +623,19 @@ if(el.dataset.type==='led')el.innerHTML=art.led;
 if(el.dataset.type==='buzzer')el.innerHTML=art.buzzer;
 });
 
-wires.forEach(w=>{
-w.end1.classList.remove('snapped');
-w.end2.classList.remove('snapped');
-});
-
 const battery=items.find(i=>i.dataset.type==='battery');
 const loads=items.filter(i=>['led','buzzer','motor'].includes(i.dataset.type));
 const switches=items.filter(i=>i.dataset.type==='switch');
 const resistors=items.filter(i=>i.dataset.type==='resistor');
 
-jumperAlert.classList.toggle('show',Boolean(battery&&loads.length&&wires.length===0));
-
 if(!battery||!loads.length){
+circuitState='incomplete';
+circuitReason='Add a 9V battery and an LED, buzzer, or DC motor before checking the circuit.';
+circuitScience='A circuit needs a power source and at least one component that uses electricity.';
+
 statusBox.className='status';
-statusBox.textContent='Add a 9V battery and an LED, buzzer, or DC motor.';
+statusBox.textContent=circuitReason;
+openModal('');
 return;
 }
 
@@ -631,9 +670,6 @@ wires.forEach(w=>{
 const t1=findSnap(w.x1,w.y1);
 const t2=findSnap(w.x2,w.y2);
 
-if(t1)w.end1.classList.add('snapped');
-if(t2)w.end2.classList.add('snapped');
-
 if(t1&&t2&&t1.el!==t2.el){
 t1.links.push(t2);
 t2.links.push(t1);
@@ -667,7 +703,7 @@ circuitScience='Turn the switch ON to close the circuit and allow current to flo
 
 statusBox.className='status warn';
 statusBox.textContent=circuitReason;
-speech.innerHTML='<b>🤖 Aara AI:</b><br>Turn the switch ON.';
+openModal('');
 return;
 }
 
@@ -699,7 +735,7 @@ load.innerHTML=art.ledBusted;
 load.classList.add('busted');
 danger=true;
 circuitState='overcurrent';
-circuitReason='The LED burst because it received 9V directly from the battery.';
+circuitReason='The LED burst because it received 9V directly from the battery without a resistor.';
 circuitScience='A normal LED needs only about 1V to 2V. Add a resistor in series with the LED to reduce the current.';
 
 }else if(reverse){
@@ -707,7 +743,7 @@ load.innerHTML=art.ledBusted;
 load.classList.add('busted');
 danger=true;
 circuitState='overcurrent';
-circuitReason='The LED burst because its positive and negative terminals were reversed.';
+circuitReason='The LED burst because its positive and negative terminals were connected in the wrong direction.';
 circuitScience='Connect battery positive to LED positive and battery negative to LED negative. Keep the resistor in the circuit.';
 
 }else{
@@ -725,7 +761,7 @@ load.innerHTML=art.buzzerBusted;
 load.classList.add('busted');
 danger=true;
 circuitState='overcurrent';
-circuitReason='The buzzer overloaded because it received too much current from the 9V battery.';
+circuitReason='The buzzer burst because it received too much current from the 9V battery without a resistor.';
 circuitScience='Add a resistor in series with the buzzer to reduce the current.';
 
 }else if(reverse){
@@ -733,7 +769,7 @@ load.innerHTML=art.buzzerBusted;
 load.classList.add('busted');
 danger=true;
 circuitState='overcurrent';
-circuitReason='The buzzer burst because its positive and negative terminals were reversed.';
+circuitReason='The buzzer burst because its positive and negative terminals were connected in the wrong direction.';
 circuitScience='Connect the buzzer positive terminal to the battery positive side and the negative terminal to the battery negative side.';
 
 }else{
@@ -792,7 +828,7 @@ circuitState='incomplete';
 circuitReason='Connect the red wire to the positive side and the black wire to the negative side to complete the circuit.';
 statusBox.className='status';
 statusBox.textContent=circuitReason;
-speech.innerHTML='<b>🤖 Aara AI:</b><br>Connect both + and − terminals with jumper wires.';
+openModal('');
 }
 
 function showDanger(){
@@ -804,9 +840,11 @@ openModal('danger');
 
 function openModal(type){
 robotModal.className='robot-modal '+type;
+
 modalTitle.textContent=type==='danger'
 ?'Why Did It Burst / Overload?'
-:'Congratulations! Correct Circuit';
+:type==='success'?'Congratulations! Correct Circuit'
+:'Circuit Check Report';
 
 modalBody.innerHTML=
 `<p><b>Problem / Result:</b> ${circuitReason}</p>
@@ -823,6 +861,8 @@ addPart(btn.dataset.part,r.left+r.width*0.55,r.top+r.height*0.40);
 });
 
 jumperAlertBtn.addEventListener('click',spawnWires);
+
+document.getElementById('checkCircuit').addEventListener('click',checkCircuit);
 
 document.addEventListener('keydown',e=>{
 if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))return;
@@ -853,7 +893,7 @@ wire.x2=x;wire.y2=y;
 }
 
 drawWire(wire);
-evaluate();
+updateWireSnaps();
 }
 
 if(selectedItem){
@@ -870,8 +910,6 @@ if(e.key==='ArrowRight')x+=step;
 
 selectedItem.style.left=Math.max(8,Math.min(r.width-selectedItem.offsetWidth-8,x))+'px';
 selectedItem.style.top=Math.max(50,Math.min(r.height-selectedItem.offsetHeight-12,y))+'px';
-
-evaluate();
 }
 });
 
@@ -885,7 +923,7 @@ wire.end2.remove();
 wires=wires.filter(w=>w!==wire);
 
 activeWireEnd=null;
-evaluate();
+updateWireSnaps();
 return;
 }
 
@@ -894,7 +932,6 @@ if(!selectedItem)return;
 selectedItem.remove();
 items=items.filter(i=>i!==selectedItem);
 selectedItem=null;
-evaluate();
 });
 
 document.getElementById('rotateSelected').addEventListener('click',()=>{
@@ -905,8 +942,6 @@ const next=(current+90)%360;
 
 selectedItem.dataset.rot=next;
 selectedItem.style.transform=`rotate(${next}deg)`;
-
-evaluate();
 });
 
 document.getElementById('closeModal').addEventListener('click',()=>{
@@ -934,7 +969,7 @@ circuitReason='';
 circuitScience='';
 
 statusBox.className='status';
-statusBox.textContent='Ready! Add a battery and a component to begin.';
+statusBox.textContent='Ready! Build your circuit and press Check Circuit.';
 
 speech.innerHTML='<b>🤖 Aara AI:</b><br>Start again. Add a battery, jumper wires, and an LED, buzzer, or motor.';
 }
