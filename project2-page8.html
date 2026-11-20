@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aara Electro | Component Catcher</title>
+<style>
+:root{
+  --navy:#082b68;
+  --blue:#0875df;
+  --cyan:#11b9ee;
+  --ink:#10233f;
+  --green:#0b8a55;
+  --red:#d32f2f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f8fc;
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+header{
+  background:linear-gradient(100deg,#07316f,#061e50);
+  color:#fff;
+  padding:14px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.brand{font-size:26px;font-weight:800;color:#7de0ff}
+.brand span{color:#ffd54d}
+nav{display:flex;gap:14px;flex-wrap:wrap}
+nav a{color:#fff;text-decoration:none;font-weight:700;padding:8px 12px;border-radius:20px}
+nav a:hover{background:#fff;color:#07316f}
+
+.back-arrow, .next-arrow{
+  position:fixed;
+  top:50%;
+  transform:translateY(-50%);
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#1976d2,#005bb5);
+  border:3px solid #fff;
+  color:#fff;
+  font-size:24px;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  box-shadow:0 8px 20px rgba(4,42,110,.35);
+  z-index:80;
+  transition:.2s;
+}
+.back-arrow{left:14px}
+.next-arrow{right:14px}
+.back-arrow:hover, .next-arrow:hover{transform:translateY(-50%) scale(1.08)}
+
+main{max-width:1280px;margin:auto;padding:16px}
+
+.top-hud{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  background:#fff;
+  border:1px solid #d7e6f4;
+  border-radius:16px;
+  padding:12px 18px;
+  box-shadow:0 5px 16px rgba(23,75,121,.08);
+  margin-bottom:14px;
+}
+.hud-group{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{
+  background:#edf6ff;
+  color:#07316f;
+  border:1px solid #c6e0f8;
+  border-radius:20px;
+  padding:6px 14px;
+  font-size:14px;
+  font-weight:800;
+}
+.pill.score{background:#e8f8f0;color:#086c42;border-color:#bce8d1}
+.pill.lives{background:#ffebee;color:#b71c1c;border-color:#ffcdd2}
+
+button{font:inherit;cursor:pointer}
+.btn{
+  border:0;
+  border-radius:22px;
+  padding:10px 18px;
+  font-size:14px;
+  font-weight:800;
+  color:#fff;
+  background:linear-gradient(135deg,#0875df,#05529e);
+  box-shadow:0 4px 0 #03376b;
+  transition:.15s;
+}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn:active{transform:translateY(2px)}
+.btn.green{background:linear-gradient(135deg,#0b8a55,#12b872);box-shadow:0 4px 0 #065a37}
+.btn.orange{background:linear-gradient(135deg,#ff8f00,#ef6c00);box-shadow:0 4px 0 #9c4400}
+
+/* Question Banner like Shooter */
+.question-box{
+  background:linear-gradient(110deg,#082b68,#0875df 65%,#11b9ee);
+  color:#fff;
+  border-radius:18px;
+  padding:16px 22px;
+  margin-bottom:14px;
+  box-shadow:0 8px 22px rgba(8,117,223,.25);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.q-label{
+  display:inline-block;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:12px;
+  padding:4px 10px;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.4px;
+  margin-bottom:6px;
+}
+.q-text{font-size:clamp(18px,2.5vw,26px);font-weight:900;line-height:1.3}
+.q-sub{font-size:13px;opacity:.92;margin-top:4px;font-weight:600}
+
+.needed-chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{
+  background:#ffffff24;
+  border:2px dashed #ffd54d;
+  color:#fff;
+  border-radius:14px;
+  padding:7px 13px;
+  font-size:13px;
+  font-weight:800;
+  transition:.2s;
+}
+.chip.caught{
+  background:#0b8a55;
+  border:2px solid #9ef0c8;
+  color:#fff;
+  transform:scale(1.04);
+}
+
+/* Arena */
+.arena{
+  position:relative;
+  width:100%;
+  height:560px;
+  border-radius:20px;
+  border:2px solid #c9dcef;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(17,185,238,.12), transparent 55%),
+    linear-gradient(#e3eef8 1px, transparent 1px),
+    linear-gradient(90deg, #e3eef8 1px, transparent 1px),
+    #f9fcff;
+  background-size:auto, 28px 28px, 28px 28px, auto;
+  overflow:hidden;
+  user-select:none;
+  touch-action:none;
+  box-shadow:inset 0 0 30px rgba(8,43,104,.05);
+}
+
+.falling-item{
+  position:absolute;
+  top:-80px;
+  min-width:96px;
+  padding:10px 12px;
+  border-radius:16px;
+  background:#fff;
+  border:2px solid #b9d5ee;
+  box-shadow:0 8px 18px rgba(16,35,63,.14);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  z-index:5;
+  will-change:transform;
+  animation:itemFloat 1.8s ease-in-out infinite alternate;
+}
+@keyframes itemFloat{
+  from{box-shadow:0 8px 18px rgba(16,35,63,.14)}
+  to{box-shadow:0 12px 24px rgba(8,117,223,.26)}
+}
+.falling-item .f-icon{font-size:30px;line-height:1}
+.falling-item .f-name{font-size:12px;font-weight:900;color:#082b68;text-align:center;white-space:nowrap}
+
+/* Catcher Basket at Bottom */
+.basket{
+  position:absolute;
+  bottom:16px;
+  left:50%;
+  transform:translateX(-50%);
+  width:154px;
+  height:68px;
+  z-index:12;
+  cursor:grab;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.basket:active{cursor:grabbing}
+.basket-tray{
+  width:100%;
+  height:46px;
+  border-radius:12px 12px 24px 24px;
+  background:linear-gradient(135deg,#ff9800,#ef6c00);
+  border:3px solid #fff;
+  box-shadow:0 10px 22px rgba(239,108,0,.38), 0 4px 0 #9c4400;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  color:#fff;
+  font-weight:900;
+  font-size:14px;
+}
+.basket-wheels{
+  display:flex;
+  justify-content:space-between;
+  width:72%;
+  margin-top:3px;
+}
+.basket-wheels span{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#082b68;
+  border:2px solid #fff;
+}
+.basket.pulse{animation:basketPop .25s ease}
+@keyframes basketPop{
+  0%{transform:translateX(-50%) scale(1)}
+  50%{transform:translateX(-50%) scale(1.12)}
+  100%{transform:translateX(-50%) scale(1)}
+}
+
+/* Floating feedback popups inside arena */
+.pop-toast{
+  position:absolute;
+  z-index:20;
+  padding:6px 12px;
+  border-radius:14px;
+  font-size:13px;
+  font-weight:900;
+  color:#fff;
+  pointer-events:none;
+  animation:toastUp .85s ease-out forwards;
+  white-space:nowrap;
+}
+.pop-toast.good{background:#0b8a55;box-shadow:0 4px 12px rgba(11,138,85,.35)}
+.pop-toast.bad{background:#d32f2f;box-shadow:0 4px 12px rgba(211,47,47,.35)}
+@keyframes toastUp{
+  0%{opacity:1;transform:translate(-50%,0) scale(.9)}
+  100%{opacity:0;transform:translate(-50%,-46px) scale(1.08)}
+}
+
+/* Modal overlay for Level Up / Game Over / Start */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(8,24,48,.68);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+  padding:16px;
+}
+.overlay.show{display:flex}
+.modal{
+  width:min(540px,95vw);
+  background:#fff;
+  border:4px solid var(--blue);
+  border-radius:24px;
+  padding:24px;
+  text-align:center;
+  box-shadow:0 20px 46px rgba(0,0,0,.35);
+}
+.modal.win{border-color:var(--green)}
+.modal.lose{border-color:var(--red)}
+.modal .bot{font-size:58px;display:block;margin-bottom:8px}
+.modal h2{font-size:clamp(22px,3vw,30px);color:#082b68;margin-bottom:10px}
+.modal p{font-size:15px;line-height:1.6;color:#27405e;margin-bottom:16px;font-weight:600}
+.modal-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+footer{text-align:center;color:#60758b;padding:16px;font-size:13px}
+
+@media(max-width:700px){
+  .arena{height:480px}
+  .basket{width:132px;height:60px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><span>⚡</span> Aara Electro</div>
+  <nav>
+    <a href="index.html">⌂ Home</a>
+    <a href="#">▣ Learn</a>
+    <a href="components.html">▦ Components</a>
+    <a href="#">★ Challenges</a>
+    <a href="feedback.html">▤ Feedback</a>
+  </nav>
+</header>
+
+<a class="back-arrow" href="project2-page7.html" title="Back to Shooter Game">←</a>
+<a class="next-arrow" href="index.html" title="Home">→</a>
+
+<main>
+  <div class="top-hud">
+    <div class="hud-group">
+      <span class="pill" id="levelPill">Level 1 / 6</span>
+      <span class="pill score" id="scorePill">Score: 0</span>
+      <span class="pill lives" id="livesPill">❤️❤️❤️</span>
+    </div>
+    <div class="hud-group">
+      <button class="btn orange" id="pauseBtn">⏸ Pause</button>
+      <button class="btn" id="restartBtn">↻ Restart</button>
+    </div>
+  </div>
+
+  <section class="question-box">
+    <div>
+      <div class="q-label" id="qCategory">BASIC CIRCUIT</div>
+      <div class="q-text" id="qText">Catch components for a Safe 9V LED Circuit!</div>
+      <div class="q-sub" id="qHint">Move the basket below using Mouse, Touch, or Arrow Keys (← / →).</div>
+    </div>
+    <div class="needed-chips" id="neededChips"></div>
+  </section>
+
+  <section class="arena" id="arena">
+    <div class="basket" id="basket">
+      <div class="basket-tray">🧺 Basket</div>
+      <div class="basket-wheels"><span></span><span></span></div>
+    </div>
+  </section>
+</main>
+
+<div class="overlay show" id="overlay">
+  <div class="modal" id="modalCard">
+    <span class="bot">🤖</span>
+    <h2 id="modalTitle">Component Catcher!</h2>
+    <p id="modalDesc">
+      Read the question at the top, watch the components falling from above, and catch only the right components in your basket! Start with simple circuits and level up to Arduino, Home Automation, and Raspberry Pi!
+    </p>
+    <div class="modal-btns">
+      <button class="btn green" id="modalPrimaryBtn">▶ Start Game</button>
+    </div>
+  </div>
+</div>
+
+<footer>Made for curious learners • Aara Electro</footer>
+
+<script>
+const LEVELS = [
+  {
+    category: "LEVEL 1 • BASIC LED",
+    question: "Build a Safe 9V LED Circuit! Catch the right parts:",
+    hint: "Tip: On 9V, an LED needs a resistor so it doesn't burst!",
+    needed: ["9V Battery", "1kΩ Resistor", "LED"],
+    distractors: ["Buzzer", "DC Motor", "Relay Module", "Raspberry Pi"],
+    speed: 1.75,
+    spawnMs: 1150
+  },
+  {
+    category: "LEVEL 2 • SOUND CIRCUIT",
+    question: "Make a Safe 9V Buzzer Circuit! Catch the right parts:",
+    hint: "Tip: Pick the power source, current limiter, and sound component.",
+    needed: ["9V Battery", "1kΩ Resistor", "Buzzer"],
+    distractors: ["LED", "DC Motor", "Ultrasonic", "Arduino Uno"],
+    speed: 2.0,
+    spawnMs: 1050
+  },
+  {
+    category: "LEVEL 3 • MOTOR MOTION",
+    question: "Spin a DC Motor with Jumper Wires! Catch the right parts:",
+    hint: "Tip: DC Motors spin with battery power and jumper wires.",
+    needed: ["9V Battery", "DC Motor", "Jumper Wires"],
+    distractors: ["Relay Module", "Raspberry Pi", "IR Sensor", "LED"],
+    speed: 2.2,
+    spawnMs: 980
+  },
+  {
+    category: "LEVEL 4 • ARDUINO STARTER",
+    question: "Blink an LED with Arduino! Catch the core parts:",
+    hint: "Tip: Microcontroller + wires + LED + resistor.",
+    needed: ["Arduino Uno", "Jumper Wires", "LED", "1kΩ Resistor"],
+    distractors: ["9V Battery", "Relay Module", "Raspberry Pi", "Buzzer"],
+    speed: 2.45,
+    spawnMs: 920
+  },
+  {
+    category: "LEVEL 5 • HOME AUTOMATION",
+    question: "Control a Home Bulb / Load safely! Catch the automation parts:",
+    hint: "Tip: Automation uses a controller, relay switch, sensor, and load.",
+    needed: ["Arduino Uno", "Relay Module", "PIR Sensor", "AC Bulb"],
+    distractors: ["1kΩ Resistor", "Buzzer", "Raspberry Pi", "DC Motor"],
+    speed: 2.7,
+    spawnMs: 860
+  },
+  {
+    category: "LEVEL 6 • RASPBERRY PI SMART",
+    question: "Build a Smart Raspberry Pi Camera / IoT Setup! Catch the right parts:",
+    hint: "Tip: Mini computer + camera/sensor + jumper wires.",
+    needed: ["Raspberry Pi", "Camera Module", "Jumper Wires", "Temp Sensor"],
+    distractors: ["9V Battery", "AC Bulb", "DC Motor", "Buzzer"],
+    speed: 2.95,
+    spawnMs: 800
+  }
+];
+
+const PART_ICONS = {
+  "9V Battery": "🔋",
+  "1kΩ Resistor": "🟫",
+  "LED": "💡",
+  "Buzzer": "🔔",
+  "DC Motor": "⚙️",
+  "Jumper Wires": "🔌",
+  "Arduino Uno": "🟦",
+  "Relay Module": "🔀",
+  "PIR Sensor": "📡",
+  "AC Bulb": "💡",
+  "Raspberry Pi": "🍓",
+  "Camera Module": "📷",
+  "Temp Sensor": "🌡️",
+  "Ultrasonic": "🦇",
+  "IR Sensor": "👁️"
+};
+
+const arena = document.getElementById("arena");
+const basket = document.getElementById("basket");
+const levelPill = document.getElementById("levelPill");
+const scorePill = document.getElementById("scorePill");
+const livesPill = document.getElementById("livesPill");
+const qCategory = document.getElementById("qCategory");
+const qText = document.getElementById("qText");
+const qHint = document.getElementById("qHint");
+const neededChips = document.getElementById("neededChips");
+const overlay = document.getElementById("overlay");
+const modalCard = document.getElementById("modalCard");
+const modalTitle = document.getElementById("modalTitle");
+const modalDesc = document.getElementById("modalDesc");
+const modalPrimaryBtn = document.getElementById("modalPrimaryBtn");
+const pauseBtn = document.getElementById("pauseBtn");
+const restartBtn = document.getElementById("restartBtn");
+
+let levelIndex = 0;
+let score = 0;
+let lives = 3;
+let caughtSet = new Set();
+let fallingList = [];
+let basketX = 0;
+let keysPressed = { left: false, right: false };
+let isDraggingBasket = false;
+let gameRunning = false;
+let isPaused = false;
+let spawnTimer = null;
+let rafId = null;
+let lastFrameTime = 0;
+
+function centerBasket() {
+  const w = arena.clientWidth;
+  const bw = basket.offsetWidth || 154;
+  basketX = Math.max(10, (w - bw) / 2);
+  basket.style.left = basketX + "px";
+}
+
+function renderHUD() {
+  const lvl = LEVELS[levelIndex];
+  levelPill.textContent = `Level ${levelIndex + 1} / ${LEVELS.length}`;
+  scorePill.textContent = `Score: ${score}`;
+  livesPill.textContent = "❤️".repeat(Math.max(0, lives)) || "💔";
+
+  qCategory.textContent = lvl.category;
+  qText.textContent = lvl.question;
+  qHint.textContent = lvl.hint;
+
+  neededChips.innerHTML = "";
+  lvl.needed.forEach(name => {
+    const chip = document.createElement("span");
+    chip.className = "chip" + (caughtSet.has(name) ? " caught" : "");
+    chip.textContent = `${caughtSet.has(name) ? "✔" : "+"} ${PART_ICONS[name] || "⚡"} ${name}`;
+    neededChips.appendChild(chip);
+  });
+}
+
+function clearFallingItems() {
+  fallingList.forEach(obj => obj.el.remove());
+  fallingList = [];
+}
+
+function spawnPopup(x, y, text, type) {
+  const p = document.createElement("div");
+  p.className = `pop-toast ${type}`;
+  p.textContent = text;
+  p.style.left = Math.max(50, Math.min(arena.clientWidth - 50, x)) + "px";
+  p.style.top = Math.max(30, y) + "px";
+  arena.appendChild(p);
+  setTimeout(() => p.remove(), 850);
+}
+
+function pickPartForLevel() {
+  const lvl = LEVELS[levelIndex];
+  const remainingNeeded = lvl.needed.filter(n => !caughtSet.has(n));
+  // Bias toward needed parts so levels feel fair and fun
+  if (remainingNeeded.length > 0 && Math.random() < 0.62) {
+    return remainingNeeded[Math.floor(Math.random() * remainingNeeded.length)];
+  }
+  const pool = [...lvl.needed, ...lvl.distractors];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function spawnFallingItem() {
+  if (!gameRunning || isPaused) return;
+  const name = pickPartForLevel();
+  const el = document.createElement("div");
+  el.className = "falling-item";
+  el.innerHTML = `<span class="f-icon">${PART_ICONS[name] || "⚡"}</span><span class="f-name">${name}</span>`;
+  arena.appendChild(el);
+
+  const itemW = el.offsetWidth || 104;
+  const maxX = Math.max(12, arena.clientWidth - itemW - 12);
+  const x = 12 + Math.random() * maxX;
+  const y = -75;
+  const lvl = LEVELS[levelIndex];
+  const vy = (lvl.speed + Math.random() * 0.55) * 60; // px per second
+
+  el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+  fallingList.push({ name, el, x, y, vy });
+}
+
+function startSpawner() {
+  clearInterval(spawnTimer);
+  const ms = LEVELS[levelIndex].spawnMs;
+  spawnTimer = setInterval(spawnFallingItem, ms);
+}
+
+function openModal(mode, title, desc, btnText, onBtnClick) {
+  gameRunning = false;
+  clearInterval(spawnTimer);
+  modalCard.className = "modal" + (mode ? " " + mode : "");
+  modalTitle.textContent = title;
+  modalDesc.textContent = desc;
+  modalPrimaryBtn.textContent = btnText;
+  modalPrimaryBtn.onclick = onBtnClick;
+  overlay.classList.add("show");
+}
+
+function handleLevelComplete() {
+  score += 50;
+  renderHUD();
+  if (levelIndex + 1 < LEVELS.length) {
+    openModal(
+      "win",
+      `Level ${levelIndex + 1} Complete! 🎉`,
+      `Awesome catch! Ready for Level ${levelIndex + 2}: ${LEVELS[levelIndex + 1].category}?`,
+      "Next Level →",
+      () => {
+        levelIndex++;
+        caughtSet.clear();
+        clearFallingItems();
+        overlay.classList.remove("show");
+        renderHUD();
+        startGameLoop();
+      }
+    );
+  } else {
+    openModal(
+      "win",
+      "You Mastered All 6 Levels! 🏆",
+      `Final Score: ${score}! From basic LED circuits to Arduino, Home Automation, and Raspberry Pi, you caught them all!`,
+      "Play Again ↻",
+      () => resetFullGame()
+    );
+  }
+}
+
+function loseLife(reasonText, x, y) {
+  lives--;
+  spawnPopup(x, y, reasonText, "bad");
+  renderHUD();
+  if (lives <= 0) {
+    openModal(
+      "lose",
+      "Game Over!",
+      `Your final score is ${score}. Check the question at the top carefully and try again!`,
+      "Try Again ↻",
+      () => resetFullGame()
+    );
+  }
+}
+
+function checkCatch(item) {
+  const arenaRect = arena.getBoundingClientRect();
+  const basketRect = basket.getBoundingClientRect();
+  const itemRect = item.el.getBoundingClientRect();
+
+  const bLeft = basketRect.left - arenaRect.left;
+  const bRight = basketRect.right - arenaRect.left;
+  const bTop = basketRect.top - arenaRect.top;
+  const bBottom = basketRect.bottom - arenaRect.top;
+
+  const iLeft = itemRect.left - arenaRect.left;
+  const iRight = itemRect.right - arenaRect.left;
+  const iTop = itemRect.top - arenaRect.top;
+  const iBottom = itemRect.bottom - arenaRect.top;
+
+  const overlapX = iRight > bLeft + 8 && iLeft < bRight - 8;
+  const overlapY = iBottom > bTop + 4 && iTop < bBottom;
+
+  if (!overlapX || !overlapY) return false;
+
+  const lvl = LEVELS[levelIndex];
+  const centerX = (iLeft + iRight) / 2;
+
+  if (lvl.needed.includes(item.name)) {
+    if (!caughtSet.has(item.name)) {
+      caughtSet.add(item.name);
+      score += 20;
+      spawnPopup(centerX, bTop - 10, `+20 ${item.name}!`, "good");
+    } else {
+      score += 5;
+      spawnPopup(centerX, bTop - 10, `+5 Bonus!`, "good");
+    }
+    basket.classList.remove("pulse");
+    void basket.offsetWidth;
+    basket.classList.add("pulse");
+    renderHUD();
+
+    if (lvl.needed.every(n => caughtSet.has(n))) {
+      handleLevelComplete();
+    }
+  } else {
+    loseLife(`Wrong: ${item.name}!`, centerX, bTop - 10);
+  }
+  return true;
+}
+
+function updateFrame(timestamp) {
+  if (!lastFrameTime) lastFrameTime = timestamp;
+  const dt = Math.min(0.05, (timestamp - lastFrameTime) / 1000);
+  lastFrameTime = timestamp;
+
+  if (gameRunning && !isPaused) {
+    const arenaW = arena.clientWidth;
+    const arenaH = arena.clientHeight;
+    const bw = basket.offsetWidth || 154;
+
+    if (keysPressed.left) basketX -= 460 * dt;
+    if (keysPressed.right) basketX += 460 * dt;
+    basketX = Math.max(8, Math.min(arenaW - bw - 8, basketX));
+    basket.style.left = basketX + "px";
+
+    for (let i = fallingList.length - 1; i >= 0; i--) {
+      const obj = fallingList[i];
+      obj.y += obj.vy * dt;
+      obj.el.style.transform = `translate3d(${obj.x}px, ${obj.y}px, 0)`;
+
+      if (checkCatch(obj)) {
+        obj.el.remove();
+        fallingList.splice(i, 1);
+        continue;
+      }
+
+      if (obj.y > arenaH + 20) {
+        obj.el.remove();
+        fallingList.splice(i, 1);
+      }
+    }
+  }
+
+  rafId = requestAnimationFrame(updateFrame);
+}
+
+function startGameLoop() {
+  centerBasket();
+  gameRunning = true;
+  isPaused = false;
+  pauseBtn.textContent = "⏸ Pause";
+  lastFrameTime = 0;
+  startSpawner();
+  spawnFallingItem();
+}
+
+function resetFullGame() {
+  levelIndex = 0;
+  score = 0;
+  lives = 3;
+  caughtSet.clear();
+  clearFallingItems();
+  overlay.classList.remove("show");
+  renderHUD();
+  startGameLoop();
+}
+
+modalPrimaryBtn.addEventListener("click", () => {
+  overlay.classList.remove("show");
+  renderHUD();
+  startGameLoop();
+});
+
+pauseBtn.addEventListener("click", () => {
+  if (!gameRunning && !isPaused) return;
+  isPaused = !isPaused;
+  pauseBtn.textContent = isPaused ? "▶ Resume" : "⏸ Pause";
+});
+
+restartBtn.addEventListener("click", resetFullGame);
+
+// Pointer / Touch dragging for Basket
+function moveBasketToClientX(clientX) {
+  const rect = arena.getBoundingClientRect();
+  const bw = basket.offsetWidth || 154;
+  const target = clientX - rect.left - bw / 2;
+  basketX = Math.max(8, Math.min(rect.width - bw - 8, target));
+  basket.style.left = basketX + "px";
+}
+
+arena.addEventListener("pointerdown", e => {
+  if (!gameRunning || isPaused) return;
+  isDraggingBasket = true;
+  moveBasketToClientX(e.clientX);
+});
+
+window.addEventListener("pointermove", e => {
+  if (!isDraggingBasket || !gameRunning || isPaused) return;
+  moveBasketToClientX(e.clientX);
+});
+
+window.addEventListener("pointerup", () => {
+  isDraggingBasket = false;
+});
+
+window.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") keysPressed.left = true;
+  if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") keysPressed.right = true;
+});
+
+window.addEventListener("keyup", e => {
+  if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") keysPressed.left = false;
+  if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") keysPressed.right = false;
+});
+
+window.addEventListener("resize", centerBasket);
+
+renderHUD();
+centerBasket();
+rafId = requestAnimationFrame(updateFrame);
+</script>
+</body>
+</html>
