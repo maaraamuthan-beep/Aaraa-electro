@@ -1,3 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aaraa Electro - Component Shooter</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#08031a;font-family:system-ui,Arial,sans-serif;color:#fff;overflow:hidden;height:100vh}
+#intro{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 70%,#3a1060,#08031a 70%);z-index:5;text-align:center;padding:20px}
+#intro h1{font-size:clamp(28px,5vw,52px);margin-bottom:12px;color:#fff}
+#intro p{color:#cfd8ff;margin-bottom:28px;max-width:520px}
+.btn{border:none;border-radius:10px;padding:14px 34px;font-size:20px;font-weight:700;cursor:pointer;color:#fff}
+#startBtn{background:#2ecc71}
+#game{display:none;position:fixed;inset:0}
+#bar{position:absolute;top:0;left:0;right:0;height:46px;background:#87ceeb;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:3;font-weight:700}
+#bar .logo{font-size:18px}
+#qhead{position:absolute;top:56px;left:0;right:0;text-align:center;color:#ff5252;font-weight:700;font-size:18px;z-index:3}
+#qbox{position:absolute;top:84px;left:50%;transform:translateX(-50%);width:min(680px,90%);background:#fff;color:#0b1030;padding:12px 16px;border-radius:8px;text-align:center;font-weight:600;font-size:clamp(14px,2vw,19px);z-index:3}
+#cv{position:absolute;inset:0;width:100%;height:100%}
+#back{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;background:#1b2a6b;border:2px solid #4fc3ff;color:#fff;font-size:26px;display:flex;align-items:center;justify-content:center;text-decoration:none;z-index:4}
+#back:hover{background:#2b3f9c}
+#overlay{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);display:none;flex-direction:column;align-items:center;gap:10px;z-index:4;text-align:center}
+#overlay .msg{font-size:26px;font-weight:700}
+#retryBtn{background:#e53935;display:none}
+#nextBtn{background:#2ecc71;display:none}
+</style>
+</head>
+<body>
+
+<div id="intro">
+<h1>Component Shooter</h1>
+<p>Read the question, then shoot the spaceship with the correct component. If you do not shoot, the enemy fleet will attack!</p>
+<button class="btn" id="startBtn">Start play</button>
+</div>
+
+<div id="game">
+<div id="bar"><span class="logo">Aaraa Electro</span><span id="stats">Level 1 &nbsp; Score 0</span></div>
+<div id="qhead">Question 1</div>
+<div id="qbox">Loading...</div>
+<canvas id="cv"></canvas>
+<a id="back" href="project2-page6.html" aria-label="Back to page 6">&#8592;</a>
+<div id="overlay">
+<div class="msg" id="msg"></div>
+<button class="btn" id="retryBtn">Retry</button>
+<button class="btn" id="nextBtn">Next</button>
+</div>
+</div>
+
 <script>
 var COMPONENTS=[
 {n:"LED",d:"makes light when power is given",u:"show a light in a circuit"},
@@ -571,3 +620,5 @@ order.push(lastIdx);
 setupQuestion();
 });
 </script>
+</body>
+</html>
