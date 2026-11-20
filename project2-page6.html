@@ -1,366 +1,199 @@
-const step=e.shiftKey?14:6;
-   if(activeWireEnd){
-     e.preventDefault();
-     const {wire,end}=activeWireEnd;
-     const r=workbench.getBoundingClientRect();
-     let nx=end===1?wire.x1:wire.x2;
-     let ny=end===1?wire.y1:wire.y2;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aara Electro | Circuit Builder</title>
+<style>
+:root{--navy:#082b68;--blue:#0875df;--ink:#10233f;--sky:#eaf6ff}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#f4f8fc}
+header{min-height:70px;background:linear-gradient(100deg,#07316f,#061e50);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 5%;gap:18px}
+.brand{font-size:clamp(22px,3vw,30px);font-weight:800;color:#7de0ff;white-space:nowrap}.brand span{color:#ffd54d}
+nav{display:flex;gap:clamp(8px,2vw,24px);flex-wrap:wrap}nav a{color:#fff;text-decoration:none;font-weight:700;padding:9px 12px;border-radius:22px}nav a:hover,nav a.active{background:#fff;color:#07316f}
+.robot-mini{font-size:30px}
 
-     if(e.key==='ArrowUp')ny-=step;
-     if(e.key==='ArrowDown')ny+=step;
-     if(e.key==='ArrowLeft')nx-=step;
-     if(e.key==='ArrowRight')nx+=step;
+/* Intro banner with left-corner animated round back arrow & centered title */
+.intro{position:relative;text-align:center;padding:24px 76px 18px;background:linear-gradient(110deg,#0879d8,#11b9ee 55%,#2386e8);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:110px}
+.intro h1{margin:0 0 8px;font-size:clamp(27px,4vw,42px);text-align:center}
+.intro p{margin:0;font-size:16px;text-align:center}
 
-     nx=Math.max(12,Math.min(r.width-12,nx));
-     ny=Math.max(48,Math.min(r.height-12,ny));
-
-     if(end===1){wire.x1=nx;wire.y1=ny;}else{wire.x2=nx;wire.y2=ny;}
-     renderWire(wire);
-     evaluateCircuit();
-   } else if(selectedItem){
-     e.preventDefault();
-     const curLeft=parseFloat(selectedItem.style.left)||0;
-     const curTop=parseFloat(selectedItem.style.top)||0;
-     const r=workbench.getBoundingClientRect();
-     let nx=curLeft, ny=curTop;
-     if(e.key==='ArrowUp')ny-=step;
-     if(e.key==='ArrowDown')ny+=step;
-     if(e.key==='ArrowLeft')nx-=step;
-     if(e.key==='ArrowRight')nx+=step;
-
-     selectedItem.style.left=Math.max(8,Math.min(r.width-selectedItem.offsetWidth-8,nx))+'px';
-     selectedItem.style.top=Math.max(48,Math.min(r.height-selectedItem.offsetHeight-12,ny))+'px';
-     evaluateCircuit();
-   }
- } else if((e.key==='Backspace'||e.key==='Delete')&&selectedItem){
-   removeSelectedPart();
- }
-});
-
-function selectItem(el){
- if(selectedItem)selectedItem.classList.remove('selected');
- document.querySelectorAll('.wire-handle').forEach(h=>h.classList.remove('active-end'));
- activeWireEnd=null;
- selectedItem=el;
- if(selectedItem){
-   selectedItem.classList.add('selected');
-   document.getElementById('selectedNote').textContent=`Selected: ${selectedItem.dataset.type.toUpperCase()}. Drag it, press Arrow Keys, Rotate, or Remove.`;
- }
+.back-round-btn{
+  position:fixed;
+  left:18px;
+  top:96px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#1976d2,#005bb5);
+  border:3px solid #ffffff;
+  color:#ffffff;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  box-shadow:0 8px 20px rgba(4,42,110,0.38);
+  z-index:60;
+  animation:backSlideX 1.3s ease-in-out infinite alternate;
+  transition:filter .15s,transform .15s;
+}
+.back-round-btn:hover{filter:brightness(1.1)}
+@keyframes backSlideX{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-7px)}
 }
 
-function makeMovable(el){
- selectItem(el);
- el.addEventListener('pointerdown',e=>{
-   if(e.target.closest('.sw-toggle-btn'))return;
-   e.stopPropagation();
-   selectItem(el);
-   const startX=e.clientX;
-   const startY=e.clientY;
-   const origLeft=parseFloat(el.style.left)||0;
-   const origTop=parseFloat(el.style.top)||0;
-   el.setPointerCapture(e.pointerId);
+main{max-width:1500px;margin:auto;padding:20px}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.toolbar h2{margin:0;color:#0756b8;font-size:22px}
+button{font:inherit;cursor:pointer}
+.new-project{border:0;border-radius:24px;background:#0756b8;color:#fff;font-weight:800;padding:12px 20px;box-shadow:0 4px 0 #063d83}
+.workspace{display:grid;grid-template-columns:210px minmax(0,1fr) 270px;gap:14px;align-items:stretch}
+.panel{background:#fff;border:1px solid #d7e6f4;border-radius:18px;padding:14px;box-shadow:0 5px 18px #174b7910}
+.panel h3{margin:0 0 12px;color:#0756b8;font-size:17px}
+.part{width:100%;display:flex;align-items:center;gap:10px;border:1px solid #d8e7f5;background:#f8fbff;border-radius:13px;padding:8px 10px;margin:6px 0;text-align:left;font-weight:700;color:var(--ink);font-size:13px;transition:.18s}
+.part:hover{transform:translateY(-2px);border-color:#1685ed;background:#eef7ff}
+.part svg{width:42px;height:36px;flex:none}
+.hint{font-size:12px;line-height:1.45;color:#5b7088;margin:10px 2px 0}
+.workbench{position:relative;min-height:620px;overflow:hidden;border:1px solid #d6e1eb;border-radius:18px;background-color:#fff;background-image:linear-gradient(#dce6ef 1px,transparent 1px),linear-gradient(90deg,#dce6ef 1px,transparent 1px);background-size:22px 22px;box-shadow:inset 0 0 35px #c5d8e522}
+.bench-label{position:absolute;top:12px;left:15px;background:#ffffffdf;border-radius:20px;padding:7px 12px;font-size:12px;font-weight:800;color:#64778c;z-index:3}
+.breadboard{position:absolute;width:min(76%,660px);height:260px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:17px;background:linear-gradient(145deg,#fff,#e9edf0);border:1px solid #cbd2d8;box-shadow:0 13px 22px #26394a30,inset 0 2px 5px #fff;z-index:1}
+.board-top{position:absolute;inset:12px;border-radius:11px;background:linear-gradient(145deg,#fdfefe,#e9edef);box-shadow:inset 0 2px 8px #aeb8c055}
+.rail{position:absolute;left:20px;right:20px;height:2px;background:#d74c4c;top:28px}.rail.bottom{top:auto;bottom:28px;background:#2786d5}
+.rail:after{content:"";position:absolute;left:0;right:0;top:5px;height:1px;background:#cbd3d9}
+.holes{position:absolute;left:28px;right:28px;top:58px;bottom:58px;display:grid;grid-template-columns:repeat(30,1fr);grid-template-rows:repeat(5,1fr);gap:8px 5px}
+.hole{width:7px;height:7px;justify-self:center;align-self:center;border-radius:50%;background:radial-gradient(circle at 35% 30%,#68727b,#202a32 65%);box-shadow:inset 0 1px 2px #0008,0 1px 0 #fff}
+.center-gap{position:absolute;left:12px;right:12px;top:50%;height:13px;transform:translateY(-50%);background:#dce1e4;border-top:1px solid #c5cdd2;border-bottom:1px solid #fff}
+.board-mark{position:absolute;left:12px;right:12px;top:4px;font-size:9px;color:#9aa4ac;display:flex;justify-content:space-between}
+.dropzone{position:absolute;inset:0;z-index:2;pointer-events:none}
+.placed{position:absolute;z-index:4;touch-action:none;cursor:grab;user-select:none;pointer-events:auto;filter:drop-shadow(0 5px 3px #1b2b3a33);transform-origin:center;opacity:1!important}.placed.selected{outline:2px dashed #0875df;outline-offset:5px;border-radius:8px}
+.placed:active{cursor:grabbing}.placed svg{display:block;overflow:visible}
+.led-part{width:54px;height:86px}.res-part{width:110px;height:44px}.battery-part{width:130px;height:102px}.buzzer-part{width:76px;height:76px}.motor-part{width:96px;height:82px}.switch-part{width:92px;height:56px}
 
-   const onMove=ev=>{
-     if(!el.hasPointerCapture(ev.pointerId))return;
-     const r=workbench.getBoundingClientRect();
-     const nx=origLeft+(ev.clientX-startX);
-     const ny=origTop+(ev.clientY-startY);
-     el.style.left=Math.max(8,Math.min(r.width-el.offsetWidth-8,nx))+'px';
-     el.style.top=Math.max(48,Math.min(r.height-el.offsetHeight-12,ny))+'px';
-     evaluateCircuit();
-   };
+.term-pin{position:absolute;width:18px;height:18px;border-radius:50%;font-size:12px;font-weight:900;line-height:16px;text-align:center;color:#fff;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.35);pointer-events:none;z-index:6}
+.term-pos{background:#e53935}
+.term-neg{background:#1c242b}
 
-   const onUp=ev=>{
-     if(el.hasPointerCapture(ev.pointerId))el.releasePointerCapture(ev.pointerId);
-     el.removeEventListener('pointermove',onMove);
-     el.removeEventListener('pointerup',onUp);
-   };
+.sw-toggle-btn{position:absolute;right:-8px;top:-10px;z-index:8;border:2px solid #fff;border-radius:12px;padding:2px 8px;font-size:11px;font-weight:900;color:#fff;background:#78909c;box-shadow:0 2px 6px rgba(0,0,0,.28)}
+.sw-toggle-btn.is-on{background:#0b8a55}
 
-   el.addEventListener('pointermove',onMove);
-   el.addEventListener('pointerup',onUp);
- });
-}
+.spin-badge{position:absolute;left:50%;top:-34px;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:900;white-space:nowrap;pointer-events:none;z-index:8;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.spin-badge.right{background:#e8f8f0;color:#087f4b;border:2px solid #16a364}
+.spin-badge.left{background:#ffebee;color:#c62828;border:2px solid #e53935}
+.spin-right-anim{animation:spinCW .75s linear infinite;transform-origin:center}
+.spin-left-anim{animation:spinCCW .75s linear infinite;transform-origin:center}
+@keyframes spinCW{to{transform:rotate(360deg)}}
+@keyframes spinCCW{to{transform:rotate(-360deg)}}
 
-function getTerminalPoints(el){
- const wr=workbench.getBoundingClientRect();
- const er=el.getBoundingClientRect();
- const type=el.dataset.type;
- const pts=[];
- const pins=el.querySelectorAll('.term-pin');
- if(pins.length){
-   pins.forEach(pin=>{
-     const pr=pin.getBoundingClientRect();
-     pts.push({
-       x:pr.left+pr.width/2-wr.left,
-       y:pr.top+pr.height/2-wr.top,
-       pol:pin.classList.contains('term-pos')?'pos':'neg',
-       type
-     });
-   });
- } else {
-   pts.push({x:er.left-wr.left,y:er.top+er.height/2-wr.top,pol:'any',type});
-   pts.push({x:er.right-wr.left,y:er.top+er.height/2-wr.top,pol:'any',type});
- }
- return pts;
-}
+.jumper-svg{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;overflow:visible}
+.wire-handle{position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;z-index:7;cursor:grab;pointer-events:auto;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;border:2.5px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.4);transition:transform .12s}
+.wire-handle:active{cursor:grabbing}
+.wire-handle.red-end{background:#e53935}
+.wire-handle.black-end{background:#1e262c}
+.wire-handle.active-end{transform:scale(1.28);outline:3px solid #ffd54d;z-index:9}
+.wire-handle.snapped{box-shadow:0 0 0 4px #00e676,0 3px 8px rgba(0,0,0,.4)}
 
-function findSnappedTerminal(x,y,threshold=26){
- let best=null;
- let bestDist=threshold;
- items.forEach(el=>{
-   getTerminalPoints(el).forEach(pt=>{
-     const d=Math.hypot(pt.x-x,pt.y-y);
-     if(d<bestDist){bestDist=d;best={...pt,el};}
-   });
- });
- return best;
-}
+.part-actions{display:flex;gap:8px;margin-top:10px}.part-actions button{flex:1;border:0;border-radius:10px;padding:10px 7px;font-size:12px;font-weight:800}.remove-selected{background:#ffe8e8;color:#a32222}.rotate-selected{background:#e8f3ff;color:#0756b8}.selected-note{font-size:12px;color:#47627c;line-height:1.4;margin:8px 2px}
 
-function evaluateCircuit(){
- const snapRadius=26;
- const allTerminals=[];
- items.forEach(el=>{
-   el.classList.remove('glow','busted-part');
-   const badge=el.querySelector('.spin-badge');
-   if(badge)badge.remove();
-   const blade=el.querySelector('.rotor-blade');
-   if(blade)blade.classList.remove('spin-right-anim','spin-left-anim');
-   if(el.dataset.type==='led'&&!el.dataset.busted)el.innerHTML=art.led;
-   if(el.dataset.type==='buzzer'&&!el.dataset.busted)el.innerHTML=art.buzzer;
-   getTerminalPoints(el).forEach(t=>allTerminals.push(t));
- });
+.jumper-alert-wrap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:55;pointer-events:none;padding:16px}
+.jumper-alert-wrap.visible{display:flex}
+.jumper-alert-box{pointer-events:auto;background:linear-gradient(135deg,#fff8e1,#ffe082);border:3px solid #ff8f00;color:#3e1f00;border-radius:24px;padding:24px 34px;font-size:clamp(20px,2.6vw,28px);font-weight:900;box-shadow:0 16px 38px rgba(0,0,0,0.28);animation:popIn .35s ease;text-align:center}
 
- const adj=new Map();
- const addEdge=(a,b)=>{
-   if(!adj.has(a))adj.set(a,new Set());
-   if(!adj.has(b))adj.set(b,new Set());
-   adj.get(a).add(b);
-   adj.get(b).add(a);
- };
+.center-check-wrap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50;pointer-events:none;padding:16px}
+.center-check-wrap.visible{display:flex}
+.check-big{pointer-events:auto;border:4px solid #fff;border-radius:50px;padding:22px 44px;font-size:clamp(22px,3vw,32px);font-weight:900;color:#fff;background:linear-gradient(135deg,#ff5722,#d81b60);box-shadow:0 14px 35px rgba(216,27,96,0.45),0 6px 0 #8e0038;animation:popIn .45s cubic-bezier(.18,.89,.32,1.28),bounceBtn 1.4s ease-in-out infinite;letter-spacing:.5px}
+.check-big.safe{background:linear-gradient(135deg,#0b8a55,#12b872);box-shadow:0 14px 35px rgba(11,138,85,0.45),0 6px 0 #065a37}
+.check-big:hover{filter:brightness(1.08);transform:scale(1.04)}
+@keyframes popIn{0%{transform:scale(.45);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes bounceBtn{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
- // Connect resistor ends internally
- items.filter(i=>i.dataset.type==='resistor').forEach(rEl=>{
-   const rPins=getTerminalPoints(rEl);
-   if(rPins.length>=2)addEdge(rPins[0],rPins[1]);
- });
+.robot-modal-backdrop{position:fixed;inset:0;background:rgba(8,24,48,.62);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:80;padding:18px}
+.robot-modal-backdrop.visible{display:flex}
+.robot-modal{width:min(580px,96vw);background:#ffffff;border:4px solid #0756b8;border-radius:28px;padding:26px 28px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.42);animation:popIn .4s cubic-bezier(.18,.89,.32,1.28)}
+.robot-modal.danger-modal{border-color:#d32f2f}
+.robot-modal.success-modal{border-color:#0b8a55}
+.modal-robo-avatar{font-size:86px;line-height:1.05;display:block;margin:0 auto 10px;animation:roboBob 1.3s ease-in-out infinite alternate}
+@keyframes roboBob{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+.modal-title{margin:0 0 12px;font-size:clamp(22px,3vw,29px);font-weight:900;color:#0a192f}
+.modal-body{text-align:left;background:#f4f8fc;border:2px solid #cbd9e8;border-radius:18px;padding:18px 20px;font-size:17px;line-height:1.6;color:#0b1320;font-weight:700}
+.modal-body p{margin:0 0 12px}
+.modal-body p:last-child{margin-bottom:0}
+.modal-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.btn-retry{border:0;border-radius:40px;padding:15px 34px;font-size:18px;font-weight:900;color:#fff;background:linear-gradient(135deg,#ff6d00,#e65100);box-shadow:0 5px 0 #9c3600;transition:.15s}
+.btn-retry:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.btn-close-modal{border:2px solid #0756b8;border-radius:40px;padding:14px 26px;font-size:16px;font-weight:800;color:#0756b8;background:#fff}
 
- // Connect switch ends when ON
- items.filter(i=>i.dataset.type==='switch').forEach(sEl=>{
-   const sPins=getTerminalPoints(sEl);
-   if(sEl.dataset.swOn==='true'&&sPins.length>=2)addEdge(sPins[0],sPins[1]);
- });
+.status{margin-top:14px;padding:12px 14px;border-radius:13px;background:#edf6ff;color:#234767;font-size:14px;line-height:1.5}
+.status.danger{background:#ffebee;color:#a31515;border:1px solid #ffcdd2;font-weight:700}
+.status.success{background:#e8f8f0;color:#0b6b43;border:1px solid #bce8d1;font-weight:700}
+.status.warn{background:#fff8e1;color:#8d4e00;border:1px solid #ffe082;font-weight:700}
 
- // Connect wire tips to nearby terminals
- wires.forEach(w=>{
-   [w.el1,w.el2].forEach(h=>h.classList.remove('snapped'));
-   const t1=findSnappedTerminal(w.x1,w.y1,snapRadius);
-   const t2=findSnappedTerminal(w.x2,w.y2,snapRadius);
-   if(t1)w.el1.classList.add('snapped');
-   if(t2)w.el2.classList.add('snapped');
-   if(t1&&t2&&t1.el!==t2.el){
-     addEdge(t1,t2);
-   }
- });
+.robot-card{position:relative;min-height:190px;background:linear-gradient(145deg,#f0f8ff,#fff);border:1px solid #cfe4f8;border-radius:16px;padding:12px;overflow:hidden}
+.robot{font-size:58px;text-align:center;display:block}
+.speech{font-size:13px;line-height:1.5;background:#fff;border:1px solid #dbe9f5;border-radius:12px;padding:10px;margin-top:7px;min-height:80px;color:#10233f;font-weight:600}
+.legend{font-size:12px;color:#62768a;line-height:1.5;margin-top:12px}
 
- const batteries=items.filter(i=>i.dataset.type==='battery');
- const loads=items.filter(i=>['led','motor','buzzer'].includes(i.dataset.type));
- const switches=items.filter(i=>i.dataset.type==='switch');
+.glow{filter:drop-shadow(0 0 8px #ffdf35) drop-shadow(0 0 15px #ffb900)!important;animation:pulse .8s ease-in-out infinite alternate}
+@keyframes pulse{to{filter:drop-shadow(0 0 15px #ffe66d) drop-shadow(0 0 25px #ffb900)}}
 
- circuitState='incomplete';
- circuitReason='';
- motorSpinDir=null;
+.busted-part{animation:shakeBust .35s ease-in-out 2}
+@keyframes shakeBust{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px) rotate(-6deg)}75%{transform:translateX(5px) rotate(6deg)}}
+.smoke-puff{position:absolute;left:50%;top:-10px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#7a828a 20%,rgba(120,130,140,0) 75%);pointer-events:none;animation:smokeRise 1.8s ease-out infinite}
+.smoke-puff.s2{animation-delay:.6s;left:35%;width:22px;height:22px}
+.smoke-puff.s3{animation-delay:1.2s;left:65%;width:16px;height:16px}
+@keyframes smokeRise{0%{transform:translate(-50%,0) scale(.6);opacity:.9}100%{transform:translate(-50%,-52px) scale(2.1);opacity:0}}
 
- if(!batteries.length||!loads.length){
-   centerCheckWrap.classList.remove('visible');
-   statusBox.className='status';
-   statusBox.textContent='Add a 9V Battery, Jumper Wires, and a load (DC Motor, LED, or Buzzer) to test your circuit.';
-   return;
- }
+.sound-waves{position:absolute;right:-34px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:4px;pointer-events:none}
+.wave-arc{border:3px solid #0875df;border-left-color:transparent;border-top-color:transparent;border-bottom-color:transparent;border-radius:50%;transform:rotate(-45deg);animation:wavePulse 1s ease-in-out infinite}
+.wave-arc.w1{width:14px;height:14px;animation-delay:0s}
+.wave-arc.w2{width:24px;height:24px;animation-delay:.2s}
+.wave-arc.w3{width:34px;height:34px;animation-delay:.4s}
+@keyframes wavePulse{0%,100%{opacity:.25;transform:rotate(-45deg) scale(.9)}50%{opacity:1;transform:rotate(-45deg) scale(1.08)}}
 
- const anySwitchOff=switches.length>0&&switches.some(s=>s.dataset.swOn!=='true');
- const batPins=getTerminalPoints(batteries[0]);
- const batPos=batPins.find(p=>p.pol==='pos');
- const batNeg=batPins.find(p=>p.pol==='neg');
+footer{text-align:center;color:#60758b;padding:20px;font-size:13px}
+@media(max-width:1000px){.workspace{grid-template-columns:170px minmax(0,1fr)}.right-panel{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px}.right-panel h3{grid-column:1/-1}}
+@media(max-width:680px){header{justify-content:center;flex-wrap:wrap;padding:12px}nav{justify-content:center;font-size:13px}.intro{padding:20px 64px 16px}.back-round-btn{top:116px;left:12px;width:46px;height:46px}.workspace{grid-template-columns:1fr}.parts-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.parts-panel h3,.parts-panel .hint{grid-column:1/-1}.part{margin:3px 0}.workbench{min-height:560px}.breadboard{width:88%;height:230px}.holes{gap:7px 2px}.right-panel{display:block}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><span>⚡</span> Aara Electro</div>
+  <nav aria-label="Main navigation">
+    <a href="index.html">⌂ Home</a><a href="#">▣ Learn</a><a href="components.html">▦ Components</a><a href="#">★ Challenges</a><a href="feedback.html">▤ Feedback</a>
+  </nav>
+  <div class="robot-mini" aria-label="Aara AI robot">🤖</div>
+</header>
 
- // BFS helper from a start node
- const reachable=start=>{
-   const seen=new Set([start]);
-   const q=[start];
-   while(q.length){
-     const curr=q.shift();
-     for(const nxt of (adj.get(curr)||[])){
-       if(!seen.has(nxt)){seen.add(nxt);q.push(nxt);}
-     }
-   }
-   return seen;
- };
+<a href="project2-page5.html" class="back-round-btn" aria-label="Go back to previous page" title="Back to Previous Page">
+  <svg width="26" height="26" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+    <path d="M18 6L9 14L18 22" stroke="#ffffff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10 14H22" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+  </svg>
+</a>
 
- const fromPos=batPos?reachable(batPos):new Set();
- const fromNeg=batNeg?reachable(batNeg):new Set();
-
- // Short circuit check: + connected directly to -
- if(batPos&&fromPos.has(batNeg)){
-   circuitState='short';
-   circuitReason='Direct short circuit detected between Battery (+) and Battery (−)! Always route current through a load or switch.';
- } else if(anySwitchOff){
-   circuitState='switch_off';
-   circuitReason='Your Switch is currently OFF—power is open. Click OFF/ON on the Switch to close the circuit!';
- } else {
-   let poweredCount=0;
-   loads.forEach(load=>{
-     const lPins=getTerminalPoints(load);
-     const lPos=lPins.find(p=>p.pol==='pos');
-     const lNeg=lPins.find(p=>p.pol==='neg');
-     const hasResistorPath=items.some(i=>i.dataset.type==='resistor');
-
-     const normalBias=lPos&&lNeg&&fromPos.has(lPos)&&fromNeg.has(lNeg);
-     const reverseBias=lPos&&lNeg&&fromPos.has(lNeg)&&fromNeg.has(lPos);
-
-     if(normalBias||reverseBias){
-       poweredCount++;
-       if(load.dataset.type==='led'){
-         if(!hasResistorPath){
-           load.dataset.busted='true';
-           load.innerHTML=art.ledBusted;
-           load.classList.add('busted-part');
-           circuitState='overcurrent';
-           circuitReason='LED connected to 9V without a 1 kΩ resistor—too much current burned it out!';
-         } else if(normalBias){
-           load.classList.add('glow');
-         }
-       } else if(load.dataset.type==='buzzer'){
-         if(!hasResistorPath){
-           load.dataset.busted='true';
-           load.innerHTML=art.buzzerBusted;
-           load.classList.add('busted-part');
-           circuitState='overcurrent';
-           circuitReason='Buzzer connected directly to 9V without protection—it overloaded!';
-         } else {
-           load.innerHTML=art.buzzerSound;
-           load.classList.add('glow');
-         }
-       } else if(load.dataset.type==='motor'){
-         const dir=normalBias?'right':'left';
-         motorSpinDir=dir;
-         const blade=load.querySelector('.rotor-blade');
-         if(blade)blade.classList.add(dir==='right'?'spin-right-anim':'spin-left-anim');
-         const badge=document.createElement('div');
-         badge.className='spin-badge '+(dir==='right'?'right':'left');
-         badge.textContent=dir==='right'?'↻ Spinning Right (+→+)':'↺ Spinning Left (+→−)';
-         load.appendChild(badge);
-       }
-     }
-   });
-
-   if(circuitState!=='overcurrent'&&poweredCount>0){
-     circuitState='working';
-     circuitReason='Closed loop complete! Current flows cleanly through your components.';
-   } else if(circuitState!=='overcurrent'){
-     circuitState='incomplete';
-     circuitReason='Connect both the (+) and (−) terminals using Jumper Wires so current can complete a loop.';
-   }
- }
-
- centerCheckWrap.classList.toggle('visible',circuitState!=='incomplete');
- checkCircuitBtn.classList.toggle('safe',circuitState==='working');
-
- if(circuitState==='working'){
-   statusBox.className='status success';
-   statusBox.textContent=circuitReason+' Click "Check Circuit" for Aara AI\'s report.';
-   speech.innerHTML='<b>🤖 Aara AI:</b><br>Nice work! Your circuit loop is complete. Click <b>Check Circuit</b> to inspect how it behaves.';
- } else if(circuitState==='switch_off'){
-   statusBox.className='status warn';
-   statusBox.textContent=circuitReason;
-   speech.innerHTML='<b>🤖 Aara AI:</b><br>The switch is <b>OFF</b>, so the circuit is open. Toggle it to <b>ON</b> to let current flow!';
- } else if(circuitState==='short'||circuitState==='overcurrent'){
-   statusBox.className='status danger';
-   statusBox.textContent=circuitReason;
-   speech.innerHTML='<b>🤖 Aara AI:</b><br>Uh oh! Something overloaded or shorted. Click <b>Check Circuit</b> to see what went wrong and how to fix it.';
- } else {
-   statusBox.className='status';
-   statusBox.textContent=circuitReason;
- }
-}
-
-// Drag from component palette
-document.querySelectorAll('.part').forEach(btn=>{
- btn.addEventListener('dragstart',e=>{
-   dragType=btn.dataset.part;
-   e.dataTransfer.setData('text/plain',dragType);
- });
- btn.addEventListener('click',e=>{
-   if(btn.dataset.part==='jumper'){
-     spawnDualJumperWires();
-     return;
-   }
-   const r=workbench.getBoundingClientRect();
-   addPart(btn.dataset.part,r.left+r.width*0.55,r.top+r.height*0.35);
- });
-});
-
-workbench.addEventListener('dragover',e=>e.preventDefault());
-workbench.addEventListener('drop',e=>{
- e.preventDefault();
- const type=e.dataTransfer.getData('text/plain')||dragType;
- if(type)addPart(type,e.clientX,e.clientY);
- dragType=null;
-});
-
-function removeSelectedPart(){
- if(activeWireEnd){
-   const {wire}=activeWireEnd;
-   wire.pathEl.remove();
-   wire.el1.remove();
-   wire.el2.remove();
-   wires=wires.filter(w=>w!==wire);
-   activeWireEnd=null;
-   document.getElementById('selectedNote').textContent='Wire removed.';
-   evaluateCircuit();
-   return;
- }
- if(!selectedItem)return;
- selectedItem.remove();
- items=items.filter(i=>i!==selectedItem);
- selectedItem=null;
- document.getElementById('selectedNote').textContent='Component removed.';
- evaluateCircuit();
-}
-
-document.getElementById('removeSelected').addEventListener('click',removeSelectedPart);
-
-document.getElementById('rotateSelected').addEventListener('click',()=>{
- if(!selectedItem)return;
- const cur=Number(selectedItem.dataset.rot||0);
- const next=(cur+90)%360;
- selectedItem.dataset.rot=String(next);
- selectedItem.style.transform=`rotate(${next}deg)`;
- evaluateCircuit();
-});
-
-function openReportModal(){
- const isDanger=circuitState==='short'||circuitState==='overcurrent';
- const isSuccess=circuitState==='working';
- robotModal.className='robot-modal'+(isDanger?' danger-modal':isSuccess?' success-modal':'');
- modalTitle.textContent=isDanger?'Circuit Alert!':isSuccess?'Circuit Working!':'Circuit Check';
- modalBody.innerHTML=`<p>${circuitReason}</p>`;
- robotModalBackdrop.classList.add('visible');
-}
-
-checkCircuitBtn.addEventListener('click',openReportModal);
-document.getElementById('closeModalBtn').addEventListener('click',()=>robotModalBackdrop.classList.remove('visible'));
-
-function resetProject(){
- robotModalBackdrop.classList.remove('visible');
- centerCheckWrap.classList.remove('visible');
- items.forEach(i=>i.remove());
- items=[];
- wires.forEach(w=>{w.pathEl.remove();w.el1.remove();w.el2.remove();});
- wires=[];
- selectedItem=null;
- activeWireEnd=null;
- circuitState='incomplete';
- evaluateCircuit();
-}
-
-document.getElementById('newProject').addEventListener('click',resetProject);
-document.getElementById('retryProjectBtn').addEventListener('click',resetProject);
+<section class="intro">
+  <h1>Circuit Builder</h1>
+  <p>Use the Switch, Resistor, and Jumper Wires to control your DC Motor, LED, or Buzzer!</p>
+</section>
+<main>
+  <div class="toolbar">
+    <h2>Build your circuit with Switch &amp; DC Motor</h2>
+    <button class="new-project" id="newProject">↻ New Project</button>
+  </div>
+  <section class="workspace">
+    <aside class="panel parts-panel">
+      <h3>Components</h3>
+      <button class="part" draggable="true" data-part="led">
+        <svg viewBox="0 0 60 48" aria-hidden="true"><path d="M25 26v20M35 26v20" stroke="#aaa" stroke-width="2"/><path d="M19 25a11 11 0 1 1 22 0v3H19z" fill="#ed3448" stroke="#9d1729" stroke-width="2"/><path d="M25 8l-5-5m17 5 5-5" stroke="#ffb5bd" stroke-width="2"/></svg>LED (+ / −)
+      </button>
+      <button class="part" draggable="true" data-part="resistor">
+        <svg viewBox="0 0 70 48" aria-hidden="true"><path d="M2 24h66" stroke="#aaa" stroke-width="2"/><rect x="17" y="14" width="36" height="20" rx="8" fill="#e9c99b" stroke="#98734b"/><path d="M25 15v18m7-18v18m8-18v18" stroke="#a33b24" stroke-width="3"/></svg>1 kΩ Resistor
+      </button>
+      <button class="part" draggable="true" data-part="battery">
+        <svg viewBox="0 0 80 58" aria-hidden="true"><rect x="12" y="9" width="56" height="43" rx="7" fill="#202a35" stroke="#101820" stroke-width="2"/><rect x="25" y="4" width="12" height="7" rx="2" fill="#e53935"/><rect x="48" y="4" width="12" height="7" rx="2" fill="#546e7a"/><text x="40" y="34" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">9V</text></svg>9V Battery (+ / −)
+      </button>
+      <button class="part" draggable="true" data-part="buzzer">
+        <svg viewBox="0 0 60 48" aria-hidden="true"><circle cx="30" cy="23" r="18" fill="#252b31" stroke="#111" stroke-width="2"/><circle cx="30" cy="23" r="11" fill="#59616a"/><circle cx="30" cy="23" r="4" fill="#1d252c"/><path d="M22 39v8m16-8v8" stroke="#aaa" stroke-width="2"/></svg>Buzzer (+ / −)
+      </button>
+      <button class="part" draggable="true" data-part="motor">
+        <svg viewBox="0
