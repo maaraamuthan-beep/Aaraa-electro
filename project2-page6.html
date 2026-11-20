@@ -63,13 +63,14 @@ button{font:inherit;cursor:pointer}
 .placed svg{display:block;width:100%;height:100%;overflow:visible}
 
 .led-part{width:54px;height:84px}
-.res-part{width:82px;height:36px}
+.res-part{width:58px;height:24px}
 .battery-part{width:120px;height:94px}
 .buzzer-part{width:74px;height:74px}
 .motor-part{width:92px;height:80px}
 .switch-part{width:88px;height:52px}
 
 .term-pin{position:absolute;width:20px;height:20px;border-radius:50%;font-size:11px;font-weight:900;line-height:16px;text-align:center;color:#fff;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.35);pointer-events:none;z-index:8}
+.res-part .term-pin{width:16px;height:16px;font-size:9px;line-height:12px}
 .term-pos{background:#e53935}
 .term-neg{background:#1c242b}
 .term-res{background:#0288d1}
@@ -95,7 +96,6 @@ button{font:inherit;cursor:pointer}
 .remove-btn{background:#ffe8e8;color:#a32222}
 .rotate-btn{background:#e8f3ff;color:#0756b8}
 
-/* Center Big Check Circuit Overlay */
 .center-check-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:95;background:rgba(8,24,48,.35);padding:16px}
 .center-check-overlay.show{display:flex}
 .check-btn-center{border:4px solid #fff;border-radius:50px;padding:24px 48px;font-size:clamp(22px,3.2vw,34px);font-weight:900;color:#fff;background:linear-gradient(135deg,#e53935,#b71c1c);box-shadow:0 16px 38px rgba(211,47,47,.5),0 7px 0 #7f0000;animation:popIn .3s ease,pop 1.4s ease-in-out infinite}
@@ -104,7 +104,6 @@ button{font:inherit;cursor:pointer}
 @keyframes popIn{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
 @keyframes pop{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
-/* Live Demo Banner while circuit functions before Robot modal */
 .demo-banner{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#082b68;color:#fff;border:3px solid #7de0ff;border-radius:30px;padding:12px 26px;font-size:15px;font-weight:800;z-index:98;display:none;box-shadow:0 10px 28px rgba(0,0,0,.35);cursor:pointer}
 .demo-banner.show{display:block}
 
@@ -270,12 +269,10 @@ Hi! Add a <b>9V Battery</b>, <b>Jumper Wires</b>, and an <b>LED</b>, <b>Buzzer</
 </section>
 </main>
 
-<!-- Center Check Circuit Button -->
 <div class="center-check-overlay" id="centerCheckOverlay">
 <button type="button" class="check-btn-center" id="checkCircuitBtn">🔍 Check Circuit</button>
 </div>
 
-<!-- Demo Banner while circuit functions before Robot opens -->
 <div class="demo-banner" id="demoBanner">⚡ Watch the circuit in action... (Tap to open Aara AI report now)</div>
 
 <div class="jumper-alert" id="jumperAlert">
@@ -370,15 +367,15 @@ ledBusted:`<svg viewBox="0 0 54 86">
 <span class="smoke"></span><span class="smoke s2"></span><span class="smoke s3"></span>`,
 
 resistor:`<svg viewBox="0 0 124 52">
-<line x1="6" y1="26" x2="118" y2="26" stroke="#b0bec5" stroke-width="4.5" stroke-linecap="round"/>
-<rect x="24" y="12" width="76" height="28" rx="12" fill="#dfb37d" stroke="#7c5228" stroke-width="2.6"/>
-<rect x="38" y="13" width="7" height="26" fill="#c62828"/>
-<rect x="52" y="13" width="7" height="26" fill="#6a1b9a"/>
-<rect x="66" y="13" width="7" height="26" fill="#1565c0"/>
-<rect x="84" y="13" width="7" height="26" fill="#d4af37"/>
+<line x1="6" y1="26" x2="118" y2="26" stroke="#b0bec5" stroke-width="5" stroke-linecap="round"/>
+<rect x="26" y="13" width="72" height="26" rx="12" fill="#dfb37d" stroke="#7c5228" stroke-width="2.6"/>
+<rect x="39" y="14" width="7" height="24" fill="#c62828"/>
+<rect x="52" y="14" width="7" height="24" fill="#6a1b9a"/>
+<rect x="65" y="14" width="7" height="24" fill="#1565c0"/>
+<rect x="83" y="14" width="7" height="24" fill="#d4af37"/>
 </svg>
-<span class="term-pin term-res" style="left:-4px;top:15px">R</span>
-<span class="term-pin term-res" style="right:-4px;top:15px">R</span>`,
+<span class="term-pin term-res" style="left:-5px;top:4px">R</span>
+<span class="term-pin term-res" style="right:-5px;top:4px">R</span>`,
 
 buzzer:`<svg viewBox="0 0 76 76">
 <circle cx="38" cy="33" r="26" fill="#252b31"/>
@@ -642,7 +639,6 @@ return visited;
 }
 
 function analyzeCircuitState(){
-// Reset visuals
 items.forEach(el=>{
 el.classList.remove('glow','busted');
 const badge=el.querySelector('.spin-badge');
@@ -737,7 +733,6 @@ const rPins = getTerminalPoints(r);
 return rPins.some(p => fromPos.has(p.id) || fromNeg.has(p.id));
 });
 
-// Check if user has built a circuit with battery, load, and wires
 const loopConnected = normal || reverse || (snappedWiresCount >= 1 && (fromPos.size > 1 || fromNeg.size > 1));
 if(!loopConnected) return;
 
@@ -852,7 +847,6 @@ analyzeCircuitState();
 centerCheckOverlay.classList.add('show');
 });
 
-// Clicking Check Circuit first runs the circuit function (glow/smoke/spin), then opens Robot modal after demo
 checkCircuitBtn.addEventListener('click', ()=>{
 centerCheckOverlay.classList.remove('show');
 analyzeCircuitState();
